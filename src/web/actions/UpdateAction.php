@@ -2,7 +2,7 @@
 
 namespace yii2lab\domain\web\actions;
 
-use common\exceptions\UnprocessableEntityHttpException;
+use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use common\widgets\Alert;
 use Yii;
 use yii2lab\domain\base\Action;

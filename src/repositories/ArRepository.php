@@ -5,7 +5,7 @@ namespace yii2lab\domain\repositories;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\helpers\ErrorCollection;
-use common\exceptions\UnprocessableEntityHttpException;
+use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use Yii;
 use yii\base\UnknownMethodException;
 use yii\db\ActiveRecord;

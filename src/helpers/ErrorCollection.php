@@ -2,7 +2,7 @@
 
 namespace yii2lab\domain\helpers;
 
-use common\exceptions\UnprocessableEntityHttpException;
+use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 
 class ErrorCollection {
 	

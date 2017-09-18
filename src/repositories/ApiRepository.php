@@ -2,7 +2,7 @@
 
 namespace yii2lab\domain\repositories;
 
-use common\exceptions\UnprocessableEntityHttpException;
+use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use common\helpers\Registry;
 use Yii;
 use yii\httpclient\Client;

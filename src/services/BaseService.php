@@ -6,7 +6,7 @@ use yii2lab\domain\data\ActiveDataProvider;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\Domain;
 use yii2lab\domain\interfaces\repositories\ReadInterface;
-use common\exceptions\UnprocessableEntityHttpException;
+use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use Yii;
 use yii\base\Component as YiiComponent;
 

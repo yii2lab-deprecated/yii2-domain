@@ -1,6 +1,6 @@
 <?php
 
-namespace common\ddd;
+namespace yii2lab\domain;
 
 use yii\helpers\ArrayHelper;
 
