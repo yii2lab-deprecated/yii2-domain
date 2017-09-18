@@ -2,8 +2,8 @@
 
 namespace yii2lab\domain\web;
 
-use common\traits\controller\ServiceTrait;
-use common\traits\controller\AccessTrait;
+use yii2lab\domain\traits\controller\ServiceTrait;
+use yii2lab\domain\traits\controller\AccessTrait;
 use yii\web\Controller as YiiController;
 
 class Controller extends YiiController {
