@@ -1,6 +1,6 @@
 <?php
 
-namespace common\ddd\web;
+namespace yii2lab\domain\web;
 
 use common\traits\controller\ServiceTrait;
 use common\traits\controller\AccessTrait;

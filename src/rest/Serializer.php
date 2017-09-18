@@ -1,8 +1,8 @@
 <?php
 
-namespace common\ddd\rest;
+namespace yii2lab\domain\rest;
 
-use common\ddd\helpers\TypeHelper;
+use yii2lab\domain\helpers\TypeHelper;
 use Yii;
 use yii\rest\Serializer as YiiSerializer;
 

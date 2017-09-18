@@ -1,6 +1,6 @@
 <?php
 
-namespace common\ddd\rest;
+namespace yii2lab\domain\rest;
 
 use Yii;
 
@@ -11,20 +11,20 @@ class ActiveController extends Controller {
 	public function actions() {
 		return [
 			'index' => [
-				'class' => 'common\ddd\rest\IndexAction',
+				'class' => 'yii2lab\domain\rest\IndexAction',
 				'serviceMethod' => !empty($this->usePagination) ? 'getDataProvider' : 'findAll',
 			],
 			'create' => [
-				'class' => 'common\ddd\rest\CreateAction',
+				'class' => 'yii2lab\domain\rest\CreateAction',
 			],
 			'view' => [
-				'class' => 'common\ddd\rest\ViewAction',
+				'class' => 'yii2lab\domain\rest\ViewAction',
 			],
 			'update' => [
-				'class' => 'common\ddd\rest\UpdateAction',
+				'class' => 'yii2lab\domain\rest\UpdateAction',
 			],
 			'delete' => [
-				'class' => 'common\ddd\rest\DeleteAction',
+				'class' => 'yii2lab\domain\rest\DeleteAction',
 			],
 		];
 	}

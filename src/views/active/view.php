@@ -1,7 +1,7 @@
 <?php
 
 /* @var $this yii\web\View
- * @var $entity common\ddd\BaseEntity
+ * @var $entity yii2lab\domain\BaseEntity
  */
 
 ?>

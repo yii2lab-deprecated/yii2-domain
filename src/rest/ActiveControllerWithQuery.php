@@ -1,6 +1,6 @@
 <?php
 
-namespace common\ddd\rest;
+namespace yii2lab\domain\rest;
 
 use Yii;
 
@@ -11,21 +11,21 @@ class ActiveControllerWithQuery extends Controller {
 	public function actions() {
 		return [
 			'index' => [
-				'class' => 'common\ddd\rest\IndexActionWithQuery',
+				'class' => 'yii2lab\domain\rest\IndexActionWithQuery',
 				'serviceMethod' => !empty($this->usePagination) ? 'getDataProvider' : 'findAll',
 			],
 			'create' => [
-				'class' => 'common\ddd\rest\CreateAction',
+				'class' => 'yii2lab\domain\rest\CreateAction',
 			],
 			'view' => [
-				'class' => 'common\ddd\rest\ViewActionWithQuery',
+				'class' => 'yii2lab\domain\rest\ViewActionWithQuery',
 			],
 			'update' => [
-				'class' => 'common\ddd\rest\UpdateAction',
+				'class' => 'yii2lab\domain\rest\UpdateAction',
 				'serviceMethod' => 'updateById',
 			],
 			'delete' => [
-				'class' => 'common\ddd\rest\DeleteAction',
+				'class' => 'yii2lab\domain\rest\DeleteAction',
 				'serviceMethod' => 'deleteById',
 			],
 		];

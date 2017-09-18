@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace common\ddd;
+namespace yii2lab\domain;
 
 use Yii;
 use yii\base\Behavior;

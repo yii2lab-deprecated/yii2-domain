@@ -1,6 +1,6 @@
 <?php
 
-namespace common\ddd\data;
+namespace yii2lab\domain\data;
 
 use yii\data\BaseDataProvider;
 use yii\db\ActiveQueryInterface;

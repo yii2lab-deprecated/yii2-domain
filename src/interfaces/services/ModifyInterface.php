@@ -1,6 +1,6 @@
 <?php
 
-namespace common\ddd\interfaces\services;
+namespace yii2lab\domain\interfaces\services;
 
 interface ModifyInterface {
 	

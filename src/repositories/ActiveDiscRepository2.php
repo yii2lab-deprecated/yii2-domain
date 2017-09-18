@@ -1,12 +1,12 @@
 <?php
 
-namespace common\ddd\repositories;
+namespace yii2lab\domain\repositories;
 
-use common\ddd\interfaces\repositories\ModifyInterface;
-use common\ddd\interfaces\repositories\ReadInterface;
-use common\ddd\traits\ArrayModifyTrait;
-use common\ddd\traits\ArrayReadTrait;
-use common\ddd\traits\RelationTrait;
+use yii2lab\domain\interfaces\repositories\ModifyInterface;
+use yii2lab\domain\interfaces\repositories\ReadInterface;
+use yii2lab\domain\traits\ArrayModifyTrait;
+use yii2lab\domain\traits\ArrayReadTrait;
+use yii2lab\domain\traits\RelationTrait;
 
 abstract class ActiveDiscRepository2 extends DiscRepository2 implements ReadInterface, ModifyInterface {
 

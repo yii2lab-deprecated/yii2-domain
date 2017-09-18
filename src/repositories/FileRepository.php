@@ -1,6 +1,6 @@
 <?php
 
-namespace common\ddd\repositories;
+namespace yii2lab\domain\repositories;
 
 use Yii;
 use yii\base\InvalidConfigException;

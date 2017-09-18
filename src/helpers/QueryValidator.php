@@ -1,14 +1,14 @@
 <?php
 
-namespace common\ddd\helpers;
+namespace yii2lab\domain\helpers;
 
-use common\ddd\data\Query;
+use yii2lab\domain\data\Query;
 use yii\base\Object;
 use yii\web\BadRequestHttpException;
 
 class QueryValidator extends Object {
 	
-	/** @var \common\ddd\repositories\BaseRepository */
+	/** @var \yii2lab\domain\repositories\BaseRepository */
 	public $repository;
 	
 	public function validateSortFields(Query $query) {

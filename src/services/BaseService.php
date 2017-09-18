@@ -1,11 +1,11 @@
 <?php
 
-namespace common\ddd\services;
+namespace yii2lab\domain\services;
 
-use common\ddd\data\ActiveDataProvider;
-use common\ddd\data\Query;
-use common\ddd\Domain;
-use common\ddd\interfaces\repositories\ReadInterface;
+use yii2lab\domain\data\ActiveDataProvider;
+use yii2lab\domain\data\Query;
+use yii2lab\domain\Domain;
+use yii2lab\domain\interfaces\repositories\ReadInterface;
 use common\exceptions\UnprocessableEntityHttpException;
 use Yii;
 use yii\base\Component as YiiComponent;

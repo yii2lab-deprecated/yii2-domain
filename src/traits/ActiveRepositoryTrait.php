@@ -1,10 +1,10 @@
 <?php
 
-namespace common\ddd\traits;
+namespace yii2lab\domain\traits;
 
-use common\ddd\BaseEntity;
-use common\ddd\data\Query;
-use common\ddd\helpers\ErrorCollection;
+use yii2lab\domain\BaseEntity;
+use yii2lab\domain\data\Query;
+use yii2lab\domain\helpers\ErrorCollection;
 use common\exceptions\UnprocessableEntityHttpException;
 use yii\web\NotFoundHttpException;
 

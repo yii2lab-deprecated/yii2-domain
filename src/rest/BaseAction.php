@@ -1,8 +1,8 @@
 <?php
 
-namespace common\ddd\rest;
+namespace yii2lab\domain\rest;
 
-use common\ddd\data\GetParams;
+use yii2lab\domain\data\GetParams;
 use common\exceptions\UnprocessableEntityHttpException;
 use Yii;
 use yii\base\Action;

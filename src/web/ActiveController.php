@@ -1,6 +1,6 @@
 <?php
 
-namespace common\ddd\web;
+namespace yii2lab\domain\web;
 
 use Yii;
 
@@ -11,11 +11,11 @@ class ActiveController extends Controller {
 	const RENDER_INDEX = '@common/ddd/views/active/index';
 	const RENDER_VIEW = '@common/ddd/views/active/view';
 
-	const ACTION_UPDATE = 'common\ddd\web\actions\UpdateAction';
-	const ACTION_CREATE = 'common\ddd\web\actions\CreateAction';
-	const ACTION_INDEX = 'common\ddd\web\actions\IndexAction';
-	const ACTION_VIEW = 'common\ddd\web\actions\ViewAction';
-	const ACTION_DELETE = 'common\ddd\web\actions\DeleteAction';
+	const ACTION_UPDATE = 'yii2lab\domain\web\actions\UpdateAction';
+	const ACTION_CREATE = 'yii2lab\domain\web\actions\CreateAction';
+	const ACTION_INDEX = 'yii2lab\domain\web\actions\IndexAction';
+	const ACTION_VIEW = 'yii2lab\domain\web\actions\ViewAction';
+	const ACTION_DELETE = 'yii2lab\domain\web\actions\DeleteAction';
 
 	public $formClass;
 	public $baseUrl;

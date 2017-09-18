@@ -1,10 +1,10 @@
 <?php
 
-namespace common\ddd\repositories;
+namespace yii2lab\domain\repositories;
 
-use common\ddd\data\Query;
-use common\ddd\helpers\QueryValidator;
-use common\ddd\interfaces\repositories\BaseInterface;
+use yii2lab\domain\data\Query;
+use yii2lab\domain\helpers\QueryValidator;
+use yii2lab\domain\interfaces\repositories\BaseInterface;
 use Yii;
 use yii\web\NotFoundHttpException;
 use yii2lab\helpers\yii\ArrayHelper;

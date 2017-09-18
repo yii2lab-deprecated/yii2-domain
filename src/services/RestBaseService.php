@@ -1,8 +1,8 @@
 <?php
 
-namespace common\ddd\services;
+namespace yii2lab\domain\services;
 
-use common\ddd\repositories\RestRepository;
+use yii2lab\domain\repositories\RestRepository;
 use common\enums\app\ApiVersionEnum;
 use yii\base\InvalidConfigException;
 

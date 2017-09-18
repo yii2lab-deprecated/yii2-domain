@@ -1,8 +1,8 @@
 <?php
 
-namespace common\ddd\web\actions;
+namespace yii2lab\domain\web\actions;
 
-use common\ddd\base\Action;
+use yii2lab\domain\base\Action;
 use common\widgets\Alert;
 use Yii;
 

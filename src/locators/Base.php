@@ -1,6 +1,6 @@
 <?php
 
-namespace common\ddd\locators;
+namespace yii2lab\domain\locators;
 
 use yii\di\ServiceLocator;
 

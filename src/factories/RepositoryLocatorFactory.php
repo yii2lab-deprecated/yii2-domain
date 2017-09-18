@@ -1,8 +1,8 @@
 <?php
 
-namespace common\ddd\factories;
+namespace yii2lab\domain\factories;
 
-use common\ddd\locators\Base;
+use yii2lab\domain\locators\Base;
 use Yii;
 use yii\helpers\ArrayHelper;
 

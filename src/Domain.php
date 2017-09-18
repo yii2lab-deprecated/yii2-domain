@@ -1,8 +1,8 @@
 <?php
 
-namespace common\ddd;
+namespace yii2lab\domain;
 
-use common\ddd\factories\Factory;
+use yii2lab\domain\factories\Factory;
 use Yii;
 use yii\base\Object as YiiObject;
 use yii\base\UnknownPropertyException;

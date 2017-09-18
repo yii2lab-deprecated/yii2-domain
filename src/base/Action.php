@@ -1,6 +1,6 @@
 <?php
 
-namespace common\ddd\base;
+namespace yii2lab\domain\base;
 
 use common\base\Model;
 use Yii;

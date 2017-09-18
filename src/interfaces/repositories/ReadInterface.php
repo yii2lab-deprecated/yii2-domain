@@ -1,8 +1,8 @@
 <?php
 
-namespace common\ddd\interfaces\repositories;
+namespace yii2lab\domain\interfaces\repositories;
 
-use common\ddd\data\Query;
+use yii2lab\domain\data\Query;
 
 interface ReadInterface {
 	

@@ -1,9 +1,9 @@
 <?php
 
-namespace common\ddd\traits;
+namespace yii2lab\domain\traits;
 
-use common\ddd\BaseEntity;
-use common\ddd\data\Query;
+use yii2lab\domain\BaseEntity;
+use yii2lab\domain\data\Query;
 use yii\web\NotFoundHttpException;
 
 trait ArrayModifyTrait {

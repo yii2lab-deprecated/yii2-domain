@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace common\ddd\db;
+namespace yii2lab\domain\db;
 
 /**
  * The QueryInterface defines the minimum set of methods to be implemented by a database query.

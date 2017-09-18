@@ -1,12 +1,12 @@
 <?php
 
-namespace common\ddd\services;
+namespace yii2lab\domain\services;
 
-use common\ddd\BaseEntity;
-use common\ddd\data\Query;
-use common\ddd\helpers\ErrorCollection;
-use common\ddd\interfaces\services\ModifyInterface;
-use common\ddd\interfaces\services\ReadInterface;
+use yii2lab\domain\BaseEntity;
+use yii2lab\domain\data\Query;
+use yii2lab\domain\helpers\ErrorCollection;
+use yii2lab\domain\interfaces\services\ModifyInterface;
+use yii2lab\domain\interfaces\services\ReadInterface;
 use common\exceptions\UnprocessableEntityHttpException;
 use Yii;
 use yii\base\ActionEvent;
@@ -23,7 +23,7 @@ class ActiveBaseService extends BaseService implements ReadInterface, ModifyInte
 	const EVENT_UPDATE = 'update';
 	const EVENT_DELETE = 'delete';
 	
-	/** @var \common\ddd\BaseEntity */
+	/** @var \yii2lab\domain\BaseEntity */
 	public $foreignServices;
 	public $forbiddenChangeFields;
 	
@@ -68,7 +68,7 @@ class ActiveBaseService extends BaseService implements ReadInterface, ModifyInte
 	 * @param            $id
 	 * @param Query|null $query
 	 *
-	 * @return \common\ddd\BaseEntity $entity
+	 * @return \yii2lab\domain\BaseEntity $entity
 	 * @throws NotFoundHttpException
 	 * @throws \yii\web\ServerErrorHttpException
 	 */
@@ -104,7 +104,7 @@ class ActiveBaseService extends BaseService implements ReadInterface, ModifyInte
 		$data = ArrayHelper::toArray($data);
 		$this->validateForeign($data);
 		$this->validateForbiddenChangeFields($data);
-		/** @var \common\ddd\BaseEntity $entity */
+		/** @var \yii2lab\domain\BaseEntity $entity */
 		$entity = $this->domain->factory->entity->create($this->id, $data);
 		
 		$entity->validate();

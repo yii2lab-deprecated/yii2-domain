@@ -1,10 +1,10 @@
 <?php
 
-namespace common\ddd;
+namespace yii2lab\domain;
 
-use common\ddd\helpers\EntityType;
-use common\ddd\helpers\Helper;
-use common\ddd\helpers\ReflectionHelper;
+use yii2lab\domain\helpers\EntityType;
+use yii2lab\domain\helpers\Helper;
+use yii2lab\domain\helpers\ReflectionHelper;
 use common\exceptions\UnprocessableEntityHttpException;
 use ReflectionClass;
 use ReflectionProperty;

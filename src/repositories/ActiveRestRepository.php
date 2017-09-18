@@ -1,11 +1,11 @@
 <?php
 
-namespace common\ddd\repositories;
+namespace yii2lab\domain\repositories;
 
-use common\ddd\BaseEntity;
-use common\ddd\data\Query;
-use common\ddd\interfaces\repositories\ModifyInterface;
-use common\ddd\interfaces\repositories\ReadInterface;
+use yii2lab\domain\BaseEntity;
+use yii2lab\domain\data\Query;
+use yii2lab\domain\interfaces\repositories\ModifyInterface;
+use yii2lab\domain\interfaces\repositories\ReadInterface;
 use yii\web\NotFoundHttpException;
 
 class ActiveRestRepository extends RestRepository implements ReadInterface, ModifyInterface {

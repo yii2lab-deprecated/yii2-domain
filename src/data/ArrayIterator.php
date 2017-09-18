@@ -1,8 +1,8 @@
 <?php
 
-namespace common\ddd\data;
+namespace yii2lab\domain\data;
 
-use common\ddd\helpers\ReflectionHelper;
+use yii2lab\domain\helpers\ReflectionHelper;
 use yii2lab\helpers\yii\ArrayHelper;
 
 class ArrayIterator {

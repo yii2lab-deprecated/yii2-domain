@@ -1,12 +1,12 @@
 <?php
 
-namespace common\ddd\repositories;
+namespace yii2lab\domain\repositories;
 
-use common\ddd\Alias;
-use common\ddd\data\ActiveDataProvider;
-use common\ddd\data\Query;
-use common\ddd\helpers\QueryValidator;
-use common\ddd\interfaces\repositories\ReadInterface;
+use yii2lab\domain\Alias;
+use yii2lab\domain\data\ActiveDataProvider;
+use yii2lab\domain\data\Query;
+use yii2lab\domain\helpers\QueryValidator;
+use yii2lab\domain\interfaces\repositories\ReadInterface;
 use Yii;
 use yii\base\Component as YiiComponent;
 use yii\base\InvalidConfigException;
@@ -19,13 +19,13 @@ abstract class BaseRepository extends YiiComponent {
 	
 	public $id;
 	
-	/** @var \common\ddd\Domain */
+	/** @var \yii2lab\domain\Domain */
 	public $domain;
 	
 	/** @var Alias */
 	private $alias;
 	
-	/** @var \common\ddd\helpers\QueryValidator */
+	/** @var \yii2lab\domain\helpers\QueryValidator */
 	private $queryValidator;
 	public $driver;
 	protected $primaryKey = 'id';
@@ -112,7 +112,7 @@ abstract class BaseRepository extends YiiComponent {
 	 * @param      $data
 	 * @param null $class
 	 *
-	 * @return array|\common\ddd\BaseEntity
+	 * @return array|\yii2lab\domain\BaseEntity
 	 */
 	public function forgeEntity($data, $class = null) {
 		if(empty($data)) {
