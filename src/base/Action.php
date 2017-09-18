@@ -2,7 +2,7 @@
 
 namespace yii2lab\domain\base;
 
-use common\base\Model;
+use yii2lab\domain\base\Model;
 use Yii;
 use yii\base\Action as YiiAction;
 
