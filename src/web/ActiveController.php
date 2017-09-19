@@ -6,10 +6,10 @@ use Yii;
 
 class ActiveController extends Controller {
 
-	const RENDER_UPDATE = '@common/ddd/views/active/update';
-	const RENDER_CREATE = '@common/ddd/views/active/create';
-	const RENDER_INDEX = '@common/ddd/views/active/index';
-	const RENDER_VIEW = '@common/ddd/views/active/view';
+	const RENDER_UPDATE = '@yii2lab/domain/views/active/update';
+	const RENDER_CREATE = '@yii2lab/domain/views/active/create';
+	const RENDER_INDEX = '@yii2lab/domain/views/active/index';
+	const RENDER_VIEW = '@yii2lab/domain/views/active/view';
 
 	const ACTION_UPDATE = 'yii2lab\domain\web\actions\UpdateAction';
 	const ACTION_CREATE = 'yii2lab\domain\web\actions\CreateAction';
