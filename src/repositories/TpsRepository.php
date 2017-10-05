@@ -3,8 +3,8 @@
 namespace yii2lab\domain\repositories;
 
 use Yii;
-use yii2woop\tps\generated\exception\tps\NotAuthenticatedException;
-use yii2woop\tps\generated\request\BaseRequest;
+use yii2woop\generated\exception\tps\NotAuthenticatedException;
+use yii2woop\generated\request\BaseRequest;
 
 class TpsRepository extends BaseRepository {
 	
