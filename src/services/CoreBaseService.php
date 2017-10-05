@@ -6,7 +6,7 @@ use yii2lab\domain\repositories\CoreRepository;
 use common\enums\app\ApiVersionEnum;
 use yii\base\InvalidConfigException;
 
-class RestBaseService extends BaseService {
+class CoreBaseService extends BaseService {
 	
 	public $version = ApiVersionEnum::VERSION_DEFAULT;
 	public $baseUri = '';
