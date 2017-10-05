@@ -8,7 +8,7 @@ use yii2lab\domain\interfaces\repositories\ModifyInterface;
 use yii2lab\domain\interfaces\repositories\ReadInterface;
 use yii\web\NotFoundHttpException;
 
-class ActiveRestRepository extends RestRepository implements ReadInterface, ModifyInterface {
+class ActiveCoreRepository extends CoreRepository implements ReadInterface, ModifyInterface {
 	
 	public function all(Query $query = null) {
 		$query = $this->forgeQuery($query);

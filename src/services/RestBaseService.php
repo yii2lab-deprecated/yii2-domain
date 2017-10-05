@@ -2,7 +2,7 @@
 
 namespace yii2lab\domain\services;
 
-use yii2lab\domain\repositories\RestRepository;
+use yii2lab\domain\repositories\CoreRepository;
 use common\enums\app\ApiVersionEnum;
 use yii\base\InvalidConfigException;
 
@@ -17,7 +17,7 @@ class RestBaseService extends BaseService {
 			if(empty($this->baseUri)) {
 				throw new InvalidConfigException('Base URI not assigned!');
 			}
-			$this->client = new RestRepository;
+			$this->client = new CoreRepository;
 			$this->client->baseUri = $this->baseUri;
 			$this->client->version = $this->version;
 		}
