@@ -4,9 +4,16 @@ namespace yii2lab\domain\factories;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii2lab\domain\BaseEntity;
 
 class EntityFactory extends BaseFactory {
 	
+	/**
+	 * @param       $name
+	 * @param array $params
+	 *
+	 * @return BaseEntity
+	 */
 	public function create($name, $params = []) {
 		if($this->isClassName($name)) {
 			$className = $name;
