@@ -26,7 +26,9 @@ trait ArrayReadTrait {
 	public function isExists($query) {
 		/** @var Query $query */
 		if(is_array($query)) {
-			$query = $query->whereFromCondition($query);
+			$q = $this->forgeQuery(null);
+			$q->whereFromCondition($query);
+			$query = $q;
 		}
 		$query = $this->forgeQuery($query);
 		try {
