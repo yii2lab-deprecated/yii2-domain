@@ -15,6 +15,12 @@ trait ArrayReadTrait {
 
 	abstract public function forgeEntity($data, $class = null);
 	abstract protected function getCollection();
+	
+	/**
+	 * @param $query
+	 *
+	 * @return Query
+	 */
 	abstract protected function forgeQuery($query);
 
 	public function isExists($query) {
@@ -54,8 +60,7 @@ trait ArrayReadTrait {
 		if(empty($collection)) {
 			throw new NotFoundHttpException;
 		}
-		$entity = $this->forgeEntity($collection[0]);
-		return $entity;
+		return $collection[0];
 	}
 
 	public function all(Query $query = null) {
