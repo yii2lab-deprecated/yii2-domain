@@ -9,7 +9,15 @@ use yii2lab\domain\interfaces\repositories\ReadInterface;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use Yii;
 use yii\base\Component as YiiComponent;
+use yii2lab\domain\repositories\BaseRepository;
 
+/**
+ * Class BaseService
+ *
+ * @package yii2lab\domain\services
+ *
+ * @property BaseRepository $repository
+ */
 class BaseService extends YiiComponent {
 	
 	const EVENT_BEFORE_ACTION = 'beforeAction';

@@ -2,6 +2,19 @@
 
 namespace yii2lab\domain\factories;
 
+/**
+ * Class Factory
+ *
+ * @package yii2lab\domain\factories
+ *
+ * @property EntityFactory $entity
+ * @property BaseFactory $helper
+ * @property BaseFactory $factory
+ * @property ServiceLocatorFactory $service_locator
+ * @property RepositoryLocatorFactory $repository_locator
+ * @property BaseFactory $form
+ * @property ModelFactory $model
+ */
 class Factory extends BaseFactory {
 	
 	const TYPE_ENTITY = 'entity';

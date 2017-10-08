@@ -7,6 +7,13 @@ use Yii;
 use yii\base\Object as YiiObject;
 use yii\base\UnknownPropertyException;
 
+/**
+ * Class Domain
+ *
+ * @package yii2lab\domain
+ *
+ * @property Factory $factory
+ */
 class Domain extends YiiObject {
 	
 	private $repositoryLocator = [];

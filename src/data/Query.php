@@ -13,7 +13,7 @@ use yii2mod\helpers\ArrayHelper;
  *
  * @package yii2lab\domain\data
  *
- * @property $rest Rest
+ * @property Rest $rest
  */
 class Query extends Component {
 	
