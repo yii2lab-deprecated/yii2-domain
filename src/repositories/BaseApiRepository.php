@@ -48,7 +48,8 @@ abstract class BaseApiRepository extends BaseRepository {
 			->setMethod($requestEntity->method)
 			->setUrl($requestEntity->uri)
 			->setData($requestEntity->data)
-			->setHeaders($requestEntity->headers);
+			->setHeaders($requestEntity->headers)
+			->addHeaders(['user-agent' => 'Awesome-Octocat-App']);
 		return $request;
 	}
 	
