@@ -12,14 +12,14 @@ class ActiveCoreRepository extends CoreRepository implements ReadInterface, Modi
 	
 	public function all(Query $query = null) {
 		$query = $this->forgeQuery($query);
-		$params = $query->getParamsForRest();
+		$params = $query->rest->getParams();
 		$response = $this->get(null, $params);
 		return $this->forgeEntity($response->data);
 	}
 	
 	public function count(Query $query = null) {
 		$query = $this->forgeQuery($query);
-		$params = $query->getParamsForRest();
+		$params = $query->rest->getParams();
 		$response = $this->get(null, $params);
 		return $response->headers->get('x-pagination-total-count');
 	}

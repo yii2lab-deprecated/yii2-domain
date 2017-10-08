@@ -2,10 +2,19 @@
 
 namespace yii2lab\domain\data;
 
+use Yii;
+use yii2lab\domain\data\query\Rest;
 use yii2lab\domain\helpers\TypeHelper;
 use yii\base\Component;
 use yii2mod\helpers\ArrayHelper;
 
+/**
+ * Class Query
+ *
+ * @package yii2lab\domain\data
+ *
+ * @property $rest Rest
+ */
 class Query extends Component {
 	
 	private $query = [];
@@ -133,56 +142,10 @@ class Query extends Component {
 		}
 	}
 	
-	public function getParamsForRest() {
-		$params = [];
-		if(empty($this->toArray())) {
-			return [];
-		}
-		$select = $this->getParam('select');
-		if($select) {
-			$params['fields'] = implode(',', $select);
-		}
-		$with = $this->getParam('with');
-		if($with) {
-			$params['expand'] = implode(',', $with);
-		}
-		$order = $this->getParam('order');
-		if($order) {
-			$sort = [];
-			foreach($order as $name => $direction) {
-				$prefix = $direction == SORT_DESC ? '-' : '';
-				$sort[] = $prefix . $name;
-			}
-			$params['sort'] = implode(',', $sort);
-		}
-		$offset = $this->getParam('offset', 'integer');
-		if($offset) {
-			$params['offset'] = $offset;
-		}
-		$limit = $this->getParam('limit', 'integer');
-		if($limit) {
-			$params['limit'] = $limit;
-		}
-		$page = $this->getParam('page', 'integer');
-		if($page) {
-			$params['page'] = $page;
-		}
-		$prePage = $this->getParam('per-page', 'integer');
-		if($prePage) {
-			$params['per-page'] = $prePage;
-		}
-		$where = $this->getParam('where');
-		if($where) {
-			foreach($where as $name => $value) {
-				if(!isset($params[$name])) {
-					if(is_bool($value)) {
-						$value = intval($value);
-					}
-					$params[$name] = $value;
-				}
-			}
-		}
-		return $params;
+	public function getRest() {
+		/** @var Rest $instance */
+		$instance = Yii::createObject(Rest::className(), ['query' => $this]);
+		return $instance;
 	}
 	
 	private function setParam($fields, $nameParam) {
