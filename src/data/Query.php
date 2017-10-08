@@ -111,9 +111,7 @@ class Query extends Component {
 		return $this;
 	}
 	
-	/** todo: rename to toArray and create getParam method */
-	
-	public function data() {
+	public function toArray() {
 		return $this->query;
 	}
 	
@@ -137,7 +135,7 @@ class Query extends Component {
 	
 	public function getParamsForRest() {
 		$params = [];
-		if(empty($this->data())) {
+		if(empty($this->toArray())) {
 			return [];
 		}
 		$select = $this->getParam('select');

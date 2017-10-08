@@ -158,7 +158,7 @@ class ArRepository extends BaseRepository {
 		if(empty($query)) {
 			return;
 		}
-		$q = $query->data();
+		$q = $query->toArray();
 		if(!empty($q['select'])) {
 			$fields = $this->alias->encode($q['select']);
 			$this->query->select($fields);
@@ -174,7 +174,7 @@ class ArRepository extends BaseRepository {
 		if(empty($query)) {
 			return;
 		}
-		$q = $query->data();
+		$q = $query->toArray();
 		if(!empty($q['where'])) {
 			$where = $this->alias->encode($q['where']);
 			$this->query->andWhere($where);
