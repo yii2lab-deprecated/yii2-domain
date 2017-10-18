@@ -17,14 +17,17 @@ class Model extends YiiModel
 			$errors = $errors->getErrors();
 		}
 		foreach($errors as $field => $error) {
-			if(ArrayHelper::isIndexed($error)) {
-				foreach ($error as $message) {
-					$this->addError($field, $message);
-				}
-				
-			} else {
-				$this->addError($error['field'], $error['message']);
+			$this->addErrorItem($field, $error);
+		}
+	}
+
+	private function addErrorItem($field, $error) {
+		if(ArrayHelper::isIndexed($error)) {
+			foreach ($error as $message) {
+				$this->addError($field, $message);
 			}
+		} else {
+			$this->addError($error['field'], $error['message']);
 		}
 	}
 }
