@@ -8,7 +8,7 @@ use yii2lab\domain\traits\ArrayModifyTrait;
 use yii2lab\domain\traits\ArrayReadTrait;
 use yii2lab\domain\traits\RelationTrait;
 
-abstract class ActiveDiscRepository extends DiscRepository2 implements ReadInterface, ModifyInterface {
+class ActiveDiscRepository extends DiscRepository2 implements ReadInterface, ModifyInterface {
 
 	use ArrayReadTrait;
 	use ArrayModifyTrait;
