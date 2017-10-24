@@ -184,7 +184,7 @@ class ActiveBaseService extends BaseService implements ReadInterface, ModifyInte
 	}
 	
 	protected function beforeAction($action) {
-		Yii::$app->account->auth->checkAccess($action, $this->access());
+		Yii::$app->account->rbac->checkAccess($action, $this->access());
 		$event = new ActionEvent($action);
 		$this->trigger($action, $event);
 		if(!$event->isValid) {
