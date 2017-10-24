@@ -182,9 +182,9 @@ class ActiveBaseService extends BaseService implements ReadInterface, ModifyInte
 			}
 		}
 	}
-	
+
 	protected function beforeAction($action) {
-		Yii::$app->account->rbac->checkAccess($action, $this->access());
+		$this->checkAccess($action, $this->access());
 		$event = new ActionEvent($action);
 		$this->trigger($action, $event);
 		if(!$event->isValid) {
@@ -198,5 +198,23 @@ class ActiveBaseService extends BaseService implements ReadInterface, ModifyInte
 		$this->trigger($action, $event);
 		return $event->result;
 	}
-	
+
+	private function checkAccess($action, $accessList = null, $param = null) {
+		if(!$accessList) {
+			return true;
+		}
+		foreach($accessList as $access) {
+			$this->checkAccessRule($action, $access, $param);
+		}
+		return true;
+	}
+
+	private function checkAccessRule($action, $access, $param = null) {
+		$access['only'] = !empty($access['only']) ? ArrayHelper::toArray($access['only']) : null;
+		$isIntersectAction = empty($access['only']) || in_array($action, $access['only']);
+		if($isIntersectAction) {
+			Yii::$app->account->rbac->can($access['roles'], $param);
+		}
+	}
+
 }
