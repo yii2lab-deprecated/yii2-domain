@@ -40,7 +40,7 @@ trait ArrayModifyTrait {
 				return $index;
 			}
 		}
-		throw new NotFoundHttpException;
+		throw new NotFoundHttpException(static::class);
 	}
 
 }

@@ -29,7 +29,7 @@ class ActiveCoreRepository extends CoreRepository implements ReadInterface, Modi
 		$query = $this->forgeQuery($query);
 		$collection = $this->all($query);
 		if(empty($collection)) {
-			throw new NotFoundHttpException;
+			throw new NotFoundHttpException(static::class);
 		}
 		return $collection[0];
 	}

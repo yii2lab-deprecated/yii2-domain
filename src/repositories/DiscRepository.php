@@ -37,7 +37,7 @@ class DiscRepository extends BaseRepository {
 		$condition = $this->forgeCondition([], $query);
 		$model = ArrayHelper::findOne($this->rowList, $condition);
 		if(empty($model)) {
-			throw new NotFoundHttpException();
+			throw new NotFoundHttpException(static::class);
 		}
 		return $model;
 	}

@@ -78,7 +78,7 @@ class ActiveArRepository extends ArRepository implements ReadInterface, ModifyIn
 		$condition = $this->alias->encode($condition);
 		$model = $this->model->findOne($condition);
 		if(empty($model)) {
-			throw new NotFoundHttpException();
+			throw new NotFoundHttpException(static::class);
 		}
 		return $model;
 	}

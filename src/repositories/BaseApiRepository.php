@@ -66,7 +66,7 @@ abstract class BaseApiRepository extends BaseRepository {
 		} elseif($statusCode == 422) {
 			throw new UnprocessableEntityHttpException();
 		} elseif($statusCode == 404) {
-			throw new NotFoundHttpException();
+			throw new NotFoundHttpException(static::class);
 		}
 	}
 }

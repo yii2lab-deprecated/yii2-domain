@@ -59,7 +59,7 @@ class ActiveBaseService extends BaseService implements ReadInterface, ModifyInte
 		$this->userAccessOnly($query);
 		$result = $this->repository->one($query);
 		if(empty($result)) {
-			throw new NotFoundHttpException();
+			throw new NotFoundHttpException(static::class);
 		}
 		return $this->afterAction(self::EVENT_VIEW, $result);
 	}
@@ -78,7 +78,7 @@ class ActiveBaseService extends BaseService implements ReadInterface, ModifyInte
 		$this->userAccessOnly($query);
 		$result = $this->repository->oneById($id, $query);
 		if(empty($result)) {
-			throw new NotFoundHttpException();
+			throw new NotFoundHttpException(static::class);
 		}
 		return $this->afterAction(self::EVENT_VIEW, $result);
 	}
