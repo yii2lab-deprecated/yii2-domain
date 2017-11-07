@@ -13,7 +13,7 @@ class Rest extends Component {
 	
 	public function getParams() {
 		$params = [];
-		if(empty($this->query->toArray())) {
+		if(empty($this->query)) {
 			return [];
 		}
 		
