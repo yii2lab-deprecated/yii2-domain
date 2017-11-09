@@ -55,7 +55,9 @@ class ArRepository extends BaseRepository {
 			$this->modelClass = $this->domain->factory->model->genClassName($this->id);
 		}
 		$this->model = $this->domain->factory->model->create($this->modelClass);
-		$primaryKey = $this->model->primaryKey();
+		if($this->primaryKey !== false) {
+			$primaryKey = $this->model->primaryKey();
+		}
 		if(!empty($primaryKey)) {
 			$this->primaryKey = $this->alias->decode($primaryKey[0]);
 		}
