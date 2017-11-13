@@ -79,10 +79,12 @@ trait ActiveRepositoryTrait {
 	
 	protected function findUniqueItem(BaseEntity $entity, $uniqueItem, $isUpdate = false) {
 		$condition = [];
-		foreach($uniqueItem as $name) {
-			$entityValue = $entity->{$name};
-			if(!empty($entityValue)) {
-				$condition[ $name ] = $entityValue;
+		if(!empty($uniqueItem) && is_array($uniqueItem)) {
+			foreach($uniqueItem as $name) {
+				$entityValue = $entity->{$name};
+				if(!empty($entityValue)) {
+					$condition[ $name ] = $entityValue;
+				}
 			}
 		}
 		if(empty($condition)) {
