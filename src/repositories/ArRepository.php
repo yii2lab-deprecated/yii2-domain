@@ -32,6 +32,14 @@ class ArRepository extends BaseRepository {
 		$this->initQuery();
 	}
 	
+	public function getModelClass() {
+		return $this->modelClass;
+	}
+	
+	public function getModel() {
+		return $this->model;
+	}
+	
 	protected function resetQuery() {
 		$this->initQuery();
 	}
