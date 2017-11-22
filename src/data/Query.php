@@ -36,6 +36,10 @@ class Query extends Component {
 		return $this;
 	}
 	
+	public function removeWhere($key) {
+		unset($this->query['where'][ $key ]);
+	}
+	
 	public function whereFromCondition($condition) {
 		if(empty($condition)) {
 			return;
