@@ -43,6 +43,7 @@ class ActiveArRepository extends ArRepository implements ReadInterface, ModifyIn
 	}
 	
 	public function insert(BaseEntity $entity) {
+		$entity->validate();
 		$this->findUnique($entity);
 		/** @var ActiveRecord $model */
 		$model = Yii::createObject($this->model->className());
@@ -53,8 +54,8 @@ class ActiveArRepository extends ArRepository implements ReadInterface, ModifyIn
 	// todo: rename item to model
 	
 	public function update(BaseEntity $entity) {
-		$this->findUnique($entity, true);
 		$entity->validate();
+		$this->findUnique($entity, true);
 		$entityPk = $entity->{$this->primaryKey};
 		$model = $this->findOne([$this->primaryKey => $entityPk]);
 		$this->massAssignment($model, $entity, self::SCENARIO_UPDATE);
