@@ -12,6 +12,14 @@ use yii\base\Component as YiiComponent;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 
+/**
+ * Class Domain
+ *
+ * @package yii2lab\domain
+ *
+ * @property Alias $alias
+ * @property QueryValidator $queryValidator
+ */
 abstract class BaseRepository extends YiiComponent {
 	
 	const SCENARIO_INSERT = 'insert';

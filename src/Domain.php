@@ -6,6 +6,8 @@ use yii2lab\domain\factories\Factory;
 use Yii;
 use yii\base\Object as YiiObject;
 use yii\base\UnknownPropertyException;
+use yii2lab\domain\locators\Base;
+use yii2lab\domain\repositories\BaseRepository;
 
 /**
  * Class Domain
@@ -13,6 +15,8 @@ use yii\base\UnknownPropertyException;
  * @package yii2lab\domain
  *
  * @property Factory $factory
+ * @property Base $repositories
+ * @property Base $services
  */
 class Domain extends YiiObject {
 	
