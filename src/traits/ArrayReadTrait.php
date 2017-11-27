@@ -21,7 +21,7 @@ trait ArrayReadTrait {
 	 *
 	 * @return Query
 	 */
-	abstract protected function forgeQuery($query);
+	abstract protected function forgeQuery($query = null);
 
 	public function isExists($query) {
 		/** @var Query $query */

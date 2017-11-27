@@ -112,7 +112,7 @@ abstract class BaseRepository extends YiiComponent {
 	 *
 	 * @return Query
 	 */
-	protected function forgeQuery($query) {
+	protected function forgeQuery($query = null) {
 		return Query::forge($query);
 	}
 	

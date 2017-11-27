@@ -54,7 +54,7 @@ class BaseService extends YiiComponent {
 	
 	// todo: move method in helper
 	
-	public function forgeQuery($query) {
+	public function forgeQuery($query = null) {
 		return Query::forge($query);
 	}
 	
