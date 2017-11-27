@@ -4,7 +4,6 @@ namespace yii2lab\domain\data;
 
 use yii\data\BaseDataProvider;
 use yii\db\ActiveQueryInterface;
-use yii\base\InvalidConfigException;
 
 class ActiveDataProvider extends BaseDataProvider {
 
@@ -12,23 +11,25 @@ class ActiveDataProvider extends BaseDataProvider {
 	public $service;
 	public $key;
 	
-	public function init() {
-	
-	}
-	
 	/**
 	 * @inheritdoc
 	 */
 	protected function prepareModels() {
-		$this->checkQueryClass();
-		$query = clone $this->query;
-		if(($pagination = $this->getPagination()) !== false) {
+		$query = $this->cloneQueryClass();
+		$pagination = $this->getPagination([]);
+		if($pagination !== false) {
 			$pagination->totalCount = $this->getTotalCount();
 			if($pagination->totalCount === 0) {
 				return [];
 			}
-			$query->limit($pagination->getLimit())->offset($pagination->getOffset());
 		}
+		$offset = $query->getParam('offset', 'integer');
+		if($offset == 0) {
+			$offset = $pagination->getOffset();
+		} else {
+			$offset = $offset < $pagination->totalCount ? $offset : $pagination->totalCount;
+		}
+		$query->limit($pagination->getLimit())->offset($offset);
 		return $this->service->all($query);
 	}
 	
@@ -76,15 +77,26 @@ class ActiveDataProvider extends BaseDataProvider {
 	 * @inheritdoc
 	 */
 	protected function prepareTotalCount() {
-		$this->checkQueryClass();
-		$query = clone $this->query;
+		$query = $this->cloneQueryClass();
 		$query->limit(null)->offset(null)->orderBy(null);
 		return (int) $this->service->count($query);
 	}
 	
-	protected function checkQueryClass() {
+	/**
+	 * @return Query
+	 */
+	private function cloneQueryClass() {
+		$query = $this->getQueryClass();
+		return clone $query;
+	}
+	
+	/**
+	 * @return Query
+	 */
+	private function getQueryClass() {
 		if (!$this->query instanceof Query) {
-			throw new InvalidConfigException('The "query" property must be an instance of a class that implements the QueryInterface e.g. Query or its subclasses.');
+			$this->query = new Query;
 		}
+		return $this->query;
 	}
 }

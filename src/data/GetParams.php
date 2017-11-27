@@ -30,6 +30,10 @@ class GetParams {
 			$result['per-page'] = $params['per-page'];
 			unset($params['per-page']);
 		}
+		if(!empty($params['offset'])) {
+			$result['offset'] = $params['offset'];
+			unset($params['offset']);
+		}
 		if(!empty($params)) {
 			$result['where'] = $params;
 		}
@@ -59,6 +63,9 @@ class GetParams {
 		}
 		if(!empty($params['per-page'])) {
 			$query->perPage($params['per-page']);
+		}
+		if(!empty($params['offset'])) {
+			$query->offset($params['offset']);
 		}
 		if(!empty($params['where'])) {
 			foreach($params['where'] as $name => $value) {
