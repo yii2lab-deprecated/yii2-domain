@@ -2,39 +2,36 @@
 
 namespace yii2lab\domain\data;
 
-use yii\base\Component;
-use yii\helpers\ArrayHelper;
-
 class GetParams {
 	
 	public function convertParams($params = []) {
 		$result = [];
-		if(!empty($params['expand'])) {
+		if(isset($params['expand'])) {
 			$result['expand'] = $this->splitStringParam($params['expand']);
 			unset($params['expand']);
 		}
-		if(!empty($params['fields'])) {
+		if(isset($params['fields'])) {
 			$result['fields'] = $this->splitStringParam($params['fields']);
 			unset($params['fields']);
 		}
-		if(!empty($params['sort'])) {
+		if(isset($params['sort'])) {
 			$params['sort'] = $this->splitStringParam($params['sort']);
 			$result['sort'] = $this->splitSortParam($params['sort']);
 			unset($params['sort']);
 		}
-		if(!empty($params['page'])) {
+		if(isset($params['page'])) {
 			$result['page'] = $params['page'];
 			unset($params['page']);
 		}
-		if(!empty($params['per-page'])) {
+		if(isset($params['per-page'])) {
 			$result['per-page'] = $params['per-page'];
 			unset($params['per-page']);
 		}
-		if(!empty($params['offset'])) {
+		if(isset($params['offset'])) {
 			$result['offset'] = $params['offset'];
 			unset($params['offset']);
 		}
-		if(!empty($params)) {
+		if(isset($params)) {
 			$result['where'] = $params;
 		}
 		return $result;
@@ -47,27 +44,27 @@ class GetParams {
 		}
 		$params = $this->convertParams($params);
 		
-		if(!empty($params['expand'])) {
+		if(isset($params['expand'])) {
 			$query->with($params['expand']);
 		}
-		if(!empty($params['fields'])) {
+		if(isset($params['fields'])) {
 			$query->select($params['fields']);
 		}
-		if(!empty($params['sort'])) {
+		if(isset($params['sort'])) {
 			foreach($params['sort'] as $name => $direction) {
 				$query->addOrder($name, $direction);
 			}
 		}
-		if(!empty($params['page'])) {
+		if(isset($params['page'])) {
 			$query->page($params['page']);
 		}
-		if(!empty($params['per-page'])) {
+		if(isset($params['per-page'])) {
 			$query->perPage($params['per-page']);
 		}
-		if(!empty($params['offset'])) {
+		if(isset($params['offset'])) {
 			$query->offset($params['offset']);
 		}
-		if(!empty($params['where'])) {
+		if(isset($params['where'])) {
 			foreach($params['where'] as $name => $value) {
 				$query->where($name, $value);
 			}
