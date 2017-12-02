@@ -22,22 +22,20 @@ class Domain extends YiiObject {
 	private $repositoryLocator = [];
 	private $serviceLocator = [];
 	private $_factory;
+	
+	protected $repositories = [];
+	
 	public $id;
 	public $path;
 	public $defaultDriver = 'ar';
+	public $container = [];
 	
-	public function setContainer($definitions) {
-		if(empty($definitions)) {
-			return;
-		}
-		foreach($definitions as $class => $definition) {
-			Yii::$container->set($class, $definition);
-		}
-	}
+	public $services = [];
 	
 	public function init() {
 		$this->initPath();
 		$this->initId();
+		$this->initContainer();
 	}
 	
 	public function __get($name) {
@@ -45,6 +43,7 @@ class Domain extends YiiObject {
 			$value = parent::__get($name);
 			return $value;
 		} catch(UnknownPropertyException $e) {
+			$this->initServices();
 			return $this->serviceLocator->{$name};
 		}
 	}
@@ -62,18 +61,6 @@ class Domain extends YiiObject {
 		return $this->_factory;
 	}
 	
-	public function setServices($components) {
-		$this->serviceLocator =
-			$this->
-			getFactory()->
-			serviceLocator->
-			create($this->id, $components);
-	}
-	
-	public function getServices() {
-		return $this->serviceLocator;
-	}
-	
 	public function setRepositories($components) {
 		$this->repositoryLocator =
 			$this->
@@ -83,7 +70,31 @@ class Domain extends YiiObject {
 	}
 	
 	public function getRepositories() {
+		if(!is_object($this->repositoryLocator)) {
+			$this->setRepositories($this->repositories);
+		}
 		return $this->repositoryLocator;
+	}
+	
+	private function initServices() {
+		if(is_object($this->serviceLocator)) {
+			return;
+		}
+		$this->serviceLocator =
+			$this->
+			getFactory()->
+			serviceLocator->
+			create($this->id, $this->services);
+	}
+	
+	private function initContainer() {
+		$definitions = $this->container;
+		if(empty($definitions)) {
+			return;
+		}
+		foreach($definitions as $class => $definition) {
+			Yii::$container->set($class, $definition);
+		}
 	}
 	
 	private function initPath() {
