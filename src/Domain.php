@@ -2,6 +2,7 @@
 
 namespace yii2lab\domain;
 
+use yii\helpers\ArrayHelper;
 use yii2lab\domain\factories\Factory;
 use Yii;
 use yii\base\Object as YiiObject;
@@ -29,7 +30,6 @@ class Domain extends YiiObject {
 	public $path;
 	public $defaultDriver = 'ar';
 	public $container = [];
-	
 	public $services = [];
 	
 	public function init() {
@@ -62,6 +62,9 @@ class Domain extends YiiObject {
 	}
 	
 	public function setRepositories($components) {
+		if(empty($components)) {
+			$components = ArrayHelper::getValue($this->config(), 'repositories');
+		}
 		$this->repositoryLocator =
 			$this->
 			getFactory()->
@@ -71,24 +74,37 @@ class Domain extends YiiObject {
 	
 	public function getRepositories() {
 		if(!is_object($this->repositoryLocator)) {
-			$this->setRepositories($this->repositories);
+			$this->setRepositories([]);
 		}
 		return $this->repositoryLocator;
+	}
+	
+	public function config() {
+		return [];
+	}
+	
+	private function getConfig($name) {
+		$config = ArrayHelper::getValue($this->config(), $name);
+		if(empty($config)) {
+			$config = $this->{$name};
+		}
+		return $config;
 	}
 	
 	private function initServices() {
 		if(is_object($this->serviceLocator)) {
 			return;
 		}
+		$components = $this->getConfig('services');
 		$this->serviceLocator =
 			$this->
 			getFactory()->
 			serviceLocator->
-			create($this->id, $this->services);
+			create($this->id, $components);
 	}
 	
 	private function initContainer() {
-		$definitions = $this->container;
+		$definitions = $this->getConfig('container');
 		if(empty($definitions)) {
 			return;
 		}
