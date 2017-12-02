@@ -6,7 +6,17 @@ use Yii;
 use yii\base\Component;
 use yii\helpers\Inflector;
 use yii\helpers\ArrayHelper;
+use yii2lab\domain\Domain;
 
+/**
+ * Class Domain
+ *
+ * @package yii2lab\domain
+ *
+ * @property string $id
+ * @property string $type
+ * @property Domain $domain
+ */
 class BaseFactory extends Component {
 	
 	public $id;
