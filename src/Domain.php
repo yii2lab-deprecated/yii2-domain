@@ -7,7 +7,6 @@ use Yii;
 use yii\base\Object as YiiObject;
 use yii\base\UnknownPropertyException;
 use yii2lab\domain\locators\Base;
-use yii2lab\domain\repositories\BaseRepository;
 
 /**
  * Class Domain
@@ -17,6 +16,7 @@ use yii2lab\domain\repositories\BaseRepository;
  * @property Factory $factory
  * @property Base $repositories
  * @property Base $services
+ * @property Container $container
  */
 class Domain extends YiiObject {
 	
@@ -26,6 +26,15 @@ class Domain extends YiiObject {
 	public $id;
 	public $path;
 	public $defaultDriver = 'ar';
+	
+	public function setContainer($definitions) {
+		if(empty($definitions)) {
+			return;
+		}
+		foreach($definitions as $class => $definition) {
+			Yii::$container->set($class, $definition);
+		}
+	}
 	
 	public function init() {
 		$this->initPath();

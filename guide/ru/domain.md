@@ -152,7 +152,32 @@ return [
 
 id - это унильное имя в пределах типа (хранилище или сервис).
 
-domen - домен, содержащий в себе сервисы, хранилища и фабрики.
+domain - домен, содержащий в себе сервисы, хранилища и фабрики.
+
+Использование контейнера:
+
+```php
+'qr' => [
+	'class' => 'yii2lab\domain\Domain',
+	'path' => 'yii2lab\qr\domain',
+	'container' => [
+		'yii2lab\qr\domain\entities\QrCacheEntity' => 'yii2lab\qr\domain\entities\QrEntity',
+	],
+	'repositories' => [
+		'generator' => Driver::FILE,
+		'qrCache' => Driver::ACTIVE_RECORD,
+	],
+	'services' => [
+		'generator',
+	],
+],
+```
+
+Принцип работы назначений аналогичен следующему:
+
+```php
+Yii::$container->set('yii2lab\qr\domain\entities\QrCacheEntity', 'yii2lab\qr\domain\entities\QrEntity');
+```
 
 ## Пример кода
 
