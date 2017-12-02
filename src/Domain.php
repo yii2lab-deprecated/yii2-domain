@@ -16,7 +16,6 @@ use yii2lab\domain\locators\Base;
  * @property Factory $factory
  * @property Base $repositories
  * @property Base $services
- * @property Container $container
  */
 class Domain extends YiiObject {
 	
