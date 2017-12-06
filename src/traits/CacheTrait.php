@@ -8,7 +8,10 @@ use yii\caching\Cache;
 use yii2mod\helpers\ArrayHelper;
 
 trait CacheTrait {
-
+	
+	/**
+	 * @var Cache
+	 */
 	private $cacheInstance;
 
 	public function getFromCache($uri, $data = [], $headers = []) {
@@ -16,6 +19,17 @@ trait CacheTrait {
 			return parent::get($uri, $data, $headers)->data;
 		};
 		$collection = $this->runCache($callback, $uri);
+		return $collection;
+	}
+	
+	public function clearCache($uri) {
+		$cacheInstance = $this->getCacheInstance();
+		$cacheInstance->delete($uri);
+	}
+	
+	public function reCache($uri, $data = [], $headers = []) {
+		$this->clearCache($uri);
+		$collection = $this->getFromCache($uri, $data, $headers);
 		return $collection;
 	}
 
