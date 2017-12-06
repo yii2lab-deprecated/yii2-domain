@@ -5,6 +5,14 @@ namespace yii2lab\domain\filters\auth;
 use Yii;
 use yii\filters\auth\AuthMethod;
 
+//todo: перенести в yii2woop\account\domain\filters\auth
+
+/**
+ * Class HttpAuth
+ *
+ * @package yii2lab\domain\filters\auth
+ * @deprecated
+ */
 class HttpAuth extends AuthMethod
 {
 	/**
