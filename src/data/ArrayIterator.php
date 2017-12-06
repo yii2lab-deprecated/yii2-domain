@@ -15,6 +15,7 @@ class ArrayIterator {
 	protected $collection;
 	
 	public static function oneFromArray(Query $query = null, $array) {
+		$array = !empty($array) ? $array : [];
 		$iterator = new ArrayIterator();
 		$iterator->setCollection($array);
 		return $iterator->one($query);
