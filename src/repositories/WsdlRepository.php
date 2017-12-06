@@ -5,6 +5,8 @@ namespace yii2lab\domain\repositories;
 use api\v4\modules\payment\components\CoreLoginRequest;
 use api\v4\modules\payment\components\UnsuccessfulResponseException;
 use api\v4\modules\payment\components\WooppaySoapClient;
+use yii\web\ServerErrorHttpException;
+use yii2lab\console\helpers\Output;
 use yii2lab\domain\data\ArrayIterator;
 use yii2lab\domain\data\Query;
 use yii2lab\misc\exceptions\InvalidMethodParameterException;
@@ -35,7 +37,7 @@ class WsdlRepository extends BaseRepository {
 		try {
 			$isLogin = $this->client->login($loginRequest);
 		} catch(UnsuccessfulResponseException $e) {
-			return false;
+			throw new ServerErrorHttpException('Invalid login or password in wsdl');
 		}
 		$this->currentLogin = $username;
 		return $isLogin;
@@ -57,7 +59,10 @@ class WsdlRepository extends BaseRepository {
 		if(empty($username)) {
 			throw new InvalidMethodParameterException('Empty "username" parameter');
 		}
-		$userList = env('servers.wsdl.user');
+		$userList = env('servers.wsdl.user', []);
+		if(empty($userList)) {
+			throw new ServerErrorHttpException('List of users is not configured');
+		}
 		$query = Query::forge();
 		$query->where('login', $username);
 		return ArrayIterator::oneFromArray($query, $userList);

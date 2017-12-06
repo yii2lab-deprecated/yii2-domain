@@ -21,7 +21,12 @@ abstract class BaseApiRepository extends BaseRepository {
 	 */
 	public function send(RequestEntity $requestEntity) {
 		$request = $this->createHttpRequest($requestEntity);
-		$response = $request->send();
+		try {
+			$response = $request->send();
+		} catch(\yii\httpclient\Exception $e) {
+			throw new ServerErrorHttpException('Url "' . $request->url . '" is not available');
+		}
+		
 		if($response->statusCode >= 400) {
 			$this->showUserException($response);
 		}
