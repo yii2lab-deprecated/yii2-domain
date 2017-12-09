@@ -21,6 +21,8 @@ class Driver extends BaseEnum {
 	const YII = 'yii';
 	const MOCK = 'mock';
 	const WSDL = 'wsdl';
+	const HEADER = 'header';
+	const COOKIE = 'cookie';
 	
 	public static function remote($withTest = false) {
 		$driver = env('remote.driver');
