@@ -5,7 +5,7 @@ namespace yii2lab\domain;
 use yii\helpers\ArrayHelper;
 use yii2lab\domain\factories\Factory;
 use Yii;
-use yii\base\Object as YiiObject;
+use yii\base\BaseObject;
 use yii\base\UnknownPropertyException;
 use yii2lab\domain\locators\Base;
 
@@ -18,7 +18,7 @@ use yii2lab\domain\locators\Base;
  * @property Base $repositories
  * @property Base $services
  */
-class Domain extends YiiObject {
+class Domain extends BaseObject {
 	
 	private $repositoryLocator = [];
 	private $serviceLocator = [];
