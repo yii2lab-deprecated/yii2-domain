@@ -50,6 +50,7 @@ abstract class BaseApiRepository extends BaseRepository {
 		$httpClient->baseUrl = $this->getBaseUrl();
 		$request = $httpClient->createRequest();
 		$request
+			->setOptions($requestEntity->options)
 			->setMethod($requestEntity->method)
 			->setUrl($requestEntity->uri)
 			->setData($requestEntity->data)
