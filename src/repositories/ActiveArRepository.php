@@ -51,7 +51,8 @@ class ActiveArRepository extends ArRepository implements ReadInterface, ModifyIn
 		$this->saveModel($model);
 		if(!empty($this->primaryKey)) {
 			//TODO: а как же блокировка транзакции? Выяснить!
-            $id = Yii::$app->db->getLastInsertID($this->tableSchema['sequenceName']);
+            $sequenceName = empty($this->tableSchema['sequenceName']) ? '' : $this->tableSchema['sequenceName'];
+            $id = Yii::$app->db->getLastInsertID($sequenceName);
 			$entity->{$this->primaryKey} = $id;
 		}
 		
