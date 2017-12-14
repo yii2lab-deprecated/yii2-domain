@@ -108,7 +108,15 @@ class BaseEntity extends Component implements Arrayable {
 		}
 		return $result;
 	}
-	
+
+    protected function forgeEntity($value, $className) {
+        if(!empty($value) && ! $value instanceof BaseEntity) {
+            $value = ArrayHelper::toArray($value);
+            $value = \Yii::$app->account->factory->entity->create($className, $value);
+        }
+        return $value;
+    }
+    
 	protected function addExtraFields($fields, $expand) {
 		$extra = $this->extraFields();
 		if(empty($extra)) {
