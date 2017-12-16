@@ -83,7 +83,7 @@ class Domain extends BaseObject {
 		return [];
 	}
 	
-	private function getConfig($name) {
+	public function getConfig($name) {
 		$config = ArrayHelper::getValue($this->config(), $name);
 		if(empty($config)) {
 			$config = $this->{$name};
