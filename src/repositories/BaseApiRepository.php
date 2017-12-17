@@ -23,6 +23,7 @@ abstract class BaseApiRepository extends BaseRepository {
 		$request = $this->createHttpRequest($requestEntity);
 		try {
 			$response = $request->send();
+		
 		} catch(\yii\httpclient\Exception $e) {
 			throw new ServerErrorHttpException('Url "' . $request->url . '" is not available');
 		}
@@ -50,6 +51,7 @@ abstract class BaseApiRepository extends BaseRepository {
 		$httpClient->baseUrl = $this->getBaseUrl();
 		$request = $httpClient->createRequest();
 		$request
+			->setOptions($requestEntity->options)
 			->setMethod($requestEntity->method)
 			->setUrl($requestEntity->uri)
 			->setData($requestEntity->data)

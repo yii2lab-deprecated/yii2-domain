@@ -17,42 +17,46 @@ class ApiRepository extends BaseApiRepository {
 		return $this->baseUrl;
 	}
 	
-	public function get($uri, $data = [], $headers = []) {
+	public function get($uri, $data = [], $headers = [], $options = []) {
 		$request = new RequestEntity();
 		$request->method = HttpMethod::GET;
 		$request->uri = $uri;
 		$request->data = $data;
 		$request->headers = $headers;
+		$request->options = $options;
 		$response = $this->send($request);
 		return $response;
 	}
 	
-	public function post($uri, $data = [], $headers = []) {
+	public function post($uri, $data = [], $headers = [], $options = []) {
 		$request = new RequestEntity();
 		$request->method = HttpMethod::POST;
 		$request->uri = $uri;
 		$request->data = $data;
 		$request->headers = $headers;
+		$request->options = $options;
 		$response = $this->send($request);
 		return $response;
 	}
 	
-	public function put($uri, $data = [], $headers = []) {
+	public function put($uri, $data = [], $headers = [], $options = []) {
 		$request = new RequestEntity();
 		$request->method = HttpMethod::PUT;
 		$request->uri = $uri;
 		$request->data = $data;
 		$request->headers = $headers;
+		$request->options = $options;
 		$response = $this->send($request);
 		return $response;
 	}
 	
-	public function del($uri, $data = [], $headers = []) {
+	public function del($uri, $data = [], $headers = [], $options = []) {
 		$request = new RequestEntity();
 		$request->method = HttpMethod::DELETE;
 		$request->uri = $uri;
 		$request->data = $data;
 		$request->headers = $headers;
+		$request->options = $options;
 		$response = $this->send($request);
 		return $response;
 	}
