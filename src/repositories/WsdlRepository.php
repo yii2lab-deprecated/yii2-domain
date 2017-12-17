@@ -26,14 +26,14 @@ class WsdlRepository extends BaseRepository {
 		}
 	}
 	
-	public function login($username = null) {
+	public function login($username = null, $password = null) {
 		if(empty($username)) {
 			$username = $this->authLogin;
 		}
 		if($this->isLogged() && $username == $this->currentLogin) {
 			return true;
 		}
-		$loginRequest = $this->createLoginRequest($username);
+		$loginRequest = $this->createLoginRequest($username, $password);
 		try {
 			$isLogin = $this->client->login($loginRequest);
 		} catch(UnsuccessfulResponseException $e) {
@@ -47,11 +47,15 @@ class WsdlRepository extends BaseRepository {
 		return !empty($this->currentLogin);
 	}
 	
-	private function createLoginRequest($username) {
+	private function createLoginRequest($username, $password) {
 		$user = $this->oneUser($username);
 		$loginRequest = new CoreLoginRequest();
 		$loginRequest->username = $user['login'];
-		$loginRequest->password = $user['password'];
+		if(!empty($password)) {
+			$loginRequest->password = $password;
+		} else {
+			$loginRequest->password = $user['password'];
+		}
 		return $loginRequest;
 	}
 	

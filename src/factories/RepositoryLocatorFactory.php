@@ -31,7 +31,7 @@ class RepositoryLocatorFactory extends BaseLocatorFactory {
 			}
 		}
 		if(empty($driver)) {
-			$driver = $this->domain->defaultDriver;
+			$driver = $this->domain->getConfig('defaultDriver');
 		}
 		return $driver;
 	}

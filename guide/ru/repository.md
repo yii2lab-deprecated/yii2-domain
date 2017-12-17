@@ -31,7 +31,8 @@
 Yii::$app->account->repositories->auth->logout();
 ```
 
-Где 
+Где:
+
 * `account` - имя домена
 * `repositories` - контейнер всех хранилищ домена
 * `auth` - хранилище аутентификации
