@@ -4,7 +4,7 @@ namespace yii2lab\domain\repositories;
 
 use yii\base\InvalidConfigException;
 use yii2lab\domain\entities\RequestEntity;
-use yii2lab\misc\enums\HttpMethod;
+use yii2lab\misc\enums\HttpMethodEnum;
 
 class ApiRepository extends BaseApiRepository {
 	
@@ -19,7 +19,7 @@ class ApiRepository extends BaseApiRepository {
 	
 	public function get($uri, $data = [], $headers = [], $options = []) {
 		$request = new RequestEntity();
-		$request->method = HttpMethod::GET;
+		$request->method = HttpMethodEnum::GET;
 		$request->uri = $uri;
 		$request->data = $data;
 		$request->headers = $headers;
@@ -30,7 +30,7 @@ class ApiRepository extends BaseApiRepository {
 	
 	public function post($uri, $data = [], $headers = [], $options = []) {
 		$request = new RequestEntity();
-		$request->method = HttpMethod::POST;
+		$request->method = HttpMethodEnum::POST;
 		$request->uri = $uri;
 		$request->data = $data;
 		$request->headers = $headers;
@@ -41,7 +41,7 @@ class ApiRepository extends BaseApiRepository {
 	
 	public function put($uri, $data = [], $headers = [], $options = []) {
 		$request = new RequestEntity();
-		$request->method = HttpMethod::PUT;
+		$request->method = HttpMethodEnum::PUT;
 		$request->uri = $uri;
 		$request->data = $data;
 		$request->headers = $headers;
@@ -52,7 +52,7 @@ class ApiRepository extends BaseApiRepository {
 	
 	public function del($uri, $data = [], $headers = [], $options = []) {
 		$request = new RequestEntity();
-		$request->method = HttpMethod::DELETE;
+		$request->method = HttpMethodEnum::DELETE;
 		$request->uri = $uri;
 		$request->data = $data;
 		$request->headers = $headers;
