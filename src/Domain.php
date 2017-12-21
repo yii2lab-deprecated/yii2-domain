@@ -8,6 +8,8 @@ use Yii;
 use yii\base\BaseObject;
 use yii\base\UnknownPropertyException;
 use yii2lab\domain\locators\Base;
+use yii2lab\helpers\Helper;
+use yii2lab\helpers\yii\FileHelper;
 
 /**
  * Class Domain
@@ -118,7 +120,7 @@ class Domain extends BaseObject {
 			return;
 		}
 		if(!$this->isBaseClassName()) {
-			$this->path = dirname(static::className());
+			$this->path = Helper::getNamespace(static::className());
 		}
 	}
 	
