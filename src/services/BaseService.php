@@ -58,6 +58,17 @@ class BaseService extends YiiComponent {
 		return Query::forge($query);
 	}
 	
+	/**
+	 * @param      $form
+	 * @param null $data
+	 * @param null $scenario
+	 *
+	 * @return array
+	 * @throws UnprocessableEntityHttpException
+	 * @throws \yii\base\InvalidConfigException
+	 *
+	 * @deprecated move to yii2lab\domain\helpers\Helper::validateForm
+	 */
 	protected function validateForm($form, $data = null, $scenario = null) {
 		if(is_string($form) || is_array($form)) {
 			$form = Yii::createObject($form);
