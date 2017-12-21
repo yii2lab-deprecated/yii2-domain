@@ -9,6 +9,9 @@ class EntityType {
 	public static function encode($value, $config) {
 		$config = self::ensureConfig($config);
 		if(self::isClassName($config['type'])) {
+			if ($value === null) {
+				return null;
+			}
 			$result = self::forgeEntity($config, $value);
 		} else {
 			$result = TypeHelper::encode($value, $config['type']);
