@@ -40,7 +40,7 @@ abstract class BaseRepository extends YiiComponent {
 	
 	public function getDataProvider(Query $query = null) {
 		if(!$this instanceof ReadInterface) {
-			throw new InvalidConfigException;
+			throw new InvalidConfigException("Repository {$this->className()} not implements of ReadInterface");
 		}
 		$query = $this->forgeQuery($query);
 		$dataProvider = new ActiveDataProvider([
@@ -111,6 +111,8 @@ abstract class BaseRepository extends YiiComponent {
 	 * @param $query
 	 *
 	 * @return Query
+	 *
+	 * @deprecated move to Query::forge()
 	 */
 	protected function forgeQuery($query = null) {
 		return Query::forge($query);
