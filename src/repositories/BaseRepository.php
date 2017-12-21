@@ -42,7 +42,7 @@ abstract class BaseRepository extends YiiComponent {
 		if(!$this instanceof ReadInterface) {
 			throw new InvalidConfigException("Repository {$this->className()} not implements of ReadInterface");
 		}
-		$query = $this->forgeQuery($query);
+		$query = Query::forge($query);
 		$dataProvider = new ActiveDataProvider([
 			'query' => $query,
 			'service' => $this,

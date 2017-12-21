@@ -55,7 +55,7 @@ class ActiveBaseService extends BaseService implements ReadInterface, ModifyInte
 	
 	public function one(Query $query = null) {
 		$this->beforeAction(self::EVENT_VIEW);
-		$query = $this->forgeQuery($query);
+		$query = Query::forge($query);
 		$this->userAccessOnly($query);
 		$result = $this->repository->one($query);
 		if(empty($result)) {
@@ -74,7 +74,7 @@ class ActiveBaseService extends BaseService implements ReadInterface, ModifyInte
 	 */
 	public function oneById($id, Query $query = null) {
 		$this->beforeAction(self::EVENT_VIEW);
-		$query = $this->forgeQuery($query);
+		$query = Query::forge($query);
 		$this->userAccessOnly($query);
 		$result = $this->repository->oneById($id, $query);
 		if(empty($result)) {
@@ -85,7 +85,7 @@ class ActiveBaseService extends BaseService implements ReadInterface, ModifyInte
 	
 	public function count(Query $query = null) {
 		$this->beforeAction(self::EVENT_INDEX);
-		$query = $this->forgeQuery($query);
+		$query = Query::forge($query);
 		$this->userAccessOnly($query);
 		$result = $this->repository->count($query);
 		return $this->afterAction(self::EVENT_INDEX, $result);
@@ -93,7 +93,7 @@ class ActiveBaseService extends BaseService implements ReadInterface, ModifyInte
 	
 	public function all(Query $query = null) {
 		$this->beforeAction(self::EVENT_INDEX);
-		$query = $this->forgeQuery($query);
+		$query = Query::forge($query);
 		$this->userAccessOnly($query);
 		$result = $this->repository->all($query);
 		return $this->afterAction(self::EVENT_INDEX, $result);

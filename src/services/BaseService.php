@@ -33,7 +33,7 @@ class BaseService extends YiiComponent {
 	}
 	
 	public function getDataProvider(Query $query = null) {
-		$query = $this->forgeQuery($query);
+		$query = Query::forge($query);
 		$isReadInterface = $this->repository instanceof ReadInterface;
 		$isMethodExists = method_exists($this->repository, 'getDataProvider');
 		if($isReadInterface && $isMethodExists) {

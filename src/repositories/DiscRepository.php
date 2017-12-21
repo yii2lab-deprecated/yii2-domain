@@ -31,7 +31,7 @@ class DiscRepository extends BaseRepository {
 	}
 	
 	protected function oneModel(Query $query = null) {
-		$query = $this->forgeQuery($query);
+		$query = Query::forge($query);
 		$this->queryValidator->validateSelectFields($query);
 		$this->queryValidator->validateWhereFields($query);
 		$condition = $this->forgeCondition([], $query);
@@ -43,7 +43,7 @@ class DiscRepository extends BaseRepository {
 	}
 	
 	protected function allModels(Query $query = null) {
-		$query = $this->forgeQuery($query);
+		$query = Query::forge($query);
 		$this->queryValidator->validateSelectFields($query);
 		$this->queryValidator->validateWhereFields($query);
 		$this->queryValidator->validateSortFields($query);

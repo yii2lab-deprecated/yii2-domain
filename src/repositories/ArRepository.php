@@ -78,7 +78,7 @@ class ArRepository extends BaseRepository {
 	
 	protected function oneModel(Query $query = null) {
 		$this->resetQuery();
-		$query = $this->forgeQuery($query);
+		$query = Query::forge($query);
 		$this->getQueryValidator()->validateSelectFields($query);
 		$this->getQueryValidator()->validateWhereFields($query);
 		$this->forgeQueryForOne($query);
@@ -93,7 +93,7 @@ class ArRepository extends BaseRepository {
 	
 	protected function allModels(Query $query = null) {
 		$this->resetQuery();
-		$query = $this->forgeQuery($query);
+		$query = Query::forge($query);
 		$this->getQueryValidator()->validateSelectFields($query);
 		$this->getQueryValidator()->validateWhereFields($query);
 		$this->getQueryValidator()->validateSortFields($query);
@@ -235,7 +235,7 @@ class ArRepository extends BaseRepository {
 	}
 	
 	private function modelItemToArray(ActiveRecord $model, Query $query) {
-		$query = $this->forgeQuery($query);
+		$query = Query::forge($query);
 		$withParam = $query->getParam('with');
 		$expand = $withParam ? $withParam : [];
 		$modelArray = $model->toArray([], $expand);

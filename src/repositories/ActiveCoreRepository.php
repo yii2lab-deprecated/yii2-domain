@@ -11,14 +11,14 @@ use yii\web\NotFoundHttpException;
 class ActiveCoreRepository extends CoreRepository implements ReadInterface, ModifyInterface {
 	
 	public function all(Query $query = null) {
-		$query = $this->forgeQuery($query);
+		$query = Query::forge($query);
 		$params = $query->rest->getParams();
 		$response = $this->get(null, $params);
 		return $this->forgeEntity($response->data);
 	}
 	
 	public function count(Query $query = null) {
-		$query = $this->forgeQuery($query);
+		$query = Query::forge($query);
 		$params = $query->rest->getParams();
 		$response = $this->get(null, $params);
 		return $response->headers->get('x-pagination-total-count');
@@ -26,7 +26,7 @@ class ActiveCoreRepository extends CoreRepository implements ReadInterface, Modi
 
 	public function one(Query $query = null) {
 		/** @var Query $query */
-		$query = $this->forgeQuery($query);
+		$query = Query::forge($query);
 		$collection = $this->all($query);
 		if(empty($collection)) {
 			throw new NotFoundHttpException(static::class);

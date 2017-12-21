@@ -21,7 +21,7 @@ trait ActiveRepositoryTrait {
 	
 	public function isExists($condition) {
 		/** @var Query $query */
-		$query = $this->forgeQuery(null);
+		$query = Query::forge();
 		if(is_array($condition)) {
 			$query->whereFromCondition($condition);
 		} else {
@@ -37,14 +37,14 @@ trait ActiveRepositoryTrait {
 	
 	public function oneById($id, Query $query = null) {
 		/** @var Query $query */
-		$query = $this->forgeQuery($query);
+		$query = Query::forge($query);
 		$query->removeParam('where');
 		$query->where($this->primaryKey, $id);
 		return $this->one($query);
 	}
 	
 	public function one(Query $query = null) {
-		$query = $this->forgeQuery($query);
+		$query = Query::forge($query);
 		$model = $this->oneModel($query);
 		if(empty($model)) {
 			throw new NotFoundHttpException();
@@ -53,14 +53,14 @@ trait ActiveRepositoryTrait {
 	}
 	
 	public function all(Query $query = null) {
-		$query = $this->forgeQuery($query);
+		$query = Query::forge($query);
 		$models = $this->allModels($query);
 		return $this->forgeEntity($models);
 	}
 	
 	protected function oneModelByCondition($condition, Query $query = null) {
 		/** @var Query $query */
-		$query = $this->forgeQuery($query);
+		$query = Query::forge($query);
 		$query->whereFromCondition($condition);
 		$model = $this->oneModel($query);
 		if(empty($model)) {
@@ -71,7 +71,7 @@ trait ActiveRepositoryTrait {
 	
 	protected function allModelsByCondition($condition = [], Query $query = null) {
 		/** @var Query $query */
-		$query = $this->forgeQuery($query);
+		$query = Query::forge($query);
 		$query->whereFromCondition($condition);
 		$models = $this->allModels($query);
 		return $models;

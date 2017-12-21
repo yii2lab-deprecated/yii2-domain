@@ -26,11 +26,11 @@ trait ArrayReadTrait {
 	public function isExists($query) {
 		/** @var Query $query */
 		if(is_array($query)) {
-			$q = $this->forgeQuery(null);
+			$q = Query::forge();
 			$q->whereFromCondition($query);
 			$query = $q;
 		}
-		$query = $this->forgeQuery($query);
+		$query = Query::forge($query);
 		try {
 			$this->one($query);
 			return true;
@@ -50,14 +50,14 @@ trait ArrayReadTrait {
 	
 	public function oneById($id, Query $query = null) {
 		/** @var Query $query */
-		$query = $this->forgeQuery($query);
+		$query = Query::forge($query);
 		$query->where($this->primaryKey, $id);
 		return $this->one($query);
 	}
 	
 	public function one(Query $query = null) {
 		/** @var Query $query */
-		$query = $this->forgeQuery($query);
+		$query = Query::forge($query);
 		$collection = $this->all($query);
 		if(empty($collection)) {
 			throw new NotFoundHttpException(static::class);
@@ -66,14 +66,14 @@ trait ArrayReadTrait {
 	}
 
 	public function all(Query $query = null) {
-		$query = $this->forgeQuery($query);
+		$query = Query::forge($query);
 		$iterator = $this->getIterator();
 		$collection = $iterator->all($query);
 		return $this->forgeEntity($collection);
 	}
 	
 	public function count(Query $query = null) {
-		$query = $this->forgeQuery($query);
+		$query = Query::forge($query);
 		$iterator = $this->getIterator();
 		return $iterator->count($query);
 	}
