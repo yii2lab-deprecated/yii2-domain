@@ -7,10 +7,6 @@ use yii\helpers\ArrayHelper;
 
 class Model extends YiiModel
 {
-	public function loadAttributes($data) {
-	
-	}
-	
 	public function addErrorsFromException($e) {
 		$errors = $e->getErrors();
 		if($errors instanceof YiiModel) {
