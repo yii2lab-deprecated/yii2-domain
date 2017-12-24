@@ -10,13 +10,13 @@ use yii2lab\helpers\yii\Html;
 <div class="pull-right">
 	<?= Html::a(Html::fa('pencil', ['class' => 'text-primary']), ['/article/manage/update', 'id' => $entity->id], [
 		'class' => 'btn btn-default',
-		'title' => t('action', 'update'),
+		'title' => Yii::t('action', 'update'),
 	]) ?>
 	<?= Html::a(Html::fa('trash', ['class' => 'text-danger']), ['/article/manage/delete', 'id' => $entity->id], [
 		'class' => 'btn btn-default',
-		'title' => t('action', 'delete'),
+		'title' => Yii::t('action', 'delete'),
 		'data' => [
-			'confirm' => t('yii', 'Are you sure you want to delete this item?'),
+			'confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
 			'method' => 'post',
 		],
 	]) ?>

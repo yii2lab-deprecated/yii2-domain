@@ -13,7 +13,7 @@ class UpdateAction extends Action {
 	public $serviceMethodOne = 'oneById';
 	
 	public function run($id) {
-		$this->view->title = t('main', 'update_title');
+		$this->view->title = Yii::t('main', 'update_title');
 		$methodOne = $this->serviceMethodOne;
 		$entity = $this->service->$methodOne($id);
 		$model = $this->createForm($entity->toArray());

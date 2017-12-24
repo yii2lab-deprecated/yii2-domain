@@ -12,7 +12,7 @@ class CreateAction extends Action {
 	public $serviceMethod = 'create';
 	
 	public function run() {
-		$this->view->title = t('main', 'create_title');
+		$this->view->title = Yii::t('main', 'create_title');
 		$model =$this->createForm();
 		if(Yii::$app->request->isPost && !$model->hasErrors()) {
 			try{

@@ -2,6 +2,7 @@
 
 namespace yii2lab\domain\helpers;
 
+use Yii;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 
 class ErrorCollection {
@@ -20,7 +21,7 @@ class ErrorCollection {
 	
 	public function add($field, $file, $name = null, $values = []) {
 		if(!empty($name)) {
-			$message = t($file, $name, $values);
+			$message = Yii::t($file, $name, $values);
 		} else {
 			$message = $file;
 		}

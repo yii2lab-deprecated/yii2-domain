@@ -2,6 +2,7 @@
 
 namespace yii2lab\domain\helpers;
 
+use Yii;
 use yii2lab\domain\data\Query;
 use yii\base\Object;
 use yii\web\BadRequestHttpException;
@@ -32,7 +33,7 @@ class QueryValidator extends Object {
 		$diff = array_diff($fields, $entityAttributes);
 		if(!empty($diff)) {
 			$fieldName = $diff[ key($diff) ];
-			$message = t('db', 'field_not_exists {field}', ['field' => $fieldName]);
+			$message = Yii::t('db', 'field_not_exists {field}', ['field' => $fieldName]);
 			throw new BadRequestHttpException($message);
 		}
 	}
