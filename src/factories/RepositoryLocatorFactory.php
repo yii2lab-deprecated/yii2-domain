@@ -3,7 +3,6 @@
 namespace yii2lab\domain\factories;
 
 use yii2lab\domain\locators\Base;
-use Yii;
 use yii\helpers\ArrayHelper;
 
 class RepositoryLocatorFactory extends BaseLocatorFactory {
@@ -31,7 +30,7 @@ class RepositoryLocatorFactory extends BaseLocatorFactory {
 			}
 		}
 		if(empty($driver)) {
-			$driver = $this->domain->getConfig('defaultDriver');
+			$driver = $this->domain->defaultDriver;
 		}
 		return $driver;
 	}

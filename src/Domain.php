@@ -9,16 +9,19 @@ use yii\base\BaseObject;
 use yii\base\UnknownPropertyException;
 use yii2lab\domain\locators\Base;
 use yii2lab\helpers\Helper;
-use yii2lab\helpers\yii\FileHelper;
 
 /**
  * Class Domain
  *
  * @package yii2lab\domain
  *
- * @property Factory $factory
- * @property Base $repositories
+ * @property string $id
+ * @property string $path
+ * @property string $defaultDriver
+ * @property array $container
  * @property Base $services
+ * @property Base $repositories
+ * @property Factory $factory
  */
 class Domain extends BaseObject {
 	
@@ -85,19 +88,11 @@ class Domain extends BaseObject {
 		return [];
 	}
 	
-	public function getConfig($name) {
-		$config = ArrayHelper::getValue($this->config(), $name);
-		if(empty($config)) {
-			$config = $this->{$name};
-		}
-		return $config;
-	}
-	
 	private function initServices() {
 		if(is_object($this->serviceLocator)) {
 			return;
 		}
-		$components = $this->getConfig('services');
+		$components = $this->services;
 		$this->serviceLocator =
 			$this->
 			getFactory()->
@@ -106,7 +101,7 @@ class Domain extends BaseObject {
 	}
 	
 	private function initContainer() {
-		$definitions = $this->getConfig('container');
+		$definitions = $this->container;
 		if(empty($definitions)) {
 			return;
 		}
