@@ -6,6 +6,13 @@ use yii2lab\domain\data\Query;
 use Yii;
 use yii\helpers\ArrayHelper;
 
+/**
+ * Trait RelationTrait
+ *
+ * @package yii2lab\domain\traits
+ *
+ * @deprecated
+ */
 trait RelationTrait {
 
 	public function relations() {
