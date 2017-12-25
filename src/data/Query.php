@@ -141,9 +141,7 @@ class Query extends Component {
 	}
 	
 	public function removeParam($key) {
-		if(isset($this->query[ $key ])) {
-			unset($this->query[ $key ]);
-		}
+		ArrayHelper::remove($this->query, $key);
 	}
 	
 	public function getRest() {
