@@ -2,8 +2,10 @@
 
 namespace yii2lab\domain\repositories;
 
+use yii\helpers\Inflector;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\Query;
+use yii2lab\domain\DynamicModel;
 use yii2lab\domain\helpers\ErrorCollection;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use Yii;
@@ -32,8 +34,9 @@ class ArRepository extends BaseRepository {
 		$this->initQuery();
 	}
 	
-	public function getModelClass() {
-		return $this->modelClass;
+	public function tableName()
+	{
+		return null;
 	}
 	
 	public function getModel() {
@@ -58,11 +61,37 @@ class ArRepository extends BaseRepository {
 		return $this->alias->decode($attributes);
 	}
 	
+	private function createVirtualModel() {
+		$modelClass = Inflector::camelize($this->tableName()) . 'Model';
+		$namespace = str_replace('/', '\\', $this->domain->path) . '\\models';
+		$this->modelClass = $namespace . '\\' . $modelClass;
+		$classCode = '
+namespace '.$namespace.';
+
+use yii\db\ActiveRecord;
+
+class '.$modelClass.' extends ActiveRecord  {
+	
+	public static function tableName()
+	{
+		return \'{{%'.$this->tableName().'}}\';
+	}
+	
+}';
+		eval($classCode);
+		$this->model = new $this->modelClass;
+	}
+	
 	private function initModel() {
-		if(!isset($this->modelClass)) {
-			$this->modelClass = $this->domain->factory->model->genClassName($this->id);
+		if($this->tableName()) {
+			$this->createVirtualModel();
+		} else {
+			if(!isset($this->modelClass)) {
+				$this->modelClass = $this->domain->factory->model->genClassName($this->id);
+			}
+			$this->model = $this->domain->factory->model->create($this->modelClass);
 		}
-		$this->model = $this->domain->factory->model->create($this->modelClass);
+		
 		if($this->primaryKey !== false) {
 			$primaryKey = $this->model->primaryKey();
 		}
