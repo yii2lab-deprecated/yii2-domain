@@ -6,6 +6,7 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\Query;
+use yii2lab\domain\enums\RelationEnum;
 
 class RelationHelper {
 	
@@ -28,51 +29,41 @@ class RelationHelper {
 		return $with;
 	}
 	
-	public static function one($relations, $with, $entity) {
-		if(empty($relations) || empty($with) || empty($entity)) {
-			return $entity;
+	public static function load($relations, $with, $data, $method = null) {
+		if(empty($relations) || empty($with) || empty($data)) {
+			return $data;
+		}
+		if(empty($method)) {
+			$method = $data instanceof BaseEntity ? 'one' : 'all';
 		}
 		$relations = self::normalizeConfig($relations);
 		foreach($with as $withName) {
 			if(isset($relations[$withName])) {
 				$relation = $relations[$withName];
-				$entity = self::hasOne($entity, $relation, $withName);
+				$data = call_user_func_array(['self', $method], [$data, $relation, $withName]);
 			}
 		}
+		return $data;
+	}
+	
+	public static function one($entity, $relation, $withName) {
+		$method = $relation['type'] == RelationEnum::MANY ? 'all' : 'one';
+		$entity->{$withName} = self::getRelationData($entity, $relation, $method); // $repository->{$relation['type']}($query);
 		return $entity;
 	}
 	
-	public static function all($relations, $with, $collection) {
-		if(empty($relations) || empty($with) || empty($collection)) {
-			return $collection;
-		}
-		$relations = self::normalizeConfig($relations);
-		foreach($with as $withName) {
-			if(isset($relations[$withName])) {
-				$relation = $relations[$withName];
-				$collection = self::hasAll($collection, $relation, $withName);
-			}
-		}
-		return $collection;
-	}
-	
-	private static function hasOne($entity, $relation, $withName) {
-		$entity->{$withName} = self::getRelationData($entity, $relation, $relation['type']); // $repository->{$relation['type']}($query);
-		return $entity;
-	}
-	
-	private static function hasAll($collection, $relation, $withName) {
+	public static function all($collection, $relation, $withName) {
 		$relCollection = self::getRelationData($collection, $relation, 'all');
 		foreach($collection as $entity) {
-			if($relation['type'] == 'one') {
-				$relCollection = ArrayHelper::index($relCollection, $relation['repository']['field']);
+			if($relation['type'] == RelationEnum::ONE) {
+				$relCollection = ArrayHelper::index($relCollection, $relation['foreign']['field']);
 				if(isset($relCollection[$entity->{$relation['field']}])) {
 					$entity->{$withName} = $relCollection[$entity->{$relation['field']}];
 				}
-			} elseif($relation['type'] == 'all') {
+			} elseif($relation['type'] == RelationEnum::MANY) {
 				$collectionForField = $entity->{$withName};
 				foreach($relCollection as $relEntity) {
-					if($relEntity->{$relation['repository']['field']} == $entity->{$relation['field']}) {
+					if($relEntity->{$relation['foreign']['field']} == $entity->{$relation['field']}) {
 						$collectionForField[] = $relEntity;
 					}
 				}
@@ -91,20 +82,25 @@ class RelationHelper {
 	private static function forgeQuery($collection, $relation) {
 		$whereValue = self::getColumn($collection, $relation);
 		$query = Query::forge();
-		$query->where($relation['repository']['field'], $whereValue);
+		$query->where($relation['foreign']['field'], $whereValue);
 		return $query;
 	}
 	
 	private static function getRepositoryInstance($relation) {
-		$key = $relation['repository']['domain'] . '.repositories.' . $relation['repository']['name'];
+		$key = $relation['foreign']['domain'] . '.repositories.' . $relation['foreign']['name'];
 		$repository = ArrayHelper::getValue(Yii::$app, $key);
 		return $repository;
 	}
 	
 	private static function normalizeConfig($relations) {
 		foreach($relations as &$relation) {
-			if(!empty($relation['repository']['id'])) {
-				list($relation['repository']['domain'], $relation['repository']['name']) = explode('.', $relation['repository']['id']);
+			if(!empty($relation['foreign']['id'])) {
+				list($relation['foreign']['domain'], $relation['foreign']['name']) = explode('.', $relation['foreign']['id']);
+				$type = ArrayHelper::getValue($relation, 'repository.type');
+				$relation['foreign']['type'] = RelationEnum::value($type);
+			}
+			if(empty($relation['foreign']['field'])) {
+				$relation['foreign']['field'] = 'id';
 			}
 		}
 		return $relations;

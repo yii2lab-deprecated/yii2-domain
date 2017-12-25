@@ -56,7 +56,7 @@ trait ActiveRepositoryTrait {
 		$entity = $this->forgeEntity($model);
 		if(!empty($with)) {
 			$relations = $this->relations();
-			$entity = RelationHelper::one($relations, $with, $entity);
+			$entity = RelationHelper::load($relations, $with, $entity);
 		}
 		return $entity;
 	}
@@ -68,7 +68,7 @@ trait ActiveRepositoryTrait {
 		$collection = $this->forgeEntity($models);
 		if(!empty($with)) {
 			$relations = $this->relations();
-			$collection = RelationHelper::all($relations, $with, $collection);
+			$collection = RelationHelper::load($relations, $with, $collection);
 		}
 		return $collection;
 	}
