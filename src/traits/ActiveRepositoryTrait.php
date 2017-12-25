@@ -7,8 +7,11 @@ use yii2lab\domain\data\Query;
 use yii2lab\domain\helpers\ErrorCollection;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use yii\web\NotFoundHttpException;
+use yii2lab\domain\helpers\RelationHelper;
 
 trait ActiveRepositoryTrait {
+	
+	abstract public function relations();
 	
 	public function isExistsById($id) {
 		try {
@@ -45,17 +48,29 @@ trait ActiveRepositoryTrait {
 	
 	public function one(Query $query = null) {
 		$query = Query::forge($query);
+		$with = RelationHelper::cleanWith($this->relations(), $query);
 		$model = $this->oneModel($query);
 		if(empty($model)) {
 			throw new NotFoundHttpException();
 		}
-		return $this->forgeEntity($model);
+		$entity = $this->forgeEntity($model);
+		if(!empty($with)) {
+			$relations = $this->relations();
+			$entity = RelationHelper::one($relations, $with, $entity);
+		}
+		return $entity;
 	}
 	
 	public function all(Query $query = null) {
 		$query = Query::forge($query);
+		$with = RelationHelper::cleanWith($this->relations(), $query);
 		$models = $this->allModels($query);
-		return $this->forgeEntity($models);
+		$collection = $this->forgeEntity($models);
+		if(!empty($with)) {
+			$relations = $this->relations();
+			$collection = RelationHelper::all($relations, $with, $collection);
+		}
+		return $collection;
 	}
 	
 	protected function oneModelByCondition($condition, Query $query = null) {

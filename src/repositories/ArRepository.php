@@ -226,12 +226,12 @@ class ArRepository extends BaseRepository {
 	}
 	
 	private function validateWithParam($with) {
-		$extraFields = $this->getModelExtraFields();
+		/*$modelExtraFields = $this->getModelExtraFields();
 		foreach($with as $key => $value) {
-			if(!in_array($value, $extraFields)) {
+			if(!in_array($value, $modelExtraFields)) {
 				throw new BadRequestHttpException(t('exception', 'not_allowed_to_use_parameter_in_expand {parameter}', ['parameter' => $value]));
 			}
-		}
+		}*/
 	}
 	
 	private function modelItemToArray(ActiveRecord $model, Query $query) {
