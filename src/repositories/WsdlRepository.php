@@ -47,13 +47,13 @@ class WsdlRepository extends BaseRepository {
 		return !empty($this->currentLogin);
 	}
 	
-	private function createLoginRequest($username, $password) {
-		$user = $this->oneUser($username);
+	private function createLoginRequest($username, $password = null) {
 		$loginRequest = new CoreLoginRequest();
-		$loginRequest->username = $user['login'];
+		$loginRequest->username = $username;
 		if(!empty($password)) {
 			$loginRequest->password = $password;
 		} else {
+			$user = $this->oneUser($username);
 			$loginRequest->password = $user['password'];
 		}
 		return $loginRequest;
