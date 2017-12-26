@@ -29,7 +29,6 @@ class Query extends Component {
 	public function where($key, $value) {
 		if($value === null) {
 			unset($this->query['where'][ $key ]);
-			//return $this;
 		} else {
 			$this->query['where'][ $key ] = $value;
 		}
@@ -142,6 +141,13 @@ class Query extends Component {
 	
 	public function removeParam($key) {
 		ArrayHelper::remove($this->query, $key);
+	}
+	
+	public static function cloneForCount(Query $query = null) {
+		$query = self::forge($query);
+		$queryClone = self::forge();
+		$queryClone->whereFromCondition($query->getParam('where'));
+		return $queryClone;
 	}
 	
 	public function getRest() {
