@@ -139,3 +139,55 @@ class LoginRepository extends ActiveArRepository {
 ```
 
 Теперь чтение и модификация полей будет работать прозрачно.
+
+## Связи
+
+Хранилище поддерживает установку всязей между другими хранилищами.
+
+Связи работают прозрачно даже между хранилищами с разными драйверами.
+
+Для работы со связями, хранилище должно реализовывать интерфейс `ReadInterface` 
+или должно быть унаследовано от базового класса хранилища с префиксом `Active`.
+
+Пример конфигурации:
+
+```php
+class RegionRepository extends ActiveArRepository {
+	
+	...
+	
+	public function relations() {
+		return [
+			'cities' => [
+				'type' => RelationEnum::MANY,
+				'field' => 'id',
+				'foreign' => [
+					'id' => 'geo.city',
+					'field' => 'region_id',
+				],
+			],
+			'country' => [
+				'type' => RelationEnum::ONE,
+				'field' => 'country_id',
+				'foreign' => [
+					'id' => 'geo.country',
+					'field' => 'id',
+				],
+			],
+		];
+	}
+	
+	...
+	
+}
+```
+
+Параметры:
+
+* `type` - тип связи (один ко многим или один к одному)
+* `field` - имя поля
+* `foreign` - параметры связи с хранилищем
+	* `id` - идентификатор (формат: `домен.хранилище`)
+	* `field` - имя поля
+
+Если не указан параметр `foreign.field`, то по умолчанию он будет равен 'id'.
