@@ -11,7 +11,9 @@ use yii2lab\domain\helpers\RelationHelper;
 
 trait ActiveRepositoryTrait {
 	
-	abstract public function relations();
+	public function relations() {
+		return [];
+	}
 	
 	public function isExistsById($id) {
 		try {

@@ -14,7 +14,4 @@ class ActiveDiscRepository extends DiscRepository2 implements ReadInterface, Mod
 	use ArrayModifyTrait;
 	//use RelationTrait;
 	
-	public function relations() {
-		return [];
-	}
 }

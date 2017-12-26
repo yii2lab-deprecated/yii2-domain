@@ -16,10 +16,6 @@ class ActiveArRepository extends ArRepository implements ReadInterface, ModifyIn
 	
 	use ActiveRepositoryTrait;
 	
-	public function relations() {
-		return [];
-	}
-	
 	public function count(Query $query = null) {
 		$this->queryValidator->validateWhereFields($query);
 		$this->resetQuery();

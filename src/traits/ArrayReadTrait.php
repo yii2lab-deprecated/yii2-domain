@@ -15,7 +15,10 @@ trait ArrayReadTrait {
 
 	abstract public function forgeEntity($data, $class = null);
 	abstract protected function getCollection();
-	abstract public function relations();
+	
+	public function relations() {
+		return [];
+	}
 	
 	/**
 	 * @param $query
