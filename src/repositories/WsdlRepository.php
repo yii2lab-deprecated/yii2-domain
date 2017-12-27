@@ -31,7 +31,7 @@ class WsdlRepository extends BaseRepository {
 			$username = $this->authLogin;
 		}
 		if($this->isLogged() && $username == $this->currentLogin) {
-			return true;
+			return $this->client;
 		}
 		$loginRequest = $this->createLoginRequest($username, $password);
 		try {
@@ -40,7 +40,7 @@ class WsdlRepository extends BaseRepository {
 			throw new ServerErrorHttpException('Invalid login or password in wsdl');
 		}
 		$this->currentLogin = $username;
-		return $isLogin;
+		return $this->client;
 	}
 	
 	public function isLogged() {
