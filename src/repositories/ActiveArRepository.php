@@ -50,12 +50,13 @@ class ActiveArRepository extends ArRepository implements ReadInterface, ModifyIn
 		$this->massAssignment($model, $entity, self::SCENARIO_INSERT);
 		$this->saveModel($model);
 		if(!empty($this->primaryKey)) {
-			//TODO: а как же блокировка транзакции? Выяснить!
-            $sequenceName = empty($this->tableSchema['sequenceName']) ? '' : $this->tableSchema['sequenceName'];
-            $id = Yii::$app->db->getLastInsertID($sequenceName);
-			$entity->{$this->primaryKey} = $id;
+			try {
+				//TODO: а как же блокировка транзакции? Выяснить!
+				$sequenceName = empty($this->tableSchema['sequenceName']) ? '' : $this->tableSchema['sequenceName'];
+				$id = Yii::$app->db->getLastInsertID($sequenceName);
+				$entity->{$this->primaryKey} = $id;
+			}catch(\Exception $e) {}
 		}
-		
 	}
 	
 	// todo: rename item to model
