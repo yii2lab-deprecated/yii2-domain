@@ -36,6 +36,7 @@ class Domain extends BaseObject {
 	public $defaultDriver = 'ar';
 	public $container = [];
 	public $services = [];
+	public $translations = [];
 	
 	public function init() {
 		$this->initPath();
