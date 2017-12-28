@@ -8,7 +8,7 @@ use yii2lab\domain\Domain;
 use yii2lab\helpers\Helper;
 use yii2lab\helpers\yii\ArrayHelper;
 use yii2lab\misc\interfaces\FilterInterface;
-use yii2module\lang\domain\helpers\LangHelper;
+use yii2module\lang\domain\helpers\DomainConfigHelper;
 
 class NormalizeServices extends BaseObject implements FilterInterface {
 
@@ -22,20 +22,10 @@ class NormalizeServices extends BaseObject implements FilterInterface {
 				if(!empty($domainConfig)) {
 					$data = ArrayHelper::merge($data, $domainConfig);
 				}
-				$config = $this->addTranslations($config, $data);
 				$config['components'][$name] = $data;
 			}
 		}
-		return $config;
-	}
-	
-	private function addTranslations($config, $data) {
-		if(empty($data['translations'])) {
-			return $config;
-		}
-		foreach($data['translations'] as $id => $translationConfig) {
-			$config['components']['i18n']['translations'][$id] = $translationConfig;
-		}
+		$config = DomainConfigHelper::addTranslations($config);
 		return $config;
 	}
 	
