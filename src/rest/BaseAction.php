@@ -37,7 +37,13 @@ class BaseAction extends Action {
 	protected function runServiceMethod() {
 		$args = func_get_args();
 		$params = $this->getParams($args);
-		$response = call_user_func_array([$this->getService(), $this->serviceMethod], $params);
+		try {
+			$response = call_user_func_array([$this->getService(), $this->serviceMethod], $params);
+		} catch(UnprocessableEntityHttpException $e) {
+			Yii::$app->response->setStatusCode(422);
+			$response = $e->getErrors();
+			return $response;
+		}
 		$this->successStatusCode();
 		if($this->successStatusCode != 200) {
 			$response = null;
