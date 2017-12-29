@@ -191,3 +191,47 @@ class RegionRepository extends ActiveArRepository {
 	* `field` - имя поля
 
 Если не указан параметр `foreign.field`, то по умолчанию он будет равен 'id'.
+
+Если надо написать кастомный метод с поддержкой связей, мы вставляем куски кода.
+
+До выборки вставляем:
+
+```php
+$with = RelationHelper::cleanWith($this->relations(), $query);
+```
+
+после выбокри:
+
+```php
+$entity = $this->forgeEntity($model);
+if(!empty($with)) {
+	$relations = $this->relations();
+	$entity = RelationHelper::load($relations, $with, $entity);
+}
+return $entity;
+```
+
+Общий код должен получится таким:
+
+```php
+public function one(Query $query = null) {
+	$query = Query::forge($query);
+	$with = RelationHelper::cleanWith($this->relations(), $query);
+	$model = $this->oneModel($query);
+	if(empty($model)) {
+		throw new NotFoundHttpException();
+	}
+	$entity = $this->forgeEntity($model);
+	if(!empty($with)) {
+		$relations = $this->relations();
+		$entity = RelationHelper::load($relations, $with, $entity);
+	}
+	return $entity;
+}
+```
+
+Суть этих манипуляций в том, что надо отсечь параметр `with` до вызова выборки.
+
+Так, мы не тянем связанные данные через модель, а делаем это на уровне репозитория.
+
+На уровне CRUD-хранилищ, связи реализованы в методах `one` и `all`.
