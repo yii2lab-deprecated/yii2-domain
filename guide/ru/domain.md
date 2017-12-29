@@ -288,3 +288,22 @@ return [
 
 * id - имя сервиса или хранилища
 * domain - объект текущего домена
+
+## Мультиязычность
+
+Бывают случаи, что мы наследуем домен от домена, и добавляются переводы для новых сущностей.
+Чтобы указать дополнительные файлы переводов, надо добавить в конфиг раздел `translations`:
+
+```php
+		'encrypt' => [
+			'class' => 'yii2module\encrypt\domain\Domain',
+			'translations' => [
+				'encrypt/merchant' => [
+					'basePath' => '@domain/v4/encrypt/messages',
+					'fileMap' => [
+						'encrypt/merchant' => 'merchant.php',
+					],
+				],
+			],
+		],
+```
