@@ -22,6 +22,7 @@ class NormalizeServices extends BaseObject implements FilterInterface {
 				if(!empty($domainConfig)) {
 					$data = ArrayHelper::merge($data, $domainConfig);
 				}
+				$data['id'] = $name;
 				$config['components'][$name] = $data;
 			}
 		}
