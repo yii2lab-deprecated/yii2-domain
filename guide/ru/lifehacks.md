@@ -14,3 +14,20 @@
 
 * прописать в радлеле конфига домена параметр `container`
 * переопределить метод `forgeEntity` у хранилища
+
+Создать CRUD сервис и хранилище, не создавая их классов можно, определив конфиг домена таким образом:
+
+```php
+[
+	'repositories' => [
+		'article' => [
+			'class' => ActiveDiscRepository::className(),
+			'table' => 'article'
+		]
+	],
+	'services' => [
+		'article' => ActiveBaseService::className(),
+	],
+]
+```
+
