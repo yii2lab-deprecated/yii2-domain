@@ -137,7 +137,7 @@ class RelationHelper {
 		$map = self::withArrToMap($with);
 		foreach($map as $relationName => $mapData) {
 			$relationConfig = $relations[$relationName];
-			$entity = self::loadRelation($entity, $relationConfig, $relationName);
+			$entity = self::loadRelation($entity, $relationConfig, $relationName, $mapData);
 		}
 		return $entity;
 	}
@@ -172,9 +172,12 @@ class RelationHelper {
 		return $relCollection;
 	}
 	
-	private static function loadRelation($data, $relationConfig, $relationName) {
+	private static function loadRelation($data, $relationConfig, $relationName, $mapData) {
 		if($data instanceof BaseEntity) {
 			$data->{$relationName} = self::getRelationData1($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $data, $relationConfig);
+			if(!empty($mapData)) {
+				$data->{$relationName} = self::loadOne($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], array_keys($mapData), $data->{$relationName});
+			}
 		} else {
 			$relCollection = self::getRelationCollection($data, $relationConfig);
 			foreach($data as $item) {
