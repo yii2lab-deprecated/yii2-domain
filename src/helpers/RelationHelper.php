@@ -5,10 +5,21 @@ namespace yii2lab\domain\helpers;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii2lab\domain\BaseEntity;
+use yii2lab\domain\data\ArrayIterator;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\enums\RelationEnum;
 
 class RelationHelper {
+	
+	private static function extractName($w) {
+		$dotPos = strpos($w, DOT);
+		if($dotPos !== false) {
+			$w1 = substr($w, 0, $dotPos);
+		} else {
+			$w1 = $w;
+		}
+		return $w1;
+	}
 	
 	public static function cleanWith($relations, Query $query = null) {
 		if(!$relations) {
@@ -21,8 +32,9 @@ class RelationHelper {
 		$query->removeParam('with');
 		if($relations && !empty($with)) {
 			foreach($with as $w) {
-				if(!in_array($w, $relationNames)) {
-					$query->with($w);
+				$w1 = self::extractName($w);
+				if(!in_array($w1, $relationNames)) {
+					$query->with($w1);
 				}
 			}
 		}
@@ -117,4 +129,81 @@ class RelationHelper {
 			return $in;
 		}
 	}
+	
+	// =========================================================== //
+	
+	public static function loadOne($domain, $id, $with, $entity) {
+		$relations = self::getRepositoryRelations($domain, $id);
+		$map = self::withArrToMap($with);
+		foreach($map as $relationName => $mapData) {
+			$relationConfig = $relations[$relationName];
+			$entity = self::loadRelation($entity, $relationConfig, $relationName);
+		}
+		return $entity;
+	}
+	
+	private static function withArrToMap($with) {
+		$map = [];
+		foreach($with as $withItem) {
+			\yii2mod\helpers\ArrayHelper::setValue($map, $withItem, []);
+		}
+		return $map;
+	}
+	
+	private static function getRepositoryRelations($domain, $id) {
+		$repository = self::getRepositoryInstance1($domain, $id);
+		$relations =  $repository->relations();
+		$relations = self::normalizeConfig($relations);
+		return $relations;
+	}
+	
+	private static function getRelationCollection($data, $relationConfig) {
+		$pkList = ArrayHelper::getColumn($data, $relationConfig['field']);
+		$pkList = array_unique($pkList);
+		$repository = self::getRepositoryInstance1($relationConfig['foreign']['domain'], $relationConfig['foreign']['name']);
+		$q = Query::forge();
+		$q->where($relationConfig['foreign']['field'], $pkList);
+		$relCollection = $repository->all($q);
+		if($relationConfig['type'] == RelationEnum::ONE) {
+			$relCollection = ArrayHelper::index($relCollection, $relationConfig['foreign']['field']);
+		} else {
+			$relCollection = ArrayHelper::index($relCollection, $relationConfig['field']);
+		}
+		return $relCollection;
+	}
+	
+	private static function loadRelation($data, $relationConfig, $relationName) {
+		if($data instanceof BaseEntity) {
+			$data->{$relationName} = self::getRelationData1($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $data, $relationConfig);
+		} else {
+			$relCollection = self::getRelationCollection($data, $relationConfig);
+			foreach($data as $item) {
+				$fieldValue = $item->{$relationConfig['field']};
+				if($relationConfig['type'] == RelationEnum::ONE) {
+					$item->{$relationName} = $relCollection[$fieldValue];
+				} else {
+					$qu = Query::forge();
+					$qu->where($relationConfig['foreign']['field'], $fieldValue);
+					$item->{$relationName} = ArrayIterator::allFromArray($qu, $relCollection);
+				}
+			}
+		}
+		return $data;
+	}
+	
+	private static function getRelationData1($domain, $id, $data, $relation) {
+		$repository = self::getRepositoryInstance1($domain, $id);
+		$query = self::forgeQuery($data, $relation);
+		$method = $relation['type'] == RelationEnum::MANY ? 'all' : 'one';
+		return $repository->{$method}($query);
+	}
+	
+	private static function getRepositoryInstance1($domain, $id) {
+		$key = $domain . '.repositories.' . $id;
+		$repository = ArrayHelper::getValue(Yii::$app, $key);
+		return $repository;
+	}
+	
+	// =========================================================== //
+	
 }
