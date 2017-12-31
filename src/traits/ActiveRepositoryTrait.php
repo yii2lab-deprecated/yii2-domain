@@ -7,6 +7,7 @@ use yii2lab\domain\data\Query;
 use yii2lab\domain\helpers\ErrorCollection;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use yii\web\NotFoundHttpException;
+use yii2lab\domain\helpers\Relation1Helper;
 use yii2lab\domain\helpers\RelationHelper;
 
 trait ActiveRepositoryTrait {
@@ -57,8 +58,7 @@ trait ActiveRepositoryTrait {
 		}
 		$entity = $this->forgeEntity($model);
 		if(!empty($with)) {
-			$relations = $this->relations();
-			$entity = RelationHelper::load($relations, $with, $entity);
+			$entity = Relation1Helper::load($this->domain->id, $this->id, $with, $entity);
 		}
 		return $entity;
 	}
@@ -69,8 +69,7 @@ trait ActiveRepositoryTrait {
 		$models = $this->allModels($query);
 		$collection = $this->forgeEntity($models);
 		if(!empty($with)) {
-			$relations = $this->relations();
-			$collection = RelationHelper::load($relations, $with, $collection);
+			$collection = Relation1Helper::load($this->domain->id, $this->id, $with, $collection);
 		}
 		return $collection;
 	}

@@ -6,6 +6,7 @@ use yii2lab\domain\data\ArrayIterator;
 use yii2lab\domain\data\Query;
 use yii\web\NotFoundHttpException;
 use yii2lab\domain\helpers\RelationHelper;
+use yii2lab\domain\helpers\Relation1Helper;
 
 /**
  * @property string $primaryKey
@@ -69,8 +70,7 @@ trait ArrayReadTrait {
 		}
 		$entity = $collection[0];
 		if(!empty($with)) {
-			$relations = $this->relations();
-			$entity = RelationHelper::load($relations, $with, $entity);
+			$entity = Relation1Helper::load($this->domain->id, $this->id, $with, $entity);
 		}
 		return $entity;
 	}
@@ -82,8 +82,7 @@ trait ArrayReadTrait {
 		$array = $iterator->all($query);
 		$collection = $this->forgeEntity($array);
 		if(!empty($with)) {
-			$relations = $this->relations();
-			$collection = RelationHelper::load($relations, $with, $collection);
+			$collection = Relation1Helper::load($this->domain->id, $this->id, $with, $collection);
 		}
 		return $collection;
 	}
