@@ -2,7 +2,6 @@
 
 namespace yii2lab\domain\helpers;
 
-use Yii;
 use yii2mod\helpers\ArrayHelper;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\ArrayIterator;
@@ -12,6 +11,7 @@ use yii2lab\domain\enums\RelationEnum;
 class Relation1Helper {
 	
 	public static function load($domain, $id, $with, $data) {
+		// todo: формировать запрос with для получения дочерних связей
 		$relations = RelationRepositoryHelper::getRelationsConfig($domain, $id);
 		$map = self::withArrToMap($with);
 		foreach($map as $relationName => $mapData) {
@@ -62,9 +62,9 @@ class Relation1Helper {
 		return $item;
 	}
 	
-	private static function getRelationData($domain, $id, $data, $relation) {
-		$query = self::forgeQuery($data, $relation);
-		if($relation['type'] == RelationEnum::MANY) {
+	private static function getRelationData($domain, $id, $data, $relationConfig) {
+		$query = self::forgeQuery($data, $relationConfig);
+		if($relationConfig['type'] == RelationEnum::MANY) {
 			return RelationRepositoryHelper::getAll($domain, $id, $query);
 		} else {
 			return RelationRepositoryHelper::getOne($domain, $id, $query);

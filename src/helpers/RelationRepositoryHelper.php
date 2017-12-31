@@ -4,8 +4,6 @@ namespace yii2lab\domain\helpers;
 
 use Yii;
 use yii\helpers\ArrayHelper;
-use yii2lab\domain\BaseEntity;
-use yii2lab\domain\data\ArrayIterator;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\enums\RelationEnum;
 
