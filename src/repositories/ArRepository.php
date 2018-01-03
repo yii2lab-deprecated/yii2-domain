@@ -134,7 +134,7 @@ class '.$modelClass.' extends ActiveRecord  {
 	}
 	
 	protected function saveModel(ActiveRecord $model) {
-		$model->save();
+		return $model->save();
 		try {
 		
 		} catch(IntegrityException $e) {
@@ -149,6 +149,7 @@ class '.$modelClass.' extends ActiveRecord  {
 				throw new BadRequestHttpException;
 			}
 		}
+		return false;
 	}
 	
 	// todo: deprecated

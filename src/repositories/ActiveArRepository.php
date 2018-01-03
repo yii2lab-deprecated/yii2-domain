@@ -2,6 +2,7 @@
 
 namespace yii2lab\domain\repositories;
 
+use yii\web\ServerErrorHttpException;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\interfaces\repositories\ReadInterface;
@@ -48,14 +49,16 @@ class ActiveArRepository extends ArRepository implements ReadInterface, ModifyIn
 		/** @var ActiveRecord $model */
 		$model = Yii::createObject($this->model->className());
 		$this->massAssignment($model, $entity, self::SCENARIO_INSERT);
-		$this->saveModel($model);
-		if(!empty($this->primaryKey)) {
+		$result = $this->saveModel($model);
+		if(!empty($this->primaryKey) && $result) {
 			try {
 				//TODO: а как же блокировка транзакции? Выяснить!
 				$sequenceName = empty($this->tableSchema['sequenceName']) ? '' : $this->tableSchema['sequenceName'];
 				$id = Yii::$app->db->getLastInsertID($sequenceName);
 				$entity->{$this->primaryKey} = $id;
-			}catch(\Exception $e) {}
+			}catch(\Exception $e) {
+				throw new ServerErrorHttpException('Postgre sequence error');
+			}
 		}
 	}
 	
