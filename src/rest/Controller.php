@@ -11,7 +11,7 @@ class Controller extends YiiController {
 	
 	public function behaviors() {
 		$behaviors = parent::behaviors();
-		unset($behaviors['rateLimiter']);
+		unset($behaviors['rateLimiter']); // todo: разобраться как так получилось
 		return $behaviors;
 	}
 	
