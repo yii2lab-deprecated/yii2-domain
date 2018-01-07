@@ -5,6 +5,7 @@ use Yii;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii2lab\app\domain\helpers\Config;
+use yii2lab\helpers\Behavior;
 
 trait ServiceTrait {
 	
@@ -21,7 +22,7 @@ trait ServiceTrait {
 
 	protected function getAccessBehaviors($behaviors = []) {
 		foreach($this->service->access() as $access) {
-			$behaviors[] = Config::genAccess($access['roles'], $access['only']);
+			$behaviors[] = Behavior::access($access['roles'], $access['only']);
 		}
 		return $behaviors;
 	}
