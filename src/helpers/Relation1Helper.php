@@ -13,23 +13,12 @@ class Relation1Helper {
 	public static function load($domain, $id, $with, $data) {
 		// todo: формировать запрос with для получения дочерних связей
 		$relations = RelationRepositoryHelper::getRelationsConfig($domain, $id);
-		$map = self::withArrToMap($with);
+		$map = RelationWithHelper::toMap($with);
 		foreach($map as $relationName => $mapData) {
 			$relationConfig = $relations[$relationName];
 			$data = self::loadRelation($data, $relationConfig, $relationName, $mapData);
 		}
 		return $data;
-	}
-	
-	private static function withArrToMap($with) {
-		if(!ArrayHelper::isIndexed($with)) {
-			return $with;
-		}
-		$map = [];
-		foreach($with as $withItem) {
-			ArrayHelper::setValue($map, $withItem, []);
-		}
-		return $map;
 	}
 	
 	private static function loadRelation($data, $relationConfig, $relationName, $mapData) {
