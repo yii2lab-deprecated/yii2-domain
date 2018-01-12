@@ -201,6 +201,38 @@ class RegionRepository extends ActiveArRepository {
 
 Если не указан параметр `foreign.field`, то по умолчанию он будет равен 'id'.
 
+### Пример кода
+
+```php
+$query = Query::forge();
+$query->with('country');
+$query->with('region');
+$cityEntity = Yii::$app->geo->city->oneById(2000, $query);
+```
+
+получаем:
+
+```php
+[
+	'id' => '2000',
+	'country_id' => '1894',
+	'region_id' => '1994',
+	'name' => 'Караганда',
+	'country' => [
+		'id' => '1894',
+		'name' => 'Казахстан',
+		'currency' => null,
+	],
+	'region' => [
+		'id' => '1994',
+		'country_id' => '1894',
+		'name' => 'Карагандинская обл.',
+		'country' => null,
+		'cities' => null,
+	],
+]
+```
+
 ### Вложенные связи
 
 Для работы вложенных связей, необходимо объявить конфигурацию связей во всех хранилищах, через которые будут тянуться вложенные связи.

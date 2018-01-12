@@ -297,18 +297,30 @@ return [
 ## Мультиязычность
 
 Бывают случаи, что мы наследуем домен от домена, и добавляются переводы для новых сущностей.
-Чтобы указать дополнительные файлы переводов, надо добавить в конфиг раздел `translations`:
+Чтобы указать дополнительные файлы переводов, надо добавить конфиг в раздел `translations`.
+
+Например, есть домен **профиль** и мы хотим добавить в него сущность **мерчант** и перевод на эту сущность:
 
 ```php
-		'encrypt' => [
-			'class' => 'yii2module\encrypt\domain\Domain',
-			'translations' => [
-				'encrypt/merchant' => [
-					'basePath' => '@domain/v4/encrypt/messages',
-					'fileMap' => [
-						'encrypt/merchant' => 'merchant.php',
-					],
-				],
+'profile' => [
+	'class' => Domain::class,
+	'path' => 'yii2woop\profile\domain',
+	'repositories' => [
+		'profile',
+		'address',
+		'merchant' => 'domain\v4\profile\repositories\ar\MerchantRepository',
+	'services' => [
+		'profile',
+		'address',
+		'merchant' => 'domain\v4\profile\services\MerchantService',
+	],
+	'translations' => [
+		'profile/merchant' => [
+			'basePath' => '@domain/v4/profile/messages',
+			'fileMap' => [
+				'profile/merchant' => 'merchant.php',
 			],
 		],
+	],
+],
 ```
