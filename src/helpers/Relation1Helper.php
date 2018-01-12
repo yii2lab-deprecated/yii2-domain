@@ -13,30 +13,30 @@ class Relation1Helper {
 	public static function load($domain, $id, $with, $data) {
 		// todo: формировать запрос with для получения дочерних связей
 		$relations = RelationRepositoryHelper::getRelationsConfig($domain, $id);
-		$map = RelationWithHelper::toMap($with);
-		foreach($map as $relationName => $mapData) {
+		$withParams = RelationWithHelper::fetch($with, $remainOfWith);
+		foreach($withParams as $relationName) {
 			$relationConfig = $relations[$relationName];
-			$data = self::loadRelation($data, $relationConfig, $relationName, $mapData);
+			$data = self::loadRelation($data, $relationConfig, $relationName, $remainOfWith);
 		}
 		return $data;
 	}
 	
-	private static function loadRelation($data, $relationConfig, $relationName, $mapData) {
+	private static function loadRelation($data, $relationConfig, $relationName, $remainOfWith) {
 		if(self::isEntity($data)) {
 			$data->{$relationName} = self::getRelationData($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $data, $relationConfig);
-			if(!empty($mapData)) {
-				self::load($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $mapData, $data->{$relationName});
+			if(!empty($remainOfWith[$relationName])) {
+				self::load($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $remainOfWith[$relationName], $data->{$relationName});
 			}
 		} else {
 			$relCollection = self::getRelationCollection($data, $relationConfig);
-			foreach($data as $item) {
-				self::loadRelationItem($item, $relationConfig, $relationName, $mapData, $relCollection);
+			foreach($data as &$item) {
+				$item = self::loadRelationItem($item, $relationConfig, $relationName, $remainOfWith[$relationName], $relCollection);
 			}
 		}
 		return $data;
 	}
 	
-	private static function loadRelationItem($item, $relationConfig, $relationName, $mapData, $relCollection) {
+	private static function loadRelationItem($item, $relationConfig, $relationName, $remainOfWith, $relCollection) {
 		$fieldValue = $item->{$relationConfig['field']};
 		if($relationConfig['type'] == RelationEnum::ONE) {
 			$item->{$relationName} = $relCollection[$fieldValue];
@@ -44,8 +44,8 @@ class Relation1Helper {
 			$query = Query::forge();
 			$query->where($relationConfig['foreign']['field'], $fieldValue);
 			$item->{$relationName} = ArrayIterator::allFromArray($query, $relCollection);
-			if(!empty($mapData)) {
-				$item->{$relationName} = self::load($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $mapData, $item->{$relationName});
+			if(!empty($remainOfWith)) {
+				$item->{$relationName} = self::load($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $remainOfWith[$relationName], $item->{$relationName});
 			}
 		}
 		return $item;
