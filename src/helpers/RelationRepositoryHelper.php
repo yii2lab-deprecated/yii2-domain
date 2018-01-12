@@ -4,6 +4,7 @@ namespace yii2lab\domain\helpers;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\web\NotFoundHttpException;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\enums\RelationEnum;
 
@@ -12,7 +13,11 @@ class RelationRepositoryHelper {
 	public static function getOne($domain, $id, Query $query = null) {
 		$query = Query::forge($query);
 		$repository = RelationRepositoryHelper::getInstance($domain, $id);
-		return $repository->one($query);
+		try {
+			return $repository->one($query);
+		} catch(NotFoundHttpException $e) {
+			return null;
+		}
 	}
 	
 	public static function getAll($domain, $id, Query $query = null) {
