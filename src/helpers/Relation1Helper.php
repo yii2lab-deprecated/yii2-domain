@@ -47,7 +47,7 @@ class Relation1Helper {
 			$query = Query::forge();
 			$query->where($relationConfig['foreign']['field'], $fieldValue);
 			$item->{$relationName} = ArrayIterator::allFromArray($query, $relCollection);
-			if(!empty($remainOfWith)) {
+			if(!empty($remainOfWith[$relationName])) {
 				$item->{$relationName} = self::load($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $remainOfWith[$relationName], $item->{$relationName});
 			}
 		}
