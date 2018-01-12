@@ -13,13 +13,19 @@ class RelationWithHelper {
 			if($dotPos !== false) {
 				$withTrimmed = substr($with, $dotPos + 1);
 				$fieldName = substr($with, 0, $dotPos);
-				if(!empty($fieldName)) {
-					$fields[] = $fieldName;
-				}
-				if(!empty($withTrimmed)) {
-					$withTrimmedArray[] = $withTrimmed;
-				}
+			} else {
+				$withTrimmed = null;
+				$fieldName = $with;
 			}
+			if(!empty($fieldName)) {
+				$fields[] = $fieldName;
+			}
+			if(!empty($withTrimmed)) {
+				$withTrimmedArray[$fieldName][] = $withTrimmed;
+			} else {
+				$withTrimmedArray[$fieldName] = [];
+			}
+			
 		}
 		$fields = array_unique($fields);
 		return $fields;
