@@ -30,7 +30,10 @@ class Relation1Helper {
 		} else {
 			$relCollection = self::getRelationCollection($data, $relationConfig);
 			foreach($data as &$item) {
-				$item = self::loadRelationItem($item, $relationConfig, $relationName, $remainOfWith[$relationName], $relCollection);
+				$item = self::loadRelationItem($item, $relationConfig, $relationName, $remainOfWith, $relCollection);
+				if(!empty($remainOfWith[$relationName])) {
+					self::load($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $remainOfWith[$relationName], $item->{$relationName});
+				}
 			}
 		}
 		return $data;
