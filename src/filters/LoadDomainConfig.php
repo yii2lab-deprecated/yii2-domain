@@ -10,23 +10,21 @@ use yii2mod\helpers\ArrayHelper;
 
 class LoadDomainConfig extends LoadConfig implements FilterInterface {
 	
-	public function run($config) {
-		$loadedConfig = self::requireConfigWithLocal($this->app, $this->name, $this->withLocal);
-		foreach($loadedConfig as $name => $data) {
-			$data = $this->normalizeItem($data);
-			$data['id'] = $name;
-			$loadedConfig[$name] = $data;
-		}
-		$config['components'] = \yii\helpers\ArrayHelper::merge($config['components'], $loadedConfig);
-		return $config;
-	}
+	public $assignTo = 'components';
 	
-	private function normalizeItem($data) {
+	protected function normalizeItem($name, $data) {
 		$data = Helper::normalizeComponentConfig($data);
+		$data = Helper::isEnabledComponent($data);
+		if(empty($data)) {
+			return null;
+		}
 		$domainInstance = Yii::createObject($data['class']);
 		$domainConfig = $domainInstance->config();
 		if(!empty($domainConfig)) {
 			$data = ArrayHelper::merge($data, $domainConfig);
+		}
+		if(!is_numeric($name)) {
+			$data['id'] = $name;
 		}
 		return $data;
 	}
