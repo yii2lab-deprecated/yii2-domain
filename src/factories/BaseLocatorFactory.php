@@ -8,11 +8,7 @@ abstract class BaseLocatorFactory extends BaseFactory {
 
 	protected function genConfigs($components) {
 		$configNew = [];
-		foreach($components as $id => &$config) {
-			if(is_integer($id)) {
-				$id = $config;
-				$config = null;
-			}
+		foreach($components as $id => $config) {
 			$configNew[$id] = $this->genConfig($id, $config);
 		}
 		return $configNew;
