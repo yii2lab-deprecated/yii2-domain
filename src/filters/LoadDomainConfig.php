@@ -18,10 +18,12 @@ class LoadDomainConfig extends LoadConfig implements FilterInterface {
 		if(empty($data)) {
 			return null;
 		}
-		$domainInstance = Yii::createObject($data['class']);
-		$domainConfig = $domainInstance->config();
-		if(!empty($domainConfig)) {
-			$data = ArrayHelper::merge($data, $domainConfig);
+		if(!empty($data['class'])) {
+			$domainInstance = Yii::createObject($data['class']);
+			$domainConfig = $domainInstance->config();
+			if(!empty($domainConfig)) {
+				$data = ArrayHelper::merge($data, $domainConfig);
+			}
 		}
 		if(!is_numeric($name)) {
 			$data['id'] = $name;
