@@ -5,7 +5,7 @@ namespace yii2lab\domain\filters\iterator;
 use yii\base\BaseObject;
 use yii2lab\domain\data\Query;
 use yii2lab\helpers\yii\ArrayHelper;
-use yii2lab\misc\interfaces\FilterInterface;
+use yii2lab\designPattern\filter\interfaces\FilterInterface;
 
 class Sort extends BaseObject implements FilterInterface {
 

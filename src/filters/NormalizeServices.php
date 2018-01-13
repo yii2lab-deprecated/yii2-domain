@@ -7,7 +7,7 @@ use yii\base\BaseObject;
 use yii2lab\domain\Domain;
 use yii2lab\helpers\Helper;
 use yii2lab\helpers\yii\ArrayHelper;
-use yii2lab\misc\interfaces\FilterInterface;
+use yii2lab\designPattern\filter\interfaces\FilterInterface;
 use yii2module\lang\domain\helpers\DomainConfigHelper;
 
 class NormalizeServices extends BaseObject implements FilterInterface {

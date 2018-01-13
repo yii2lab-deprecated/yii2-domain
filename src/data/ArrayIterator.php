@@ -4,7 +4,7 @@ namespace yii2lab\domain\data;
 
 use yii\web\NotFoundHttpException;
 use yii2lab\domain\helpers\ReflectionHelper;
-use yii2lab\misc\helpers\FilterHelper;
+use yii2lab\designPattern\filter\helpers\FilterHelper;
 
 class ArrayIterator {
 
