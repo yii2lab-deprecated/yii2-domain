@@ -10,6 +10,13 @@ use yii2lab\helpers\yii\ArrayHelper;
 use yii2lab\designPattern\filter\interfaces\FilterInterface;
 use yii2module\lang\domain\helpers\DomainConfigHelper;
 
+/**
+ * Class NormalizeServices
+ *
+ * @package yii2lab\domain\filters
+ *
+ * @deprecated use LoadDomainConfig
+ */
 class NormalizeServices extends BaseObject implements FilterInterface {
 
 	public function run($config) {
