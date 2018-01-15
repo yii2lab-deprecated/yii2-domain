@@ -27,6 +27,37 @@ class Query extends Component {
 	}
 
 	public function where($key, $value) {
+		if(func_num_args() == 1) {
+			$this->query['where'] = $key;
+		} else {
+			$this->oldWhere($key, $value);
+		}
+		return $this;
+	}
+	
+	public function andWhere($condition)
+	{
+		if ($this->query['where'] === null) {
+			$this->query['where'] = $condition;
+		} else {
+			$this->query['where'] = ['and', $this->query['where'], $condition];
+		}
+		
+		return $this;
+	}
+	
+	public function orWhere($condition)
+	{
+		if ($this->query['where'] === null) {
+			$this->query['where'] = $condition;
+		} else {
+			$this->query['where'] = ['or', $this->query['where'], $condition];
+		}
+		
+		return $this;
+	}
+	
+	private function oldWhere($key, $value) {
 		if($value === null) {
 			unset($this->query['where'][ $key ]);
 		} else {

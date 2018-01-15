@@ -217,7 +217,7 @@ class '.$modelClass.' extends ActiveRecord  {
 		$q = $query->toArray();
 		if(!empty($q['where'])) {
 			$where = $this->alias->encode($q['where']);
-			$this->query->andWhere($where);
+			$this->query->where($where);
 		}
 	}
 	
