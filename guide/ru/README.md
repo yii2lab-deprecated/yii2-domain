@@ -7,6 +7,7 @@ Domain Driven Design
 * [Обработка запроса](request.md)
 * [Именование методов](method-name.md)
 * [Конфигурация](config.md)
+* [Фильтры](filter.md)
 
 ## Слои
 
