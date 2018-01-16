@@ -17,7 +17,8 @@ class QueryValidator extends Object {
 	}
 	
 	public function validateWhereFields(Query $query) {
-		$this->filterFields($query->getParam('where'), 'whereFields');
+		// todo: сделать более совершенную валидацию условия, учитывая OR и AND
+		//$this->filterFields($query->getParam('where'), 'whereFields');
 	}
 	
 	public function validateSelectFields(Query $query) {

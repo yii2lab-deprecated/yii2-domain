@@ -17,7 +17,9 @@ use yii2mod\helpers\ArrayHelper;
  */
 class Query extends Component {
 	
-	private $query = [];
+	private $query = [
+		'where' => null,
+	];
 
 	public static function forge($query = null) {
 		if($query instanceof Query) {
@@ -26,7 +28,7 @@ class Query extends Component {
 		return new Query();
 	}
 
-	public function where($key, $value) {
+	public function where($key, $value = null) {
 		if(func_num_args() == 1) {
 			$this->query['where'] = $key;
 		} else {
