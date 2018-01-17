@@ -51,9 +51,7 @@ class GetParams {
 			$query->select($params['fields']);
 		}
 		if(isset($params['sort'])) {
-			foreach($params['sort'] as $name => $direction) {
-				$query->addOrder($name, $direction);
-			}
+			$query->addOrderBy($params['sort']);
 		}
 		if(isset($params['page'])) {
 			$query->page($params['page']);

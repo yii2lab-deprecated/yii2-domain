@@ -3,6 +3,7 @@
 namespace yii2lab\domain\data;
 
 use Yii;
+use yii\db\Expression;
 use yii2lab\domain\data\query\Rest;
 use yii2lab\domain\helpers\TypeHelper;
 use yii\base\Component;
@@ -135,22 +136,65 @@ class Query extends Component {
 		return $this;
 	}
 	
-	public function orderBy($value) {
-		if($value === null) {
-			unset($this->query['order']);
-			return $this;
+	/**
+	 * Sets the ORDER BY part of the query.
+	 * @param string|array|Expression $columns the columns (and the directions) to be ordered by.
+	 * Columns can be specified in either a string (e.g. `"id ASC, name DESC"`) or an array
+	 * (e.g. `['id' => SORT_ASC, 'name' => SORT_DESC]`).
+	 *
+	 * The method will automatically quote the column names unless a column contains some parenthesis
+	 * (which means the column contains a DB expression).
+	 *
+	 * Note that if your order-by is an expression containing commas, you should always use an array
+	 * to represent the order-by information. Otherwise, the method will not be able to correctly determine
+	 * the order-by columns.
+	 *
+	 * Since version 2.0.7, an [[Expression]] object can be passed to specify the ORDER BY part explicitly in plain SQL.
+	 * @return $this the query object itself
+	 * @see addOrderBy()
+	 */
+	public function orderBy($columns)
+	{
+		$this->query['order'] = $this->normalizeOrderBy($columns);
+		return $this;
+	}
+	
+	/**
+	 * Adds additional ORDER BY columns to the query.
+	 * @param string|array|Expression $columns the columns (and the directions) to be ordered by.
+	 * Columns can be specified in either a string (e.g. "id ASC, name DESC") or an array
+	 * (e.g. `['id' => SORT_ASC, 'name' => SORT_DESC]`).
+	 *
+	 * The method will automatically quote the column names unless a column contains some parenthesis
+	 * (which means the column contains a DB expression).
+	 *
+	 * Note that if your order-by is an expression containing commas, you should always use an array
+	 * to represent the order-by information. Otherwise, the method will not be able to correctly determine
+	 * the order-by columns.
+	 *
+	 * Since version 2.0.7, an [[Expression]] object can be passed to specify the ORDER BY part explicitly in plain SQL.
+	 * @return $this the query object itself
+	 * @see orderBy()
+	 */
+	public function addOrderBy($columns)
+	{
+		$columns = $this->normalizeOrderBy($columns);
+		if ($this->query['order'] === null) {
+			$this->query['order'] = $columns;
+		} else {
+			$this->query['order'] = array_merge($this->query['order'], $columns);
 		}
-		$this->query['order'] = $value;
 		return $this;
 	}
 	
-	/** todo: rename to sort */
-	
-	public function addOrderBy($value) {
-		$this->query['order'] = ArrayHelper::merge($this->query['order'], $value);
-		return $this;
-	}
-	
+	/**
+	 * @param     $field
+	 * @param int $direction
+	 *
+	 * @return $this
+	 *
+	 * @deprecated use method addOrderBy()
+	 */
 	public function addOrder($field, $direction = SORT_ASC) {
 		$this->query['order'][ $field ] = $direction;
 		return $this;
@@ -187,6 +231,27 @@ class Query extends Component {
 		/** @var Rest $instance */
 		$instance = Yii::createObject(Rest::className(), ['query' => $this]);
 		return $instance;
+	}
+	
+	protected function normalizeOrderBy($columns)
+	{
+		if ($columns instanceof Expression) {
+			return [$columns];
+		} elseif (is_array($columns)) {
+			return $columns;
+		}
+		
+		$columns = preg_split('/\s*,\s*/', trim($columns), -1, PREG_SPLIT_NO_EMPTY);
+		$result = [];
+		foreach ($columns as $column) {
+			if (preg_match('/^(.*?)\s+(asc|desc)$/i', $column, $matches)) {
+				$result[$matches[1]] = strcasecmp($matches[2], 'desc') ? SORT_ASC : SORT_DESC;
+			} else {
+				$result[$column] = SORT_ASC;
+			}
+		}
+		
+		return $result;
 	}
 	
 	private function setParam($fields, $nameParam) {
