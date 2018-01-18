@@ -52,7 +52,7 @@ class Relation1Helper {
 			}
 		} elseif($relationConfig['type'] == RelationEnum::MANY_TO_MANY) {
 			$query = Query::forge();
-			$query->where($relationConfig['via']['field'], $fieldValue);
+			$query->where($relationConfig['this']['field'], $fieldValue);
 			$viaData = ArrayIterator::allFromArray($query, $relCollection);
 			$item->{$relationName} = self::loadViaCollection($viaData, $relationConfig);
 			/*if(!empty($remainOfWith[$relationName])) {
@@ -64,7 +64,7 @@ class Relation1Helper {
 	
 	private static function loadViaCollection($viaData, $relationConfig) {
 		$ids = ArrayHelper::getColumn($viaData, $relationConfig['foreign']['field']);
-		$viaRelations = RelationRepositoryHelper::getRelationsConfig($relationConfig['via']['domain'], $relationConfig['via']['name']);
+		$viaRelations = RelationRepositoryHelper::getRelationsConfig($relationConfig['this']['domain'], $relationConfig['this']['name']);
 		$foreignRelationName = RelationRepositoryHelper::getRelationNameByField($viaRelations, $relationConfig['foreign']['field']);
 		$foreignRelationConfig = $viaRelations[$foreignRelationName];
 		$relationQuery = Query::forge();

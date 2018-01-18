@@ -49,20 +49,41 @@ class RelationRepositoryHelper {
 	
 	private static function normalizeConfig($relations) {
 		foreach($relations as &$relation) {
+			
+			if($relation['type'] == RelationEnum::MANY_TO_MANY && !empty($relation['via']['id'])) {
+				$relation = self::prepare($relation, 'via');
+				$viaRelations = RelationRepositoryHelper::getRelationsConfig($relation['via']['domain'], $relation['via']['name']);
+				$relation['this'] = [
+					'id' => $relation['via']['id'],
+					'field' => $viaRelations[$relation['via']['this']]['field'],
+				];
+				$relation['foreign'] = [
+					'id' => $relation['via']['id'],
+					'field' => $viaRelations[$relation['via']['foreign']]['field'],
+				];
+				$relation['field'] = $viaRelations[$relation['via']['foreign']]['foreign']['field'];
+				unset($relation['via']);
+			}
+			
 			if(!empty($relation['foreign']['id'])) {
-				list($relation['foreign']['domain'], $relation['foreign']['name']) = explode('.', $relation['foreign']['id']);
-				$type = ArrayHelper::getValue($relation, 'type');
-				$relation['type'] = RelationEnum::value($type);
+				$relation = self::prepare($relation, 'foreign');
 			}
-			if(!empty($relation['via']['id'])) {
-				list($relation['via']['domain'], $relation['via']['name']) = explode('.', $relation['via']['id']);
-				$type = ArrayHelper::getValue($relation, 'type');
-				$relation['type'] = RelationEnum::value($type);
+			
+			if(!empty($relation['this']['id'])) {
+				$relation = self::prepare($relation, 'this');
 			}
+			
 			if(empty($relation['foreign']['field'])) {
 				$relation['foreign']['field'] = 'id';
 			}
 		}
 		return $relations;
+	}
+	
+	private static function prepare($relation, $key) {
+		list($relation[$key]['domain'], $relation[$key]['name']) = explode('.', $relation[$key]['id']);
+		$type = ArrayHelper::getValue($relation, 'type');
+		$relation['type'] = RelationEnum::value($type);
+		return $relation;
 	}
 }
