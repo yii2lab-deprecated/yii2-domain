@@ -1,3 +1,4 @@
+actor: Tester
 paths:
     tests: tests
     log: tests/_output
@@ -10,4 +11,17 @@ settings:
 modules:
     config:
         Yii2:
-            configFile: '../../yii2lab/yii2-app/src/loadConfig.php'
+            cleanup: false
+
+coverage:
+    enabled: true
+    whitelist:
+        include:
+            - components/*
+            - mail/*
+            - modules/*
+            - views/*
+        exclude:
+            - modules/admin/messages/*
+            - modules/main/messages/*
+            - modules/user/messages/*
