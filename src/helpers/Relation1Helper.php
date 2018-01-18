@@ -43,15 +43,33 @@ class Relation1Helper {
 		$fieldValue = $item->{$relationConfig['field']};
 		if($relationConfig['type'] == RelationEnum::ONE) {
 			$item->{$relationName} = $relCollection[$fieldValue];
-		} else {
+		} elseif($relationConfig['type'] == RelationEnum::MANY) {
 			$query = Query::forge();
 			$query->where($relationConfig['foreign']['field'], $fieldValue);
 			$item->{$relationName} = ArrayIterator::allFromArray($query, $relCollection);
 			if(!empty($remainOfWith[$relationName])) {
 				$item->{$relationName} = self::load($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $remainOfWith[$relationName], $item->{$relationName});
 			}
+		} elseif($relationConfig['type'] == RelationEnum::MANY_TO_MANY) {
+			$query = Query::forge();
+			$query->where($relationConfig['via']['field'], $fieldValue);
+			$viaData = ArrayIterator::allFromArray($query, $relCollection);
+			$item->{$relationName} = self::loadViaCollection($viaData, $relationConfig);
+			/*if(!empty($remainOfWith[$relationName])) {
+				$item->{$relationName} = self::load($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $remainOfWith[$relationName], $item->{$relationName});
+			}*/
 		}
 		return $item;
+	}
+	
+	private static function loadViaCollection($viaData, $relationConfig) {
+		$ids = ArrayHelper::getColumn($viaData, $relationConfig['foreign']['field']);
+		$viaRelations = RelationRepositoryHelper::getRelationsConfig($relationConfig['via']['domain'], $relationConfig['via']['name']);
+		$foreignRelationName = RelationRepositoryHelper::getRelationNameByField($viaRelations, $relationConfig['foreign']['field']);
+		$foreignRelationConfig = $viaRelations[$foreignRelationName];
+		$relationQuery = Query::forge();
+		$relationQuery->where($foreignRelationConfig['foreign']['field'], $ids);
+		return RelationRepositoryHelper::getAll($foreignRelationConfig['foreign']['domain'], $foreignRelationConfig['foreign']['name'], $relationQuery);
 	}
 	
 	private static function getRelationData($domain, $id, $data, $relationConfig) {
@@ -75,8 +93,10 @@ class Relation1Helper {
 		$relCollection = RelationRepositoryHelper::getAll($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $query);
 		if($relationConfig['type'] == RelationEnum::ONE) {
 			$relCollection = ArrayHelper::index($relCollection, $relationConfig['foreign']['field']);
-		} else {
+		} elseif($relationConfig['type'] == RelationEnum::MANY) {
 			$relCollection = ArrayHelper::index($relCollection, $relationConfig['field']);
+		} elseif($relationConfig['type'] == RelationEnum::MANY_TO_MANY) {
+		
 		}
 		return $relCollection;
 	}
