@@ -21,7 +21,7 @@
 * Хранилище - это контейнер для данных.
 * Сущность может содержать вложенную сущность или коллекцию сущностей.
 
-## Пример кода
+## Объявление класса
 
 ```php
 class LoginEntity extends BaseEntity implements IdentityInterface {
@@ -75,6 +75,28 @@ class LoginEntity extends BaseEntity implements IdentityInterface {
 В данной сущности, есть магическое свойство username, 
 которое возвращает отформатированный вид логина.
 
+## Создание экземпляра
+
+Создание сущности из любой точки приложения:
+
+```php
+$entity = Yii::$app->account->factory->entity->create('login', $data);
+```
+
+Создание сущности в любом классе домена:
+
+```php
+$entity = $this->domain->factory->entity->create('login', $data);
+```
+
+Создание сущности внутри репозитория:
+
+```php
+$entity = $this->forgeEntity($data);
+```
+
+вторым праметром можем передать имя класса сущности.
+
 ## Валидация
 
 Правила валидации описывается в методе:
@@ -96,7 +118,8 @@ $entity->validate();
 
 При неудачной валидации вываливается исключение UnprocessableEntityHttpException.
 В этом исключении содержится массив ошибок валидации.
-Поймать список ошибок:
+
+Поймать список ошибок можно так:
 
 ```php
 try {
@@ -108,7 +131,7 @@ try {
 
 ## Атрибуты
 
-### Обычные атрибуты
+### Обычные
 
 Для атрибутов можно создавать свои геттеры и сеттеры.
 
@@ -171,7 +194,7 @@ public function fieldType() {
 }
 ```
 
-### Виртуальные атрибуты
+### Виртуальные
 
 Если требуется создать атрибут только для чтения и проведения дополнительных вычислений, 
 то можно объявить его как виртуальный.
@@ -228,7 +251,7 @@ $serviceEntity->pictureUrl;
 $serviceEntity->getPictureUrl();
 ```
 
-## Фиксированный список
+## Фиксированный список значений
 
 Если нужен фиксированный список значений, то можно сделать так
 
@@ -268,6 +291,40 @@ class ConnectionEntity extends BaseEntity {
 	ConnectionEntity::DRIVER_MYSQL => Yii::t('app/connection', 'driver_mysql'),
 	ConnectionEntity::DRIVER_PGSQL => Yii::t('app/connection', 'driver_pgsql'),
 ]); ?>
+```
+
+Можете использовать [Enum-классы](https://github.com/yii2lab/yii2-misc/blob/master/guide/ru/enum-base.md)
+
+```php
+class DbDriverEnum extends BaseEnum {
+
+	const MYSQL = 'mysql';
+	const PGSQL = 'pgsql';
+
+}
+```
+
+```php
+class ConnectionEntity extends BaseEntity {
+
+	protected $driver;
+	protected $host;
+	protected $username;
+	protected $password;
+	protected $dbname;
+
+	/**
+	 * @inheritdoc
+	 */
+	public function rules()
+	{
+		$drivers = DbDriverEnum::values();
+		return [
+			[['driver', 'host', 'username', 'dbname'], 'required'],
+			['driver', 'in', 'range' => $drivers],
+		];
+	}
+}
 ```
 
 ## Методы

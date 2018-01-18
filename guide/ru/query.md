@@ -11,27 +11,27 @@
 * используется для передачи параметров запроса между слоями
 * инкапсулирует параметры запроса
 * предоставляет методы для чтения и записи параметров
+* список методов, которые идентичны [[yii\db\QueryTrait]]:
+	* limit
+	* offset
+	* orderBy
+	* addOrderBy
+	* with
+	* where
 
 ## Пример кода
 
-Назначить условия и передать их хранилищу:
+Назначить параметры запроса и передать хранилищу:
 
 ```php
 $query = new Query;
+$query->select(['id', 'name', 'country']);
 $query->where('country_id', 2);
+$query->limit(20);
+$query->offset(40);
+$query->orderBy([ 'name' => SORT_ASC]);
+$query->with('country');
 $all = Yii::$app->geo->repository->city->all($query);
-```
-
-Получить параметр:
-
-```php
-$countryId = $query->getParam('country_id');
-```
-
-Получить параметр и привести к типу:
-
-```php
-$countryId = $query->getParam('country_id', 'integer');
 ```
 
 ## Набор полей
@@ -156,6 +156,17 @@ $query->where(['>', 'subtotal', 200]);
 
 ### getParam
 
+Получить параметр:
+
+```php
+$countryId = $query->getParam('country_id');
+```
+
+Получить параметр и привести к типу:
+
+```php
+$countryId = $query->getParam('country_id', 'integer');
+```
 
 ### removeParam
 
