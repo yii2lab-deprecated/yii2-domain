@@ -146,10 +146,11 @@ class LoginRepository extends ActiveArRepository {
 
 Хранилище поддерживает установку всязей между другими хранилищами.
 
-В данный момент есть 2 типа связи:
+В данный момент есть 3 типа связи:
 
 * к одному
 * ко многим
+* многие ко многим
 
 Связи работают прозрачно даже между хранилищами с разными драйверами.
 
@@ -200,6 +201,73 @@ class RegionRepository extends ActiveArRepository {
 	* `field` - имя поля
 
 Если не указан параметр `foreign.field`, то по умолчанию он будет равен 'id'.
+
+Можно сделать связь многие ко многим:
+
+```php
+class ArticleRepository extends ActiveArRepository {
+	
+	public function tableName()
+	{
+		return 'article';
+	}
+	
+	public function relations() {
+		return [
+			'categories' => [
+				'type' => RelationEnum::MANY_TO_MANY,
+				'via' => [
+					'id' => 'article.categories',
+					'this' => 'article',
+					'foreign' => 'category',
+				],
+			],
+		];
+	}
+	
+}
+```
+
+Параметры:
+
+* `type` - тип связи (ко многим или к одному)
+* `via` - параметры связи с промежуточным хранилищем
+	* `id` - идентификатор промежуточного хранилища (формат: `домен.хранилище`)
+	* `this` - промежуточное имя поля для связи с текущим репозиторием
+	* `foreign` - промежуточное имя поля для связи целевым репозиторием
+
+При этом, в промежуточном репозитории должны быть объявлены связи текущий и целевой репозиторий:
+
+```php
+class CategoriesRepository extends ActiveArRepository {
+
+	public function tableName()
+	{
+		return 'article_categories';
+	}
+	
+	public function relations() {
+		return [
+			'article' => [
+				'type' => RelationEnum::ONE,
+				'field' => 'article_id',
+				'foreign' => [
+					'id' => 'article.article',
+					'field' => 'id',
+				],
+			],
+			'category' => [
+				'type' => RelationEnum::ONE,
+				'field' => 'category_id',
+				'foreign' => [
+					'id' => 'article.category',
+					'field' => 'id',
+				],
+			],
+		];
+	}
+}
+```
 
 ### Пример кода
 
