@@ -73,11 +73,11 @@ class Relation1Helper {
 	private static function getRelationCollection($data, $relationConfig) {
 		$query = self::forgeQuery($data, $relationConfig);
 		$relCollection = RelationRepositoryHelper::getAll($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $query);
-		//if($relationConfig['type'] == RelationEnum::ONE) {
-		//  $relCollection = ArrayHelper::index($relCollection, $relationConfig['foreign']['field']);
-		//} else {
-		$relCollection = ArrayHelper::index($relCollection, $relationConfig['foreign']['field']);
-		//}
+		if($relationConfig['type'] == RelationEnum::ONE) {
+			$relCollection = ArrayHelper::index($relCollection, $relationConfig['foreign']['field']);
+		} else {
+			$relCollection = ArrayHelper::index($relCollection, $relationConfig['field']);
+		}
 		return $relCollection;
 	}
 	
