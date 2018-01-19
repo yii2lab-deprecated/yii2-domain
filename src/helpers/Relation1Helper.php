@@ -22,21 +22,18 @@ class Relation1Helper {
 	}
 	
 	private static function loadRelation($data, $relationConfig, $relationName, $remainOfWith) {
-		if(self::isEntity($data)) {
-			$data->{$relationName} = self::getRelationData($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $data, $relationConfig);
+		$isEntity = self::isEntity($data);
+		if($isEntity) {
+			$data = [$data];
+		}
+		$relCollection = self::getRelationCollection($data, $relationConfig);
+		foreach($data as &$item) {
+			$item = self::loadRelationItem($item, $relationConfig, $relationName, $remainOfWith, $relCollection);
 			if(!empty($remainOfWith[$relationName])) {
-				self::load($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $remainOfWith[$relationName], $data->{$relationName});
-			}
-		} else {
-			$relCollection = self::getRelationCollection($data, $relationConfig);
-			foreach($data as &$item) {
-				$item = self::loadRelationItem($item, $relationConfig, $relationName, $remainOfWith, $relCollection);
-				if(!empty($remainOfWith[$relationName])) {
-					self::load($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $remainOfWith[$relationName], $item->{$relationName});
-				}
+				self::load($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $remainOfWith[$relationName], $item->{$relationName});
 			}
 		}
-		return $data;
+		return $isEntity ? $data[0] : $data;
 	}
 	
 	private static function loadRelationItem($item, $relationConfig, $relationName, $remainOfWith, $relCollection) {
@@ -72,14 +69,14 @@ class Relation1Helper {
 		return RelationRepositoryHelper::getAll($foreignRelationConfig['foreign']['domain'], $foreignRelationConfig['foreign']['name'], $relationQuery);
 	}
 	
-	private static function getRelationData($domain, $id, $data, $relationConfig) {
+	/*private static function getRelationData($domain, $id, $data, $relationConfig) {
 		$query = self::forgeQuery($data, $relationConfig);
 		if($relationConfig['type'] == RelationEnum::MANY) {
 			return RelationRepositoryHelper::getAll($domain, $id, $query);
 		} else {
 			return RelationRepositoryHelper::getOne($domain, $id, $query);
 		}
-	}
+	}*/
 	
 	private static function forgeQuery($collection, $relationConfig) {
 		$whereValue = self::getColumn($collection, $relationConfig['field']);
