@@ -1,5 +1,7 @@
 <?php
 
+use yii2lab\test\traits\UnitAssertTrait;
+
 /**
  * Inherited Methods
  * @method void wantToTest($text)
@@ -18,7 +20,7 @@
 class UnitTester extends \Codeception\Actor
 {
     use _generated\UnitTesterActions;
-    use \yii2lab\test\traits\AssertTrait;
+    use UnitAssertTrait;
 
    /**
     * Define custom actions here
