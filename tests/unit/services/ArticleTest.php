@@ -5,12 +5,18 @@ use Codeception\Test\Unit;
 use common\fixtures\ArticleCategoriesFixture;
 use common\fixtures\ArticleCategoryFixture;
 use common\fixtures\ArticleFixture;
+use UnitTester;
 use Yii;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\Query;
-use yii2module\article\domain\entities\ArticleEntity;
-use yii2module\article\domain\entities\CategoryEntity;
 
+/**
+ * Class ArticleTest
+ *
+ * @package yii2lab\domain\tests\unit\services
+ *
+ * @property UnitTester $tester
+ */
 class ArticleTest extends Unit
 {
 	
@@ -31,22 +37,37 @@ class ArticleTest extends Unit
             ],
         ]);
     }
-	
-	public function testFetch()
+    
+	public function testAllWithCategories()
 	{
-		/** @var BaseEntity $entity */
+		
+		/** @var BaseEntity $collection */
 		$query = Query::forge();
 		$query->with('categories');
-		$entity = Yii::$app->article->article->all($query);
+		$collection = Yii::$app->article->article->all($query);
 		
-		expect(true)->equals($entity[0] instanceof ArticleEntity);
-		expect(1)->equals($entity[0]->id);
-		expect('about')->equals($entity[0]->name);
-		expect(true)->equals($entity[0]->categories[0] instanceof CategoryEntity);
-		expect(1)->equals($entity[0]->categories[0]->id);
+		$this->tester->assertEntity([
+			'id' => 1,
+			'name' => 'about',
+			'categories' => [
+				[
+					'id' => 1,
+				],
+			],
+		], $collection[0]);
 		
-		expect(1)->equals($entity[2]->categories[0]->id);
-		expect(2)->equals($entity[2]->categories[1]->id);
+		$this->tester->assertEntity([
+			'id' => 3,
+			'name' => 'contact',
+			'categories' => [
+				[
+					'id' => 1,
+				],
+				[
+					'id' => 2,
+				],
+			],
+		], $collection[2]);
 	}
 	
 }

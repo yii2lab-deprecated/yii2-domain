@@ -18,6 +18,7 @@
 class UnitTester extends \Codeception\Actor
 {
     use _generated\UnitTesterActions;
+    use \yii2lab\test\traits\AssertTrait;
 
    /**
     * Define custom actions here
