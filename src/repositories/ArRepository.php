@@ -62,10 +62,14 @@ class ArRepository extends BaseRepository {
 	}
 	
 	private function createVirtualModel() {
+		if(isset($this->model)) {
+			return;
+		}
 		$modelClass = Inflector::camelize($this->tableName()) . 'Model';
 		$namespace = str_replace('/', '\\', $this->domain->path) . '\\models';
 		$this->modelClass = $namespace . '\\' . $modelClass;
-		$classCode = '
+		if(!class_exists($this->modelClass)) {
+			$classCode = '
 namespace '.$namespace.';
 
 use yii\db\ActiveRecord;
@@ -78,7 +82,8 @@ class '.$modelClass.' extends ActiveRecord  {
 	}
 	
 }';
-		eval($classCode);
+			eval($classCode);
+		}
 		$this->model = new $this->modelClass;
 	}
 	
