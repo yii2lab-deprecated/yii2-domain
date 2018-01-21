@@ -4,4 +4,3 @@ modules:
       - Asserts
       - Yii2:
             part: [orm, fixtures, email]
-            configFile: '../../yii2lab/yii2-app/src/loadConfig.php'
