@@ -1,5 +1,5 @@
 <?php
-namespace yii2lab\domain\tests\unit\helpers;
+namespace tests\unit\helpers;
 
 use Codeception\Test\Unit;
 use yii2lab\domain\helpers\RelationWithHelper;

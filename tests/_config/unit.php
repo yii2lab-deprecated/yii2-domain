@@ -2,4 +2,4 @@
 
 use yii2lab\test\helpers\TestHelper;
 
-return TestHelper::makeConfigFromPath(__DIR__);
+return TestHelper::loadConfigFromPath(__DIR__);
