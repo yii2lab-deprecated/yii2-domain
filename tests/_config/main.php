@@ -1,7 +1,11 @@
 <?php
 
-$config = require(ROOT_DIR . DS . TEST_APPLICATION_DIR .  DS . 'common/config/main.php');
+use yii\helpers\ArrayHelper;
+use yii2lab\test\helpers\TestHelper;
 
-return \yii\helpers\ArrayHelper::merge($config, [
-	
-]);
+$config = [
+
+];
+
+$baseConfig = TestHelper::loadConfig('common/config/main.php');
+return ArrayHelper::merge($baseConfig, $config);
