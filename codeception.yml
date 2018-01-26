@@ -10,7 +10,7 @@ settings:
 modules:
     config:
         Yii2:
-            configFile: '../../yii2lab/yii2-test/src/base/_config/main.php'
+            configFile: '../../../vendor/yii2lab/yii2-test/src/base/_config/main.php'
 coverage:
     enabled: true
     whitelist:
