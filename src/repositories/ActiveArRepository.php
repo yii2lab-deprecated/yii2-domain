@@ -56,6 +56,11 @@ class ActiveArRepository extends ArRepository implements ReadInterface, ModifyIn
 				$sequenceName = empty($this->tableSchema['sequenceName']) ? '' : $this->tableSchema['sequenceName'];
 				$id = Yii::$app->db->getLastInsertID($sequenceName);
 				$entity->{$this->primaryKey} = $id;
+				
+				// todo: как вариант
+				/*$tableSchema = Yii::$app->db->getTableSchema($this->tableSchema['name']);
+				$entity->{$this->primaryKey} =  Yii::$app->db->getLastInsertID($tableSchema->sequenceName);*/
+				
 			}catch(\Exception $e) {
 				throw new ServerErrorHttpException('Postgre sequence error');
 			}
