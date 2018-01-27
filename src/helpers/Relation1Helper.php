@@ -30,9 +30,6 @@ class Relation1Helper {
 		$relCollection = self::getRelationCollection($data, $relationConfig);
 		foreach($data as &$item) {
 			$item = self::loadRelationItem($item, $relationConfig, $relationName, $remainOfWith, $relCollection);
-			if(!empty($remainOfWith[$relationName])) {
-				self::load($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $remainOfWith[$relationName], $item->{$relationName});
-			}
 		}
 		return $isEntity ? $data[0] : $data;
 	}
@@ -41,6 +38,9 @@ class Relation1Helper {
 		if($relationConfig['type'] == RelationEnum::ONE) {
 			$fieldValue = $item->{$relationConfig['field']};
 			$item->{$relationName} = $relCollection[$fieldValue];
+			if(!empty($remainOfWith[$relationName])) {
+				$item->{$relationName} = self::load($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $remainOfWith[$relationName], $item->{$relationName});
+			}
 		} elseif($relationConfig['type'] == RelationEnum::MANY) {
 			$fieldValue = $item->{$relationConfig['field']};
 			$query = Query::forge();
@@ -61,6 +61,9 @@ class Relation1Helper {
 			$query2 = Query::forge();
 			$query2->where($viaRelationToForeign['foreign']['field'], $foreignIds);
 			$item->{$relationName} = RelationRepositoryHelper::getAll($viaRelationToForeign['foreign']['domain'], $viaRelationToForeign['foreign']['name'], $query2);
+			if(!empty($remainOfWith[$relationName])) {
+				$item->{$relationName} = self::load($viaRelationToForeign['foreign']['domain'], $viaRelationToForeign['foreign']['name'], $remainOfWith[$relationName], $item->{$relationName});
+			}
 		}
 		return $item;
 	}
@@ -73,6 +76,7 @@ class Relation1Helper {
 	}
 	
 	private static function getRelationCollection($data, $relationConfig) {
+		$relCollection = null;
 		if($relationConfig['type'] == RelationEnum::ONE) {
 			$query = self::forgeQuery($data, $relationConfig);
 			$relCollection = RelationRepositoryHelper::getAll($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $query);
