@@ -4,7 +4,7 @@ namespace yii2lab\domain;
 
 use yii2lab\domain\helpers\EntityType;
 use yii2lab\domain\helpers\Helper;
-use yii2lab\domain\helpers\ReflectionHelper;
+use yii2lab\helpers\ReflectionHelper;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use ReflectionClass;
 use ReflectionProperty;

@@ -5,7 +5,7 @@ namespace yii2lab\domain\data;
 use Yii;
 use yii\db\Expression;
 use yii2lab\domain\data\query\Rest;
-use yii2lab\domain\helpers\TypeHelper;
+use yii2lab\helpers\TypeHelper;
 use yii\base\Component;
 use yii2mod\helpers\ArrayHelper;
 

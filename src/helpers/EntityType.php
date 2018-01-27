@@ -3,6 +3,7 @@
 namespace yii2lab\domain\helpers;
 
 use yii\base\InvalidConfigException;
+use yii2lab\helpers\TypeHelper;
 
 class EntityType {
 	
