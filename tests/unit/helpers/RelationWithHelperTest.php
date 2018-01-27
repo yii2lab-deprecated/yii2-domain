@@ -67,7 +67,7 @@ class RelationWithHelperTest extends Unit
 		]);
 	}
 	
-	public function testToMap()
+	/*public function testToMap()
 	{
 		$withArray = [
 			'country.currency.country',
@@ -90,6 +90,6 @@ class RelationWithHelperTest extends Unit
 				],
 			],
 		]);
-	}
+	}*/
 	
 }

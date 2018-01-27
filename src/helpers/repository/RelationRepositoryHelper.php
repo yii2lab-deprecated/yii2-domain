@@ -10,7 +10,7 @@ use yii2lab\domain\enums\RelationEnum;
 
 class RelationRepositoryHelper {
 	
-	public static function getRelationNameByField($relations, $field) {
+	public static function getRelationNameByField(array $relations, $field) {
 		foreach($relations as $relationName => $relation) {
 			if($relation['field'] == $field) {
 				return $relationName;
@@ -47,30 +47,22 @@ class RelationRepositoryHelper {
 		return $repository;
 	}
 	
-	private static function normalizeConfig($relations) {
+	private static function normalizeConfig(array $relations) {
 		foreach($relations as &$relation) {
-			
 			if($relation['type'] == RelationEnum::MANY_TO_MANY && !empty($relation['via']['id'])) {
 				$relation = self::prepare($relation, 'via');
 			}
-			
 			if(!empty($relation['foreign']['id'])) {
 				$relation = self::prepare($relation, 'foreign');
 			}
-			
-			if(!empty($relation['this']['id'])) {
-				$relation = self::prepare($relation, 'this');
-			}
-			
 			if(empty($relation['foreign']['field'])) {
 				$relation['foreign']['field'] = 'id';
 			}
-			
 		}
 		return $relations;
 	}
 	
-	private static function prepare($relation, $key) {
+	private static function prepare(array $relation, $key) {
 		list($relation[$key]['domain'], $relation[$key]['name']) = explode('.', $relation[$key]['id']);
 		$type = ArrayHelper::getValue($relation, 'type');
 		$relation['type'] = RelationEnum::value($type);

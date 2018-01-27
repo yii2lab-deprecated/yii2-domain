@@ -11,12 +11,12 @@ class RelationHelper {
 		$withParams = RelationWithHelper::fetch($with, $remainOfWith);
 		foreach($withParams as $relationName) {
 			$relationConfig = $relations[$relationName];
-			$data = self::loadRelation($data, $relationConfig, $relationName, $remainOfWith);
+			$data = self::loadRelations($data, $relationConfig, $relationName, $remainOfWith);
 		}
 		return $data;
 	}
 	
-	private static function loadRelation($data, $relationConfig, $relationName, $remainOfWith) {
+	private static function loadRelations($data, $relationConfig, $relationName, $remainOfWith) {
 		$isEntity = DomainHelper::isEntity($data);
 		$collection = $isEntity ? [$data] : $data;
 		$relCollection = JoinHelper::all($collection, $relationConfig);

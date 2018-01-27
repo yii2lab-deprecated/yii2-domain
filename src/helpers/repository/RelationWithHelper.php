@@ -3,21 +3,10 @@
 namespace yii2lab\domain\helpers\repository;
 
 use yii2lab\domain\data\Query;
-use yii2mod\helpers\ArrayHelper;
 
 class RelationWithHelper {
 	
-	private static function extractName($w) {
-		$dotPos = strpos($w, DOT);
-		if($dotPos !== false) {
-			$w1 = substr($w, 0, $dotPos);
-		} else {
-			$w1 = $w;
-		}
-		return $w1;
-	}
-	
-	public static function cleanWith($relations, Query $query = null) {
+	public static function cleanWith(array $relations, Query $query = null) {
 		if(!$relations) {
 			return null;
 		}
@@ -37,7 +26,7 @@ class RelationWithHelper {
 		return $with;
 	}
 	
-	public static function fetch($withArray, &$withTrimmedArray = []) {
+	public static function fetch(array $withArray, &$withTrimmedArray = []) {
 		$fields = [];
 		foreach($withArray as $with) {
 			$dotPos = strpos($with, DOT);
@@ -62,7 +51,7 @@ class RelationWithHelper {
 		return $fields;
 	}
 	
-	public static function toMap($withArray) {
+	/*public static function toMap(array $withArray) {
 		if(!ArrayHelper::isIndexed($withArray)) {
 			return $withArray;
 		}
@@ -71,6 +60,16 @@ class RelationWithHelper {
 			ArrayHelper::setValue($map, $withItem, []);
 		}
 		return $map;
+	}*/
+	
+	private static function extractName($w) {
+		$dotPos = strpos($w, DOT);
+		if($dotPos !== false) {
+			$w1 = substr($w, 0, $dotPos);
+		} else {
+			$w1 = $w;
+		}
+		return $w1;
 	}
 	
 }
