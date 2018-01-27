@@ -27,11 +27,7 @@ class Relation1Helper {
 		if($isEntity) {
 			$data = [$data];
 		}
-		if($relationConfig['type'] == RelationEnum::MANY_TO_MANY) {
-			$relCollection = self::getRelationCollection($data, $relationConfig);
-		} else {
-			$relCollection = self::getRelationCollection($data, $relationConfig);
-		}
+		$relCollection = self::getRelationCollection($data, $relationConfig);
 		foreach($data as &$item) {
 			$item = self::loadRelationItem($item, $relationConfig, $relationName, $remainOfWith, $relCollection);
 			if(!empty($remainOfWith[$relationName])) {
@@ -42,7 +38,6 @@ class Relation1Helper {
 	}
 	
 	private static function loadRelationItem($item, $relationConfig, $relationName, $remainOfWith, $relCollection) {
-		
 		if($relationConfig['type'] == RelationEnum::ONE) {
 			$fieldValue = $item->{$relationConfig['field']};
 			$item->{$relationName} = $relCollection[$fieldValue];
@@ -66,7 +61,6 @@ class Relation1Helper {
 			$query2 = Query::forge();
 			$query2->where($viaRelationToForeign['foreign']['field'], $foreignIds);
 			$item->{$relationName} = RelationRepositoryHelper::getAll($viaRelationToForeign['foreign']['domain'], $viaRelationToForeign['foreign']['name'], $query2);
-			
 		}
 		return $item;
 	}
