@@ -52,17 +52,6 @@ class RelationRepositoryHelper {
 			
 			if($relation['type'] == RelationEnum::MANY_TO_MANY && !empty($relation['via']['id'])) {
 				$relation = self::prepare($relation, 'via');
-				$viaRelations = RelationRepositoryHelper::getRelationsConfig($relation['via']['domain'], $relation['via']['name']);
-				$relation['this'] = [
-					'id' => $relation['via']['id'],
-					'field' => $viaRelations[$relation['via']['this']]['field'],
-				];
-				$relation['foreign'] = [
-					'id' => $relation['via']['id'],
-					'field' => $viaRelations[$relation['via']['foreign']]['field'],
-				];
-				$relation['field'] = $viaRelations[$relation['via']['foreign']]['foreign']['field'];
-				unset($relation['via']);
 			}
 			
 			if(!empty($relation['foreign']['id'])) {
@@ -73,9 +62,6 @@ class RelationRepositoryHelper {
 				$relation = self::prepare($relation, 'this');
 			}
 			
-			if(empty($relation['foreign']['field'])) {
-				$relation['foreign']['field'] = 'id';
-			}
 		}
 		return $relations;
 	}
