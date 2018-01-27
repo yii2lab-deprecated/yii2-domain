@@ -62,6 +62,10 @@ class RelationRepositoryHelper {
 				$relation = self::prepare($relation, 'this');
 			}
 			
+			if(empty($relation['foreign']['field'])) {
+				$relation['foreign']['field'] = 'id';
+			}
+			
 		}
 		return $relations;
 	}
