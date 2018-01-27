@@ -5,8 +5,8 @@ namespace yii2lab\domain\traits;
 use yii2lab\domain\data\ArrayIterator;
 use yii2lab\domain\data\Query;
 use yii\web\NotFoundHttpException;
-use yii2lab\domain\helpers\RelationHelper;
-use yii2lab\domain\helpers\Relation1Helper;
+use yii2lab\domain\helpers\repository\RelationHelper;
+use yii2lab\domain\helpers\repository\RelationWithHelper;
 
 /**
  * @property string $primaryKey
@@ -63,26 +63,26 @@ trait ArrayReadTrait {
 	public function one(Query $query = null) {
 		/** @var Query $query */
 		$query = Query::forge($query);
-		$with = RelationHelper::cleanWith($this->relations(), $query);
+		$with = RelationWithHelper::cleanWith($this->relations(), $query);
 		$collection = $this->all($query);
 		if(empty($collection)) {
 			throw new NotFoundHttpException(static::class);
 		}
 		$entity = $collection[0];
 		if(!empty($with)) {
-			$entity = Relation1Helper::load($this->domain->id, $this->id, $with, $entity);
+			$entity = RelationHelper::load($this->domain->id, $this->id, $with, $entity);
 		}
 		return $entity;
 	}
 
 	public function all(Query $query = null) {
 		$query = Query::forge($query);
-		$with = RelationHelper::cleanWith($this->relations(), $query);
+		$with = RelationWithHelper::cleanWith($this->relations(), $query);
 		$iterator = $this->getIterator();
 		$array = $iterator->all($query);
 		$collection = $this->forgeEntity($array);
 		if(!empty($with)) {
-			$collection = Relation1Helper::load($this->domain->id, $this->id, $with, $collection);
+			$collection = RelationHelper::load($this->domain->id, $this->id, $with, $collection);
 		}
 		return $collection;
 	}

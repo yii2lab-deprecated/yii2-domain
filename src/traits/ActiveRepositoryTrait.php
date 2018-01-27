@@ -7,8 +7,8 @@ use yii2lab\domain\data\Query;
 use yii2lab\domain\helpers\ErrorCollection;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use yii\web\NotFoundHttpException;
-use yii2lab\domain\helpers\Relation1Helper;
-use yii2lab\domain\helpers\RelationHelper;
+use yii2lab\domain\helpers\repository\RelationHelper;
+use yii2lab\domain\helpers\repository\RelationWithHelper;
 
 trait ActiveRepositoryTrait {
 	
@@ -51,25 +51,25 @@ trait ActiveRepositoryTrait {
 	
 	public function one(Query $query = null) {
 		$query = Query::forge($query);
-		$with = RelationHelper::cleanWith($this->relations(), $query);
+		$with = RelationWithHelper::cleanWith($this->relations(), $query);
 		$model = $this->oneModel($query);
 		if(empty($model)) {
 			throw new NotFoundHttpException();
 		}
 		$entity = $this->forgeEntity($model);
 		if(!empty($with)) {
-			$entity = Relation1Helper::load($this->domain->id, $this->id, $with, $entity);
+			$entity = RelationHelper::load($this->domain->id, $this->id, $with, $entity);
 		}
 		return $entity;
 	}
 	
 	public function all(Query $query = null) {
 		$query = Query::forge($query);
-		$with = RelationHelper::cleanWith($this->relations(), $query);
+		$with = RelationWithHelper::cleanWith($this->relations(), $query);
 		$models = $this->allModels($query);
 		$collection = $this->forgeEntity($models);
 		if(!empty($with)) {
-			$collection = Relation1Helper::load($this->domain->id, $this->id, $with, $collection);
+			$collection = RelationHelper::load($this->domain->id, $this->id, $with, $collection);
 		}
 		return $collection;
 	}

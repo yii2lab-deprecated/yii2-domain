@@ -1,17 +1,16 @@
 <?php
 
-namespace yii2lab\domain\helpers;
+namespace yii2lab\domain\helpers\repository;
 
+use yii2lab\helpers\DomainHelper;
 use yii2mod\helpers\ArrayHelper;
-use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\ArrayIterator;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\enums\RelationEnum;
 
-class Relation1Helper {
+class RelationHelper {
 	
 	public static function load($domain, $id, $with, $data) {
-		
 		// todo: формировать запрос with для получения дочерних связей
 		$relations = RelationRepositoryHelper::getRelationsConfig($domain, $id);
 		$withParams = RelationWithHelper::fetch($with, $remainOfWith);
@@ -23,7 +22,7 @@ class Relation1Helper {
 	}
 	
 	private static function loadRelation($data, $relationConfig, $relationName, $remainOfWith) {
-		$isEntity = self::isEntity($data);
+		$isEntity = DomainHelper::isEntity($data);
 		if($isEntity) {
 			$data = [$data];
 		}
@@ -97,7 +96,7 @@ class Relation1Helper {
 	}
 	
 	private static function getColumn($data, $field) {
-		if(self::isEntity($data)) {
+		if(DomainHelper::isEntity($data)) {
 			return $data->{$field};
 		} else {
 			$in = ArrayHelper::getColumn($data, $field);
@@ -105,10 +104,6 @@ class Relation1Helper {
 			$in = array_values($in);
 			return $in;
 		}
-	}
-	
-	private static function isEntity($data) {
-		return is_object($data) && $data instanceof BaseEntity;
 	}
 	
 }
