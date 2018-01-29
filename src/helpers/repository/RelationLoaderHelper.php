@@ -24,12 +24,18 @@ class RelationLoaderHelper {
 	
 	private static function one(BaseEntity $entity, array $relationConfig, $relationName, $relCollection) {
 		$fieldValue = $entity->{$relationConfig['field']};
+		if(empty($fieldValue)) {
+			return $relationConfig;
+		}
 		$entity->{$relationName} = $relCollection[$fieldValue];
 		return $relationConfig;
 	}
 	
 	private static function many(BaseEntity $entity, array $relationConfig, $relationName, $relCollection) {
 		$fieldValue = $entity->{$relationConfig['field']};
+		if(empty($fieldValue)) {
+			return $relationConfig;
+		}
 		$query = Query::forge();
 		$query->where($relationConfig['foreign']['field'], $fieldValue);
 		$entity->{$relationName} = ArrayIterator::allFromArray($query, $relCollection);
