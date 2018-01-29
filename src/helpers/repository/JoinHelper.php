@@ -11,6 +11,9 @@ class JoinHelper {
 	
 	public static function all($collection, $relationConfig) {
 		$type = $relationConfig['type'];
+		if(empty($collection)) {
+			return null;
+		}
 		if($type == RelationEnum::ONE) {
 			return self::allForOne($collection, $relationConfig);
 		} elseif($type == RelationEnum::MANY) {
