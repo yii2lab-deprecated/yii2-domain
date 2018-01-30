@@ -9,12 +9,6 @@ class Controller extends YiiController {
 
 	use ServiceTrait;
 	
-	public function behaviors() {
-		$behaviors = parent::behaviors();
-		unset($behaviors['rateLimiter']); // todo: разобраться как так получилось
-		return $behaviors;
-	}
-	
 	public function format() {
 		return [];
 	}

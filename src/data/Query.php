@@ -84,8 +84,6 @@ class Query extends Component {
 		}
 	}
 	
-	/** todo: rename to fields */
-	
 	public function select($fields) {
 		if($fields === null) {
 			unset($this->query['select']);
