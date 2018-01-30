@@ -5,7 +5,6 @@ namespace yii2lab\domain\helpers;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii2lab\domain\BaseEntity;
-use yii2lab\domain\data\ArrayIterator;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\enums\RelationEnum;
 
@@ -28,7 +27,7 @@ class RelationHelper {
 		$relationNames = array_keys($relations);
 		$query = Query::forge($query);
 		$with = $query->getParam('with');
-		// todo: удалить этот костыль при полном переходе на связи в репозитории
+		// todo: @deprecated удалить этот костыль при полном переходе на связи в репозитории
 		$query->removeParam('with');
 		if($relations && !empty($with)) {
 			foreach($with as $w) {

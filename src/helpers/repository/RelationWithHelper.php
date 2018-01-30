@@ -13,7 +13,7 @@ class RelationWithHelper {
 		$relationNames = array_keys($relations);
 		$query = Query::forge($query);
 		$with = $query->getParam('with');
-		// todo: удалить этот костыль при полном переходе на связи в репозитории
+		// todo: @deprecated удалить этот костыль при полном переходе на связи в репозитории
 		$query->removeParam('with');
 		if($relations && !empty($with)) {
 			foreach($with as $w) {

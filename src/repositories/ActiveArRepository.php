@@ -67,8 +67,6 @@ class ActiveArRepository extends ArRepository implements ReadInterface, ModifyIn
 		}
 	}
 	
-	// todo: rename item to model
-	
 	public function update(BaseEntity $entity) {
 		$entity->validate();
 		$this->findUnique($entity, true);
