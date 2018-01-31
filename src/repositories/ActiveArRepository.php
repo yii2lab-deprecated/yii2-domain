@@ -65,6 +65,7 @@ class ActiveArRepository extends ArRepository implements ReadInterface, ModifyIn
 				throw new ServerErrorHttpException('Postgre sequence error');
 			}
 		}
+		return $entity;
 	}
 	
 	public function update(BaseEntity $entity) {

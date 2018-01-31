@@ -109,7 +109,7 @@ class ActiveBaseService extends BaseService implements ReadInterface, ModifyInte
 		
 		$entity->validate();
 		$this->addUserId($entity);
-		$this->repository->insert($entity);
+		$entity = $this->repository->insert($entity);
 		return $this->afterAction(self::EVENT_CREATE, $entity);
 	}
 	
