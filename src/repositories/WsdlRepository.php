@@ -2,6 +2,8 @@
 
 namespace yii2lab\domain\repositories;
 
+// todo: перенести в domain/v4/transaction
+
 use api\v4\modules\payment\components\CoreLoginRequest;
 use api\v4\modules\payment\components\UnsuccessfulResponseException;
 use api\v4\modules\payment\components\WooppaySoapClient;
