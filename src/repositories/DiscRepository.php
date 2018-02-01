@@ -5,7 +5,7 @@ namespace yii2lab\domain\repositories;
 use Yii;
 use yii2lab\store\Store;
 
-abstract class DiscRepository2 extends BaseRepository {
+abstract class DiscRepository extends BaseRepository {
 
 	public $table;
 	public $format = 'php';
