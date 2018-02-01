@@ -63,6 +63,7 @@ trait ArrayReadTrait {
 	public function one(Query $query = null) {
 		/** @var Query $query */
 		$query = Query::forge($query);
+		$query2 = clone $query;
 		$with = RelationWithHelper::cleanWith($this->relations(), $query);
 		$collection = $this->all($query);
 		if(empty($collection)) {
@@ -70,19 +71,20 @@ trait ArrayReadTrait {
 		}
 		$entity = $collection[0];
 		if(!empty($with)) {
-			$entity = RelationHelper::load($this->domain->id, $this->id, $with, $entity);
+			$entity = RelationHelper::load($this->domain->id, $this->id, $query2, $entity);
 		}
 		return $entity;
 	}
 
 	public function all(Query $query = null) {
 		$query = Query::forge($query);
+		$query2 = clone $query;
 		$with = RelationWithHelper::cleanWith($this->relations(), $query);
 		$iterator = $this->getIterator();
 		$array = $iterator->all($query);
 		$collection = $this->forgeEntity($array);
 		if(!empty($with)) {
-			$collection = RelationHelper::load($this->domain->id, $this->id, $with, $collection);
+			$collection = RelationHelper::load($this->domain->id, $this->id, $query2, $collection);
 		}
 		return $collection;
 	}

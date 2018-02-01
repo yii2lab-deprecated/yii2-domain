@@ -20,6 +20,7 @@ class Query extends Component {
 	
 	private $query = [
 		'where' => null,
+		'nestedQuery' => [],
 	];
 
 	public static function forge($query = null) {
@@ -28,7 +29,16 @@ class Query extends Component {
 		}
 		return new Query();
 	}
-
+	
+	public function setNestedQuery($key, Query $query) {
+		$this->query['nestedQuery'][$key] = $query;
+		return $this;
+	}
+	
+	public function getNestedQuery($key) {
+		return ArrayHelper::getValue($this->query, "nestedQuery.$key");
+	}
+	
 	public function where($key, $value = null) {
 		if(func_num_args() == 1) {
 			$this->query['where'] = $key;

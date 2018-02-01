@@ -51,6 +51,7 @@ trait ActiveRepositoryTrait {
 	
 	public function one(Query $query = null) {
 		$query = Query::forge($query);
+		$query2 = clone $query;
 		$with = RelationWithHelper::cleanWith($this->relations(), $query);
 		$model = $this->oneModel($query);
 		if(empty($model)) {
@@ -58,18 +59,19 @@ trait ActiveRepositoryTrait {
 		}
 		$entity = $this->forgeEntity($model);
 		if(!empty($with)) {
-			$entity = RelationHelper::load($this->domain->id, $this->id, $with, $entity);
+			$entity = RelationHelper::load($this->domain->id, $this->id, $query2, $entity);
 		}
 		return $entity;
 	}
 	
 	public function all(Query $query = null) {
 		$query = Query::forge($query);
+		$query2 = clone $query;
 		$with = RelationWithHelper::cleanWith($this->relations(), $query);
 		$models = $this->allModels($query);
 		$collection = $this->forgeEntity($models);
 		if(!empty($with)) {
-			$collection = RelationHelper::load($this->domain->id, $this->id, $with, $collection);
+			$collection = RelationHelper::load($this->domain->id, $this->id, $query2, $collection);
 		}
 		return $collection;
 	}

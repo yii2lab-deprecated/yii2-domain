@@ -26,7 +26,15 @@ class RelationWithHelper {
 		return $with;
 	}
 	
-	public static function fetch(array $withArray, &$withTrimmedArray = []) {
+	public static function fetch($query, &$withTrimmedArray = []) {
+		if($query instanceof Query) {
+			$withArray = $query->getParam('with');
+		} elseif(is_array($query)) {
+			/** @deprecated */
+			$withArray = $query;
+		} else {
+			return [];
+		}
 		$fields = [];
 		foreach($withArray as $with) {
 			$dotPos = strpos($with, DOT);
@@ -50,17 +58,6 @@ class RelationWithHelper {
 		$fields = array_unique($fields);
 		return $fields;
 	}
-	
-	/*public static function toMap(array $withArray) {
-		if(!ArrayHelper::isIndexed($withArray)) {
-			return $withArray;
-		}
-		$map = [];
-		foreach($withArray as $withItem) {
-			ArrayHelper::setValue($map, $withItem, []);
-		}
-		return $map;
-	}*/
 	
 	private static function extractName($w) {
 		$dotPos = strpos($w, DOT);
