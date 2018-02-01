@@ -2,6 +2,7 @@
 
 namespace yii2lab\domain\helpers\repository;
 
+use yii2lab\domain\data\Query;
 use yii2lab\domain\dto\WithDto;
 use yii2lab\helpers\DomainHelper;
 
@@ -28,6 +29,13 @@ class RelationHelper {
 			$w->query = clone $query;
 			$w->query->removeParam('with');
 			$w->query->with($w->remain[$w->relationName]);
+			
+			/*if(strpos($w->passed, DOT) !== false) {
+				if($query instanceof Query && $query->getNestedQuery($w->passed) instanceof Query) {
+					print_r($query->getNestedQuery($w->passed)->toArray());exit;
+				}
+				
+			}*/
 			
 			$data = self::loadRelations($data, $w);
 		}
