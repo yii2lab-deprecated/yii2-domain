@@ -26,9 +26,14 @@ class RelationHelper {
 				$w->passed = $relationName;
 			}
 			
-			$w->query = clone $query;
-			$w->query->removeParam('with');
-			$w->query->with($w->remain[$w->relationName]);
+			if($query instanceof Query && $query->getNestedQuery($w->passed) instanceof Query) {
+				$w->query = $query->getNestedQuery($w->passed);
+				$w->query->with($w->remain[$w->relationName]);
+			} else {
+				$w->query = clone $query;
+				$w->query->removeParam('with');
+				$w->query->with($w->remain[$w->relationName]);
+			}
 			
 			/*if(strpos($w->passed, DOT) !== false) {
 				if($query instanceof Query && $query->getNestedQuery($w->passed) instanceof Query) {
