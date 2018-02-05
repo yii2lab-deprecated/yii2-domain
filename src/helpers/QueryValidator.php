@@ -4,10 +4,10 @@ namespace yii2lab\domain\helpers;
 
 use Yii;
 use yii2lab\domain\data\Query;
-use yii\base\Object;
+use yii\base\BaseObject;
 use yii\web\BadRequestHttpException;
 
-class QueryValidator extends Object {
+class QueryValidator extends BaseObject {
 	
 	/** @var \yii2lab\domain\repositories\BaseRepository */
 	public $repository;
