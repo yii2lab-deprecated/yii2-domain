@@ -27,7 +27,7 @@ class ArrayIteratorTest extends Unit
 			'region_id' => 1994,
 		];
 		
-		$array = DataHelper::load(self::PACKAGE, '_data/geo_city.php');
+		$array = DataHelper::load(self::PACKAGE, '_fixtures/data/geo_city.php');
 		$query = Query::forge();
 		$query->where('id', 2000);
 		
@@ -60,7 +60,7 @@ class ArrayIteratorTest extends Unit
 			],
 		];
 		
-		$array = DataHelper::load(self::PACKAGE, '_data/geo_city.php');
+		$array = DataHelper::load(self::PACKAGE, '_fixtures/data/geo_city.php');
 		$query = Query::forge();
 		$query->where('region_id', 1994);
 		
@@ -75,7 +75,7 @@ class ArrayIteratorTest extends Unit
 	
 	public function testCount()
 	{
-		$array = DataHelper::load(self::PACKAGE, '_data/geo_city.php');
+		$array = DataHelper::load(self::PACKAGE, '_fixtures/data/geo_city.php');
 		$query = Query::forge();
 		$query->where('region_id', 1994);
 		
@@ -97,7 +97,7 @@ class ArrayIteratorTest extends Unit
 			],
 		];
 		
-		$array = DataHelper::load(self::PACKAGE, '_data/geo_city.php');
+		$array = DataHelper::load(self::PACKAGE, '_fixtures/data/geo_city.php');
 		$query = Query::forge();
 		$query->where('region_id', 1994);
 		$query->orderBy(['id' => SORT_DESC]);
