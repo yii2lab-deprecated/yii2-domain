@@ -2,12 +2,12 @@
 
 namespace yii2lab\domain\repositories;
 
-use domain\v4\core\entities\RequestEntity;
 use Yii;
 use yii\httpclient\Client;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
+use yii2lab\domain\entities\RequestEntity;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 
 class BaseRestRepository extends BaseRepository {
