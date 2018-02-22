@@ -2,7 +2,7 @@
 
 namespace yii2lab\domain\factories;
 
-use yii2lab\helpers\Helper;
+use yii2lab\helpers\ClassHelper;
 
 abstract class BaseLocatorFactory extends BaseFactory {
 
@@ -19,7 +19,7 @@ abstract class BaseLocatorFactory extends BaseFactory {
 		if(is_array($config)) {
 			$resultConfig = $config;
 		} else {
-			if(Helper::isClass($config)) {
+			if(ClassHelper::isClass($config)) {
 				$resultConfig['class'] = $config;
 			}
 		}

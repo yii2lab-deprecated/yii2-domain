@@ -4,12 +4,13 @@ namespace yii2lab\domain\helpers;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii2lab\helpers\ClassHelper;
 use yii2lab\helpers\Helper;
 
 class ConfigHelper {
 	
 	public static function normalizeItemConfig($domainId, $data) {
-		$data = Helper::normalizeComponentConfig($data);
+		$data = ClassHelper::normalizeComponentConfig($data);
 		$data = Helper::isEnabledComponent($data);
 		if(empty($data)) {
 			return null;
