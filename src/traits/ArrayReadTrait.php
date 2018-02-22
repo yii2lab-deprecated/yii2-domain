@@ -25,6 +25,7 @@ trait ArrayReadTrait {
 	 * @param $query
 	 *
 	 * @return Query
+     * @deprecated use Query::forge()
 	 */
 	abstract protected function forgeQuery($query = null);
 
