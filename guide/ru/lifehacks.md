@@ -21,12 +21,12 @@
 [
 	'repositories' => [
 		'article' => [
-			'class' => ActiveDiscRepository::className(),
+			'class' => ActiveDiscRepository::class,
 			'table' => 'article'
 		]
 	],
 	'services' => [
-		'article' => ActiveBaseService::className(),
+		'article' => ActiveBaseService::class,
 	],
 ]
 ```

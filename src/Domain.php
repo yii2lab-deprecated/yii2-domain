@@ -9,7 +9,6 @@ use yii\base\BaseObject;
 use yii\base\UnknownPropertyException;
 use yii2lab\domain\locators\Base;
 use yii2lab\helpers\ClassHelper;
-use yii2lab\helpers\Helper;
 
 /**
  * Class Domain
@@ -58,7 +57,7 @@ class Domain extends BaseObject {
 	public function getFactory() {
 		$this->init();
 		if(!isset($this->_factory)) {
-			$this->_factory = Yii::createObject(Factory::className());
+			$this->_factory = Yii::createObject(Factory::class);
 			$attributes = [
 				'id' => $this->id,
 				'domain' => $this,
@@ -117,7 +116,7 @@ class Domain extends BaseObject {
 			return;
 		}
 		if(!$this->isBaseClassName()) {
-			$this->path = ClassHelper::getNamespace(static::className());
+			$this->path = ClassHelper::getNamespace(static::class);
 		}
 	}
 	
@@ -134,7 +133,7 @@ class Domain extends BaseObject {
 	}
 	
 	private function isBaseClassName() {
-		return static::className() == Domain::className();
+		return static::class == Domain::class;
 	}
 	
 }

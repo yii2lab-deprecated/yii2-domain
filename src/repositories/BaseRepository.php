@@ -101,7 +101,7 @@ abstract class BaseRepository extends YiiComponent {
 	
 	public function getQueryValidator() {
 		if(!isset($this->queryValidator)) {
-			$this->queryValidator = Yii::createObject(QueryValidator::className());
+			$this->queryValidator = Yii::createObject(QueryValidator::class);
 			Yii::configure($this->queryValidator, ['repository' => $this]);
 		}
 		return $this->queryValidator;

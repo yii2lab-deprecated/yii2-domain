@@ -28,15 +28,15 @@ class Factory extends BaseFactory {
 	const TYPE_SERVICE_REPOSITORY = 'repositoryLocator';
 
 	public function getServiceLocator() {
-		return $this->createFactory(self::TYPE_SERVICE_LOCATOR, ServiceLocatorFactory::className());
+		return $this->createFactory(self::TYPE_SERVICE_LOCATOR, ServiceLocatorFactory::class);
 	}
 
 	public function getRepositoryLocator() {
-		return $this->createFactory(self::TYPE_SERVICE_REPOSITORY, RepositoryLocatorFactory::className());
+		return $this->createFactory(self::TYPE_SERVICE_REPOSITORY, RepositoryLocatorFactory::class);
 	}
 
 	public function getEntity() {
-		return $this->createFactory(self::TYPE_ENTITY, EntityFactory::className());
+		return $this->createFactory(self::TYPE_ENTITY, EntityFactory::class);
 	}
 	
 	public function getHelper() {
@@ -56,7 +56,7 @@ class Factory extends BaseFactory {
 	}
 	
 	public function getModel() {
-		return $this->createFactory(self::TYPE_MODEL, ModelFactory::className());
+		return $this->createFactory(self::TYPE_MODEL, ModelFactory::class);
 	}
 	
 	private function createFactory($type, $className = null) {
@@ -66,7 +66,7 @@ class Factory extends BaseFactory {
 			'domain' => $this->domain,
 		];
 		if(empty($className)) {
-			$className = BaseFactory::className();
+			$className = BaseFactory::class;
 		}
 		return $this->createByClassName($className, $params);
 	}

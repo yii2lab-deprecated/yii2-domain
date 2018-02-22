@@ -237,7 +237,7 @@ class Query extends Component {
 	
 	public function getRest() {
 		/** @var Rest $instance */
-		$instance = Yii::createObject(Rest::className(), ['query' => $this]);
+		$instance = Yii::createObject(Rest::class, ['query' => $this]);
 		return $instance;
 	}
 	

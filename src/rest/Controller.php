@@ -25,7 +25,7 @@ class Controller extends YiiController {
 			return;
 		}
 		$this->serializer = [
-			'class' => Serializer::className(),
+			'class' => Serializer::class,
 			'format' => $format,
 		];
 	}

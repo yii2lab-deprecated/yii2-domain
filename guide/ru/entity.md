@@ -50,13 +50,13 @@ class LoginEntity extends BaseEntity implements IdentityInterface {
 			'parent_id' => 'integer',
 			'subject_type' => 'integer',
 			'balance' => [
-				'type' => BalanceEntity::className(),
+				'type' => BalanceEntity::class,
 			],
 			'address' => [
-				'type' => AddressEntity::className(),
+				'type' => AddressEntity::class,
 			],
 			'profile' => [
-				'type' => ProfileEntity::className(),
+				'type' => ProfileEntity::class,
 			],
 		];
 	}
@@ -154,13 +154,13 @@ public function fieldType() {
         'parent_id' => 'integer',
         'subject_type' => 'integer',
         'balance' => [
-            'type' => BalanceEntity::className(),
+            'type' => BalanceEntity::class,
         ],
         'address' => [
-            'type' => AddressEntity::className(),
+            'type' => AddressEntity::class,
         ],
         'profile' => [
-            'type' => ProfileEntity::className(),
+            'type' => ProfileEntity::class,
         ],
     ];
 }
@@ -174,7 +174,7 @@ public function fieldType() {
 public function fieldType() {
     return [
         'fields' => [
-            'type' => FieldEntity::className(),
+            'type' => FieldEntity::class,
             'isCollection' => true,
         ],
     ];
@@ -187,7 +187,7 @@ public function fieldType() {
 public function fieldType() {
     return [
         'fields' => [
-            'type' => FieldEntity::className(),
+            'type' => FieldEntity::class,
             'isHideIfNull' => true,
         ],
     ];

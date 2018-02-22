@@ -151,7 +151,7 @@ class BaseEntity extends Component implements Arrayable {
 	}
 	
 	public static function attributes() {
-		$class = new ReflectionClass(static::className());
+		$class = new ReflectionClass(static::class);
 		$propertyTypes = ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED;
 		$properties = $class->getProperties($propertyTypes);
 		$names = [];
@@ -179,7 +179,7 @@ class BaseEntity extends Component implements Arrayable {
 		return $value;
 	}
 	
-	private function getTypesFromRules() {
+	/*private function getTypesFromRules() {
 		$typesFromRules = [];
 		foreach($this->rules() as $rule) {
 			$values = ArrayHelper::toArray($rule[0]);
@@ -191,7 +191,7 @@ class BaseEntity extends Component implements Arrayable {
 			}
 		}
 		return $typesFromRules;
-	}
+	}*/
 	
 	private function setFieldValue($name, $value) {
 		$method = $this->magicMethodName($name, 'set');
