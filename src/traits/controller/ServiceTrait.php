@@ -4,7 +4,6 @@ namespace yii2lab\domain\traits\controller;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
-use yii2lab\app\domain\helpers\Config;
 use yii2lab\helpers\Behavior;
 
 trait ServiceTrait {
