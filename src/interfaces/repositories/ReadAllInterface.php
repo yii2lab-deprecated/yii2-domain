@@ -2,6 +2,7 @@
 
 namespace yii2lab\domain\interfaces\repositories;
 
+use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\Query;
 
 interface ReadAllInterface {
@@ -9,7 +10,7 @@ interface ReadAllInterface {
 	/**
 	 * @param Query|null $query
 	 *
-	 * @return array|null
+	 * @return BaseEntity[]|null
 	 */
 	public function all(Query $query = null);
 	
