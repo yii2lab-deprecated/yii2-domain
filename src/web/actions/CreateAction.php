@@ -18,7 +18,7 @@ class CreateAction extends Action {
 			try{
 				$method = $this->serviceMethod;
 				$this->service->$method($model->toArray());
-				Yii::$app->notify->flash->send(['main', 'create_success'], Alert::TYPE_SUCCESS);
+				Yii::$app->navigation->alert->create(['main', 'create_success'], Alert::TYPE_SUCCESS);
 				return $this->redirect($this->baseUrl);
 			} catch (UnprocessableEntityHttpException $e){
 				$model->addErrorsFromException($e);
