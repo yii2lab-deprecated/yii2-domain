@@ -13,6 +13,8 @@ use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
+use yii2lab\domain\data\ActiveDataProvider;
+use yii2lab\domain\interfaces\repositories\ReadInterface;
 
 class ActiveBaseService extends BaseService implements CrudInterface {
 	
@@ -29,6 +31,21 @@ class ActiveBaseService extends BaseService implements CrudInterface {
 	/** @var bool private data for user */
 	public $userAccessOnly = false;
 	public $userIdField = 'user_id';
+	
+	public function getDataProvider(Query $query = null) {
+		$query = Query::forge($query);
+		$isReadInterface = $this->repository instanceof ReadInterface;
+		$isMethodExists = method_exists($this->repository, 'getDataProvider');
+		if($isReadInterface && $isMethodExists) {
+			$dataProvider = $this->repository->getDataProvider($query);
+		} else {
+			$dataProvider = new ActiveDataProvider([
+				'query' => $query,
+				'service' => $this,
+			]);
+		}
+		return $dataProvider;
+	}
 	
 	private function userAccessOnly(Query $query) {
 		if($this->userAccessOnly) {

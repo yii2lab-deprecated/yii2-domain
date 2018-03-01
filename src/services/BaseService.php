@@ -2,10 +2,8 @@
 
 namespace yii2lab\domain\services;
 
-use yii2lab\domain\data\ActiveDataProvider;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\Domain;
-use yii2lab\domain\interfaces\repositories\ReadInterface;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use Yii;
 use yii\base\Component as YiiComponent;
@@ -30,21 +28,6 @@ class BaseService extends YiiComponent {
 	
 	public function access() {
 		return [];
-	}
-	
-	public function getDataProvider(Query $query = null) {
-		$query = Query::forge($query);
-		$isReadInterface = $this->repository instanceof ReadInterface;
-		$isMethodExists = method_exists($this->repository, 'getDataProvider');
-		if($isReadInterface && $isMethodExists) {
-			$dataProvider = $this->repository->getDataProvider($query);
-		} else {
-			$dataProvider = new ActiveDataProvider([
-				'query' => $query,
-				'service' => $this,
-			]);
-		}
-		return $dataProvider;
 	}
 	
 	public function getRepository($name = null) {
