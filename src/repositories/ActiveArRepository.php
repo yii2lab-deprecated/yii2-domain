@@ -78,8 +78,12 @@ class ActiveArRepository extends ArRepository implements ReadInterface, ModifyIn
 	}
 	
 	public function delete(BaseEntity $entity) {
-		$entityPk = $entity->{$this->primaryKey};
-		$condition = [$this->primaryKey => $entityPk];
+		if(!empty($this->primaryKey)) {
+			$entityPk = $entity->{$this->primaryKey};
+			$condition = [$this->primaryKey => $entityPk];
+		} else {
+			$condition = $entity->toArray();
+		}
 		$model = $this->findOne($condition);
 		$model->delete();
 	}
