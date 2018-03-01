@@ -5,8 +5,7 @@ namespace yii2lab\domain\services;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\helpers\ErrorCollection;
-use yii2lab\domain\interfaces\services\ModifyInterface;
-use yii2lab\domain\interfaces\services\ReadInterface;
+use yii2lab\domain\interfaces\services\CrudInterface;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use Yii;
 use yii\base\ActionEvent;
@@ -15,7 +14,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
 
-class ActiveBaseService extends BaseService implements ReadInterface, ModifyInterface {
+class ActiveBaseService extends BaseService implements CrudInterface {
 	
 	const EVENT_INDEX = 'index';
 	const EVENT_CREATE = 'create';
