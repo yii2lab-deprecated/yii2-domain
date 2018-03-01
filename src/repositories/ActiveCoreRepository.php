@@ -8,6 +8,12 @@ use yii2lab\domain\interfaces\repositories\ModifyInterface;
 use yii2lab\domain\interfaces\repositories\ReadInterface;
 use yii\web\NotFoundHttpException;
 
+/**
+ * Class ActiveCoreRepository
+ *
+ * @package yii2lab\domain\repositories
+ * @deprecated use \yii2lab\core\domain\repositories\base\BaseActiveCoreRepository
+ */
 class ActiveCoreRepository extends CoreRepository implements ReadInterface, ModifyInterface {
 	
 	public function all(Query $query = null) {

@@ -6,6 +6,12 @@ use common\enums\app\ApiVersionEnum;
 use Yii;
 use yii\base\InvalidConfigException;
 
+/**
+ * Class CoreRepository
+ *
+ * @package yii2lab\domain\repositories
+ * @deprecated use \yii2lab\core\domain\repositories\base\BaseCoreRepository
+ */
 class CoreRepository extends BaseRepository {
 	
 	public $version = ApiVersionEnum::VERSION_DEFAULT;
