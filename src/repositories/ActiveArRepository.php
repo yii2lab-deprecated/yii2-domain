@@ -85,7 +85,7 @@ class ActiveArRepository extends ArRepository implements ReadInterface, ModifyIn
 			$condition = $entity->toArray();
 		}
 		$model = $this->findOne($condition);
-		$model->delete();
+		$this->model::deleteAll($condition);
 	}
 	
 	/**
