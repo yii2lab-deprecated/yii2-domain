@@ -1,7 +1,13 @@
 Фильтры
 ===
 
-## yii2lab\domain\filters\LoadDomainConfig
+## Основное
+
+У всех, представленных ниже фильтров нейспейс такой: `yii2lab\domain\filters\*`.
+
+## Фильтры
+
+### LoadDomainConfig
 
 загрузчик конфига доменных сущностей.
 
