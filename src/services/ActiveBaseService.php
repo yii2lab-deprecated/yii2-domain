@@ -156,7 +156,7 @@ class ActiveBaseService extends BaseService implements CrudInterface {
 				throw new InvalidConfigException('The "foreignServices.field" property must be set.');
 			}
 			if(empty($serviceConfig['notFoundMessage'])) {
-				$serviceConfig['notFoundMessage'] = ['service', 'foreign_entity_not_found'];
+				$serviceConfig['notFoundMessage'] = ['domain/service', 'foreign_entity_not_found'];
 			}
 		}
 		return $config;
@@ -169,7 +169,7 @@ class ActiveBaseService extends BaseService implements CrudInterface {
 		foreach($this->forbiddenChangeFields as $fieldName) {
 			if(!empty($data[ $fieldName ])) {
 				$error = new ErrorCollection();
-				$error->add($fieldName, 'service', 'forbidden_change_field {field}', ['field' => $fieldName]);
+				$error->add($fieldName, 'domain/service', 'forbidden_change_field {field}', ['field' => $fieldName]);
 				throw new UnprocessableEntityHttpException($error);
 			}
 		}

@@ -116,7 +116,7 @@ trait ActiveRepositoryTrait {
 			} else {
 				$error = new ErrorCollection();
 				foreach($uniqueItem as $name) {
-					$error->add($name, 'db', 'already_exists {value}', ['value' => $entity->{$name}]);
+					$error->add($name, 'domain/db', 'already_exists {value}', ['value' => $entity->{$name}]);
 				}
 				throw new UnprocessableEntityHttpException($error);
 			}

@@ -128,10 +128,10 @@ class ArRepository extends BaseRepository {
 		} catch(IntegrityException $e) {
 			$error = new ErrorCollection();
 			if($e->getCode() == 23503 || $e->getCode() == 23000) {
-				$error->add(null, 'db', 'integrity_constraint_violation');
+				$error->add(null, 'domain/db', 'integrity_constraint_violation');
 				throw new UnprocessableEntityHttpException($error);
 			} elseif($e->getCode() == 23505 /*|| $e->getCode() == 23000*/) {
-				$error->add(null, 'db', 'already_exists');
+				$error->add(null, 'domain/db', 'already_exists');
 				throw new UnprocessableEntityHttpException($error);
 			} else {
 				throw new BadRequestHttpException;
@@ -247,7 +247,7 @@ class ArRepository extends BaseRepository {
 		/*$modelExtraFields = $this->getModelExtraFields();
 		foreach($with as $key => $value) {
 			if(!in_array($value, $modelExtraFields)) {
-				throw new BadRequestHttpException(t('exception', 'not_allowed_to_use_parameter_in_expand {parameter}', ['parameter' => $value]));
+				throw new BadRequestHttpException(t('domain/exception', 'not_allowed_to_use_parameter_in_expand {parameter}', ['parameter' => $value]));
 			}
 		}*/
 	}

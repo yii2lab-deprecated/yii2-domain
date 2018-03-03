@@ -34,7 +34,7 @@ class QueryValidator extends BaseObject {
 		$diff = array_diff($fields, $entityAttributes);
 		if(!empty($diff)) {
 			$fieldName = $diff[ key($diff) ];
-			$message = Yii::t('db', 'field_not_exists {field}', ['field' => $fieldName]);
+			$message = Yii::t('domain/db', 'field_not_exists {field}', ['field' => $fieldName]);
 			throw new BadRequestHttpException($message);
 		}
 	}
@@ -45,11 +45,11 @@ class QueryValidator extends BaseObject {
 		}
 		$fields = $this->repository->$type();
 		if(empty($fields)) {
-			throw new BadRequestHttpException(t('exception', 'not_allowed_to_use_parameter_in_' . $type));
+			throw new BadRequestHttpException(t('domain/exception', 'not_allowed_to_use_parameter_in_' . $type));
 		}
 		foreach($data as $name => $value) {
 			if(!in_array($name, $fields)) {
-				throw new BadRequestHttpException(t('exception', 'not_allowed_to_use_parameter_in_' . $type . ' {parameter}', ['parameter' => $name]));
+				throw new BadRequestHttpException(t('domain/exception', 'not_allowed_to_use_parameter_in_' . $type . ' {parameter}', ['parameter' => $name]));
 			}
 		}
 		return $data;
