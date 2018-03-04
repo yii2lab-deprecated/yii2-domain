@@ -9,7 +9,7 @@ use yii\web\NotFoundHttpException;
 
 class ServiceHelper {
 	
-	public static function isHas($serviceName) {
+	public static function has($serviceName) {
 		list($domain, $service) = explode('.', $serviceName);
 		$services = config('components.' . $domain . '.services', []);
 		if(!isset($services[$service]) && !in_array($service, $services)) {
@@ -20,7 +20,7 @@ class ServiceHelper {
 	
 	public static function oneById($serviceName, $id)
 	{
-		if(!self::isHas($serviceName)) {
+		if(!self::has($serviceName)) {
 			return null;
 		}
 		$serviceInstance = ArrayHelper::getValue(Yii::$app, $serviceName);
