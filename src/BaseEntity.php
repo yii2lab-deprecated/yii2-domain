@@ -94,30 +94,18 @@ class BaseEntity extends Component implements Arrayable {
 		}
 	}
 	
-	public function toArray(array $fields = [], array $expand = [], $recursive = true) {
-		if(empty($fields)) {
-			$fields = $this->fields();
-		}
-		$fields = $this->addExtraFields($fields, $expand);
-		$result = [];
-		foreach($fields as $name) {
-			$value = $this->getAttribute($name);
-			$isHide = $value === null && $this->isInHiddenFieldOnNull($name);
-			if(!$isHide) {
-				$result[ $name ] = Helper::toArray($value);
-			}
-		}
-		return $result;
+	public function toArrayRaw(array $fields = [], array $expand = [], $recursive = true) {
+		return $this->toArray($fields, $expand, $recursive, true);
 	}
 	
-	public function toArrayRaw(array $fields = [], array $expand = [], $recursive = true) {
+	public function toArray(array $fields = [], array $expand = [], $recursive = true, $isRaw = false) {
 		if(empty($fields)) {
 			$fields = $this->fields();
 		}
 		$fields = $this->addExtraFields($fields, $expand);
 		$result = [];
 		foreach($fields as $name) {
-			$value = $this->getAttribute($name, true);
+			$value = $this->getAttribute($name, $isRaw);
 			$isHide = $value === null && $this->isInHiddenFieldOnNull($name);
 			if(!$isHide) {
 				$result[ $name ] = Helper::toArray($value);
