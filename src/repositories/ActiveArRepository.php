@@ -47,7 +47,7 @@ class ActiveArRepository extends ArRepository implements ReadInterface, ModifyIn
 		$entity->validate();
 		$this->findUnique($entity);
 		/** @var ActiveRecord $model */
-		$model = Yii::createObject($this->model->className());
+		$model = Yii::createObject(get_class($this->model));
 		$this->massAssignment($model, $entity, self::SCENARIO_INSERT);
 		$result = $this->saveModel($model);
 		if(!empty($this->primaryKey) && $result) {
