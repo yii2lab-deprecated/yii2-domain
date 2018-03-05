@@ -16,13 +16,13 @@ class Serializer extends YiiSerializer {
 	protected function serializeModel($model) {
 		$item = parent::serializeModel($model);
 		if(!empty($item)) {
-			$item = TypeHelper::serialize($item, $this->format);
+			$item = TypeHelper::serialize($model, $this->format);
 		}
 		return $item;
 	}
 	
 	protected function serializeModels(array $models) {
-		$models = parent::serializeModels($models);
+		//$models = parent::serializeModels($models);
 		foreach($models as &$item) {
 			$item = TypeHelper::serialize($item, $this->format);
 		}

@@ -4,6 +4,7 @@ namespace yii2lab\domain;
 
 use yii2lab\domain\helpers\EntityType;
 use yii2lab\domain\helpers\Helper;
+use yii2lab\domain\values\BaseValue;
 use yii2lab\helpers\ReflectionHelper;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use ReflectionClass;
@@ -100,7 +101,7 @@ class BaseEntity extends Component implements Arrayable {
 		$fields = $this->addExtraFields($fields, $expand);
 		$result = [];
 		foreach($fields as $name) {
-			$value = $this->getFieldValue($name);
+			$value = $this->getAttribute($name);
 			$isHide = $value === null && $this->isInHiddenFieldOnNull($name);
 			if(!$isHide) {
 				$result[ $name ] = Helper::toArray($value);
@@ -108,15 +109,31 @@ class BaseEntity extends Component implements Arrayable {
 		}
 		return $result;
 	}
-
-    protected function forgeEntity($value, $className) {
+	
+	public function toArrayRaw(array $fields = [], array $expand = [], $recursive = true) {
+		if(empty($fields)) {
+			$fields = $this->fields();
+		}
+		$fields = $this->addExtraFields($fields, $expand);
+		$result = [];
+		foreach($fields as $name) {
+			$value = $this->getAttribute($name, true);
+			$isHide = $value === null && $this->isInHiddenFieldOnNull($name);
+			if(!$isHide) {
+				$result[ $name ] = Helper::toArray($value);
+			}
+		}
+		return $result;
+	}
+	
+	protected function forgeEntity($value, $className) {
         if(!empty($value) && ! $value instanceof BaseEntity) {
             $value = ArrayHelper::toArray($value);
             $value = \Yii::$app->account->factory->entity->create($className, $value);
         }
         return $value;
     }
-    
+	
 	protected function addExtraFields($fields, $expand) {
 		$extra = $this->extraFields();
 		if(empty($extra)) {
@@ -170,13 +187,7 @@ class BaseEntity extends Component implements Arrayable {
 	}
 	
 	private function getFieldValue($name) {
-		$method = $this->magicMethodName($name, 'get');
-		if(method_exists($this, $method)) {
-			$value = $this->$method();
-		} else {
-			$value = $this->$name;
-		}
-		return $value;
+		return $this->__get($name);
 	}
 	
 	/*private function getTypesFromRules() {

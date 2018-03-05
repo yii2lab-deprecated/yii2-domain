@@ -3,6 +3,7 @@
 namespace yii2lab\domain\helpers;
 
 use yii\base\InvalidConfigException;
+use yii2lab\domain\values\BaseValue;
 use yii2lab\helpers\TypeHelper;
 
 class EntityType {
@@ -13,7 +14,11 @@ class EntityType {
 			if ($value === null) {
 				return null;
 			}
-			$result = self::forgeEntity($config, $value);
+			if($config['type'] instanceof BaseValue) {
+				$result = self::forgeEntity($config, $value);
+			} else {
+				$result = self::forgeEntity($config, $value);
+			}
 		} else {
 			$result = TypeHelper::encode($value, $config['type']);
 		}

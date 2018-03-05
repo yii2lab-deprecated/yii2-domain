@@ -2,31 +2,47 @@
 
 namespace yii2lab\domain;
 
+use DateTime;
 use Yii;
 use yii\base\Behavior;
 use yii\base\InvalidCallException;
 use yii\base\UnknownPropertyException;
+use yii2lab\domain\values\BaseValue;
+use yii2lab\domain\values\TimeValue;
 
 class Component extends \yii\base\Component {
-
-	public function __get($name) {
+	
+	protected function extractValue($value, $inRaw = false) {
+		if($inRaw) {
+			return $value;
+		}
+		if($value instanceof BaseValue) {
+			$value = $value->get();
+		}
+		if($value instanceof DateTime) {
+			$value = $value->format(TimeValue::FORMAT_WEB);
+		}
+		return $value;
+	}
+	
+	protected function getAttribute($name, $inRaw = false) {
 		$getter = $this->magicMethodName($name, 'get');
 		if(method_exists($this, $getter)) {
 			// read property, e.g. getName()
-			return $this->$getter();
+			return $this->extractValue($this->$getter(), $inRaw);
 		}
 		
 		if(property_exists($this, $name)) {
 			
 			// read property, e.g. getName()
-			return $this->$name;
+			return $this->extractValue($this->$name, $inRaw);
 		}
 		
 		// behavior property
 		$this->ensureBehaviors();
 		foreach($this->_behaviors as $behavior) {
 			if($behavior->canGetProperty($name)) {
-				return $behavior->$name;
+				return $this->extractValue($behavior->$name, $inRaw);
 			}
 		}
 		
@@ -35,6 +51,10 @@ class Component extends \yii\base\Component {
 		}
 		
 		throw new UnknownPropertyException('Getting unknown property: ' . get_class($this) . '::' . $name);
+	}
+	
+	public function __get($name) {
+		return $this->getAttribute($name);
 	}
 	
 	public function __set($name, $value) {

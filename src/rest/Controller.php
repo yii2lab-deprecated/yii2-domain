@@ -21,9 +21,6 @@ class Controller extends YiiController {
 	
 	private function initFormat() {
 		$format = $this->format();
-		if(empty($format)) {
-			return;
-		}
 		$this->serializer = [
 			'class' => Serializer::class,
 			'format' => $format,
