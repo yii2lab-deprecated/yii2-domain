@@ -35,6 +35,10 @@ class TimeValueTest extends Unit
 		$value = $this->buildInstance();
 		$value->set('24 Jun 2012');
 		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_API);
+		
+		$value = $this->buildInstance();
+		$value->set(self::DATE_TIME_API);
+		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_TIME_API);
 	}
 	
 	public function testSetTime()
