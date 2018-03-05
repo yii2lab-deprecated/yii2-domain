@@ -8,6 +8,10 @@ use yii2lab\domain\values\TimeValue;
 class TimeValueTest extends Unit
 {
 	
+	const DATE_TIME_API = '2012-06-24T05:34:56Z';
+	const DATE_API = '2012-06-24T00:00:00Z';
+	const TIME_API = '1970-01-01T05:34:56Z';
+	
 	public function testSet()
 	{
 		$value = $this->buildInstance();
@@ -17,27 +21,28 @@ class TimeValueTest extends Unit
 	public function testSetString()
 	{
 		$value = $this->buildInstance();
-		$value->set('5 Mar 2018 05:34:56 -0400');
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals('2018-03-05T05:34:56Z');
+		$value->set('24 Jun 2012 05:34:56 -0400');
+		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_TIME_API);
 		
 		$value = $this->buildInstance();
-		$value->set('3/5/2018 5:34:56 AM');
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals('2018-03-05T05:34:56Z');
+		$value->set('6/24/2012 5:34:56 AM');
+		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_TIME_API);
 		
 		$value = $this->buildInstance();
 		$value->set('now');
 		expect($value->getInFormat())->greaterOrEquals(TIMESTAMP);
 		
 		$value = $this->buildInstance();
-		$value->set('10 September 2000');
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals('2000-09-10T00:00:00Z');
+		$value->set('24 Jun 2012');
+		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_API);
 	}
 	
 	public function testSetTime()
 	{
 		$value = $this->buildInstance();
+		$value->setDate(1970, 1, 1);
 		$value->setTime(5, 34, 56);
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals('2018-03-05T05:34:56Z');
+		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::TIME_API);
 	}
 	
 	public function testSetDate()
@@ -45,28 +50,28 @@ class TimeValueTest extends Unit
 		$value = $this->buildInstance();
 		$value->setDate(2012, 6, 24);
 		$value->setTime(0, 0, 0);
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals('2012-06-24T00:00:00Z');
+		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_API);
 	}
 	
 	public function testSetDateTime()
 	{
 		$value = $this->buildInstance();
 		$value->setDateTime(2012, 6, 24, 5, 34, 56);
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals('2012-06-24T05:34:56Z');
+		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_TIME_API);
 	}
 	
 	public function testSetArray()
 	{
 		$value = $this->buildInstance();
 		$value->set([2012, 6, 24, 5, 34, 56]);
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals('2012-06-24T05:34:56Z');
+		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_TIME_API);
 	}
 	
 	public function testSetInteger()
 	{
 		$value = $this->buildInstance();
 		$value->set(1340516096);
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals('2012-06-24T05:34:56Z');
+		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_TIME_API);
 		
 		$value = $this->buildInstance();
 		$value->set(-12345);
@@ -79,21 +84,25 @@ class TimeValueTest extends Unit
 		$dateTime->setTimestamp(1340516096);
 		$value = $this->buildInstance();
 		$value->set($dateTime);
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals('2012-06-24T05:34:56Z');
+		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_TIME_API);
 	}
 	
 	public function testSetFromFormat()
 	{
 		$value = $this->buildInstance();
-		$value->setFromFormat('25/12/2013 10:13:46', 'd/m/Y H:i:s');
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals('2013-12-25T10:13:46Z');
+		$value->setFromFormat('24/06/2012 05:34:56', 'd/m/Y H:i:s');
+		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_TIME_API);
+		
+		$value = $this->buildInstance();
+		$value->setFromFormat(self::DATE_TIME_API, TimeValue::FORMAT_API);
+		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_TIME_API);
 	}
 	
 	public function testFormat()
 	{
 		$value = $this->buildInstance();
 		$value->setDateTime(2012, 6, 24, 5, 34, 56);
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals('2012-06-24T05:34:56Z');
+		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_TIME_API);
 		expect($value->getInFormat())->equals(1340516096);
 		expect($value->getInFormat(TimeValue::FORMAT_WEB))->equals('2012-06-24 05:34:56');
 		expect($value->getInFormat(TimeValue::FORMAT_WEB_DATE))->equals('2012-06-24');
