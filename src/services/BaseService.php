@@ -15,6 +15,7 @@ use yii2lab\domain\repositories\BaseRepository;
  * @package yii2lab\domain\services
  *
  * @property BaseRepository $repository
+ * @property Domain $domain
  */
 class BaseService extends YiiComponent {
 	
