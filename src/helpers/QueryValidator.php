@@ -45,11 +45,11 @@ class QueryValidator extends BaseObject {
 		}
 		$fields = $this->repository->$type();
 		if(empty($fields)) {
-			throw new BadRequestHttpException(t('domain/exception', 'not_allowed_to_use_parameter_in_' . $type));
+			throw new BadRequestHttpException(Yii::t('domain/exception', 'not_allowed_to_use_parameter_in_' . $type));
 		}
 		foreach($data as $name => $value) {
 			if(!in_array($name, $fields)) {
-				throw new BadRequestHttpException(t('domain/exception', 'not_allowed_to_use_parameter_in_' . $type . ' {parameter}', ['parameter' => $name]));
+				throw new BadRequestHttpException(Yii::t('domain/exception', 'not_allowed_to_use_parameter_in_' . $type . ' {parameter}', ['parameter' => $name]));
 			}
 		}
 		return $data;

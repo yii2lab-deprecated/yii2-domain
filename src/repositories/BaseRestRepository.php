@@ -51,7 +51,7 @@ class BaseRestRepository extends BaseRepository {
 					if(YII_DEBUG) {
 						throw new $exception($message);
 					}
-					throw new ServerErrorHttpException(t('tps', 'ExternalException'));
+					throw new ServerErrorHttpException(Yii::t('tps', 'ExternalException'));
 				}
 				throw new $exception($message);
 			} else {

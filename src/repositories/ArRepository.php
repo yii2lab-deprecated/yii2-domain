@@ -247,7 +247,7 @@ class ArRepository extends BaseRepository {
 		/*$modelExtraFields = $this->getModelExtraFields();
 		foreach($with as $key => $value) {
 			if(!in_array($value, $modelExtraFields)) {
-				throw new BadRequestHttpException(t('domain/exception', 'not_allowed_to_use_parameter_in_expand {parameter}', ['parameter' => $value]));
+				throw new BadRequestHttpException(Yii::t('domain/exception', 'not_allowed_to_use_parameter_in_expand {parameter}', ['parameter' => $value]));
 			}
 		}*/
 	}
