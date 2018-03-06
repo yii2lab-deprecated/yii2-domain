@@ -65,6 +65,19 @@ class MultiEnumValueTest extends Unit
 		$value->set([ModesEnumValue::DEV]);
 		$value->add([ModesEnumValue::PROD]);
 		expect($value->get())->equals([ModesEnumValue::DEV, ModesEnumValue::PROD]);
+		
+		$value = $this->buildInstance();
+		$value->set([ModesEnumValue::DEV]);
+		$value->add(ModesEnumValue::PROD);
+		expect($value->get())->equals([ModesEnumValue::DEV, ModesEnumValue::PROD]);
+		
+		$value = $this->buildInstance();
+		try {
+			$value->add(999);
+			expect(false)->true();
+		} catch(InvalidArgumentException $e) {
+			expect(true)->true();
+		}
 	}
 	
 	public function testRemove()
@@ -73,6 +86,21 @@ class MultiEnumValueTest extends Unit
 		$value->set([ModesEnumValue::DEV, ModesEnumValue::PROD, ModesEnumValue::TEST]);
 		$value->remove([ModesEnumValue::PROD]);
 		expect($value->get())->equals([ModesEnumValue::DEV, ModesEnumValue::TEST]);
+		
+		$value = $this->buildInstance();
+		$value->set([ModesEnumValue::DEV, ModesEnumValue::PROD, ModesEnumValue::TEST]);
+		$value->remove(ModesEnumValue::PROD);
+		expect($value->get())->equals([ModesEnumValue::DEV, ModesEnumValue::TEST]);
+		
+		$value = $this->buildInstance();
+		$value->set([ModesEnumValue::DEV, ModesEnumValue::PROD, ModesEnumValue::TEST]);
+		$value = $this->buildInstance();
+		try {
+			$value->remove(999);
+			expect(false)->true();
+		} catch(InvalidArgumentException $e) {
+			expect(true)->true();
+		}
 	}
 	
 	private function buildInstance() {
