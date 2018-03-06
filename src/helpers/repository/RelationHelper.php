@@ -2,6 +2,8 @@
 
 namespace yii2lab\domain\helpers\repository;
 
+use Yii;
+use yii\web\BadRequestHttpException;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\dto\WithDto;
 use yii2lab\helpers\DomainHelper;
@@ -11,11 +13,11 @@ class RelationHelper {
 	public static function load($domain, $id, $query, $data, WithDto $ww = null) {
 		$relations = RelationRepositoryHelper::getRelationsConfig($domain, $id);
 		$withParams = RelationWithHelper::fetch($query, $remainOfWith);
-		
 		foreach($withParams as $relationName) {
-			
+			if(!array_key_exists($relationName, $relations)) {
+				throw new BadRequestHttpException(Yii::t('domain/db', 'relation_not_defined {field}', ['field' => $relationName]));
+			}
 			$w = new WithDto();
-			
 			$w->relationConfig = $relations[$relationName];
 			$w->relationName = $relationName;
 			$w->withParams = $withParams;
