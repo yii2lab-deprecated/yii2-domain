@@ -28,7 +28,9 @@ class RelationLoaderHelper {
 		if(empty($fieldValue)) {
 			return $w->relationConfig;
 		}
-		$entity->{$w->relationName} = $relCollection[$fieldValue];
+		if(array_key_exists($fieldValue, $relCollection)) {
+			$entity->{$w->relationName} = $relCollection[$fieldValue];
+		}
 		return $w->relationConfig;
 	}
 	
