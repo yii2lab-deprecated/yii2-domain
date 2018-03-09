@@ -9,6 +9,7 @@ Domain Driven Design
 * [Именование методов](method-name.md)
 * [Конфигурация](config.md)
 * [Фильтры](filter.md)
+* [Межсерверное проектирование](multi-server-design.md)
 
 ## Слои
 
