@@ -4,6 +4,7 @@ namespace yii2lab\domain\helpers;
 
 use Yii;
 use yii\base\InvalidConfigException;
+use yii\base\UnknownPropertyException;
 use yii\web\NotFoundHttpException;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\services\BaseService;
@@ -12,8 +13,12 @@ use yii2mod\helpers\ArrayHelper;
 class ServiceHelper {
 	
 	public static function has($serviceName) {
-		$serviceInstance = ArrayHelper::getValue(Yii::$app, $serviceName);
-		return is_object($serviceInstance);
+		try {
+			$serviceInstance = ArrayHelper::getValue(Yii::$app, $serviceName);
+			return is_object($serviceInstance);
+		} catch(UnknownPropertyException $e) {
+			return false;
+		}
 	}
 	
 	/**
