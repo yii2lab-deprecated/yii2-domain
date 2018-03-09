@@ -3,6 +3,7 @@ Domain Driven Design
 
 ## Основное
 
+* [Введение](intro.md)
 * [Архитектура](architecture.md)
 * [Обработка запроса](request.md)
 * [Именование методов](method-name.md)
@@ -15,6 +16,7 @@ Domain Driven Design
 * [Сервис](service.md)
 * [Хранилище](repository.md)
 * [Сущность](entity.md)
+* [Значение](value)
 
 ## Классы
 
