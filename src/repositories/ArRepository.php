@@ -48,6 +48,9 @@ class ArRepository extends BaseRepository {
 	}
 	
 	public function autoIncrementField() {
+		if(empty($this->tableSchema['columns'])) {
+			return null;
+		}
 		foreach($this->tableSchema['columns'] as $name => $data) {
 			if($data['autoIncrement']) {
 				return $name;
