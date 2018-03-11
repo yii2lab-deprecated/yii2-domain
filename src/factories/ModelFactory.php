@@ -4,6 +4,7 @@ namespace yii2lab\domain\factories;
 
 use Yii;
 use yii\helpers\Inflector;
+use yii2lab\helpers\generator\ClassGeneratorHelper;
 
 class ModelFactory extends BaseFactory {
 	
@@ -17,9 +18,13 @@ class ModelFactory extends BaseFactory {
 		return $instance;
 	}
 	
-	public function createVirtual($tableName) {
+	public function createVirtual($tableName, $parent = 'yii\db\ActiveRecord') {
+		$params['extends'] = $parent;
+		$params['tableName'] = $params['extends'] == 'yii2tech\filedb\ActiveRecord' ? $tableName : '{{%'.$tableName.'}}';
+		$params['methodName'] = $params['extends'] == 'yii2tech\filedb\ActiveRecord' ? 'fileName' : 'tableName';
+		
 		$class = $this->genClassNameVirtual($tableName);
-		$this->defineClassVirtual($class, $tableName);
+		$this->defineClassVirtual($class, $params);
 		$class['model'] = Yii::createObject($class['className']);
 		return $class;
 	}
@@ -40,22 +45,20 @@ class ModelFactory extends BaseFactory {
 		];
 	}
 	
-	private function defineClassVirtual($class, $tableName) {
+	private function defineClassVirtual($class, $params = []) {
 		if(!class_exists($class['className'])) {
 			$classCode = '
-namespace '.$class['namespace'].';
-
-use yii\db\ActiveRecord;
-
-class '.$class['baseName'].' extends ActiveRecord  {
-	
-	public static function tableName()
+	public static function '.$params['methodName'].'()
 	{
-		return \'{{%'.$tableName.'}}\';
+		return \''.$params['tableName'].'\';
 	}
-	
-}';
-			eval($classCode);
+';
+			$config = $class;
+			$config['use'] = [$params['extends']];
+			$config['afterClassName'] = 'extends ActiveRecord';
+			$config['code'] = $classCode;
+			$allClassCode = ClassGeneratorHelper::generateCode($config);
+			eval($allClassCode);
 		}
 	}
 }

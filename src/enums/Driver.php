@@ -23,6 +23,7 @@ class Driver extends BaseEnum {
 	const WSDL = 'wsdl';
 	const HEADER = 'header';
 	const COOKIE = 'cookie';
+	const FILEDB = 'filedb';
 	
 	public static function primary($withTest = false) {
 		$driver = env('domain.driver.primary');

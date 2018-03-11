@@ -2,21 +2,21 @@
 
 namespace yii2lab\domain\repositories;
 
-use yii\helpers\Inflector;
+use yii\base\Model;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\Query;
-use yii2lab\domain\DynamicModel;
 use yii2lab\domain\helpers\ErrorCollection;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use Yii;
 use yii\base\UnknownMethodException;
-use yii\db\ActiveRecord;
 use yii\db\IntegrityException;
 use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
 use yii2mod\helpers\ArrayHelper;
 
 class ArRepository extends BaseRepository {
+	
+	public $tableName = null;
 	
 	/** @var  \yii\db\ActiveRecord */
 	protected $modelClass;
@@ -36,7 +36,7 @@ class ArRepository extends BaseRepository {
 	
 	public function tableName()
 	{
-		return null;
+		return $this->tableName;
 	}
 	
 	public function getModel() {
@@ -61,13 +61,25 @@ class ArRepository extends BaseRepository {
 		return $this->alias->decode($attributes);
 	}
 	
+	protected function isYiiModel($model) {
+		return $model instanceof yii\db\ActiveRecord;
+	}
+	
 	private function createVirtualModel() {
 		if(isset($this->model)) {
 			return;
 		}
-		$model = $this->domain->factory->model->createVirtual($this->tableName());
+		$model = $this->domain->factory->model->createVirtual($this->tableName(), $this->getParentModelClassName());
 		$this->modelClass = $model['baseName'];
 		$this->model = $model['model'];
+	}
+	
+	private function getParentModelClassName() {
+		if($this instanceof FiledbRepository || $this instanceof ActiveFiledbRepository) {
+			return 'yii2tech\filedb\ActiveRecord';
+		} else {
+			return 'yii\db\ActiveRecord';
+		}
 	}
 	
 	private function initModel() {
@@ -86,7 +98,9 @@ class ArRepository extends BaseRepository {
 		if(!empty($primaryKey)) {
 			$this->primaryKey = $this->alias->decode($primaryKey[0]);
 		}
-		$this->tableSchema = ArrayHelper::toArray($this->model->getTableSchema());
+		if(method_exists($this->model, 'getTableSchema')) {
+			$this->tableSchema = ArrayHelper::toArray($this->model->getTableSchema());
+		}
 	}
 	
 	protected function initQuery() {
@@ -121,7 +135,7 @@ class ArRepository extends BaseRepository {
 		return $modelData;
 	}
 	
-	protected function saveModel(ActiveRecord $model) {
+	protected function saveModel(Model $model) {
 		return $model->save();
 		try {
 		
@@ -141,7 +155,7 @@ class ArRepository extends BaseRepository {
 	}
 	
 	// todo: deprecated
-	protected function unsetNotExistedFields(ActiveRecord $model, $data) {
+	protected function unsetNotExistedFields(Model $model, $data) {
 		$modelAttributes = array_keys($model->attributes);
 		foreach($data as $name => $value) {
 			if(!in_array($name, $modelAttributes)) {
@@ -163,7 +177,7 @@ class ArRepository extends BaseRepository {
 		return $data;
 	}
 	
-	protected function massAssignment(ActiveRecord $model, BaseEntity $entity, $scenario = null) {
+	protected function massAssignment(Model $model, BaseEntity $entity, $scenario = null) {
 		$data = $entity->toArray();
 		$data = $this->unsetFieldsByKey($this->allFields(), $data);
 		$scenarios = $this->scenarios();
@@ -252,7 +266,7 @@ class ArRepository extends BaseRepository {
 		}*/
 	}
 	
-	private function modelItemToArray(ActiveRecord $model, Query $query) {
+	private function modelItemToArray(Model $model, Query $query) {
 		$query = Query::forge($query);
 		$withParam = $query->getParam('with');
 		$expand = $withParam ? $withParam : [];
