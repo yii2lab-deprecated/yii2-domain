@@ -187,7 +187,8 @@ class ArRepository extends BaseRepository {
 		if(!empty($scenarios[ $scenario ]) && !empty($scenario)) {
 			$data = $this->unsetFieldsByKey($scenarios[ $scenario ], $data);
 		}
-		Yii::configure($model, $data);
+		$dataAlias = $this->alias->encode($data);
+		Yii::configure($model, $dataAlias);
 	}
 	
 	protected function getModelExtraFields() {
