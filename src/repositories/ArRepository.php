@@ -72,7 +72,7 @@ class ArRepository extends BaseRepository {
 		if(isset($this->model)) {
 			return;
 		}
-		$model = $this->domain->factory->model->createVirtual($this->tableName(), $this->getParentModelClassName());
+		$model = $this->domain->factory->model->createVirtual($this->tableName(), $this->getParentModelClassName(), ['primaryKey'=>$this->primaryKey]);
 		$this->modelClass = $model['baseName'];
 		$this->model = $model['model'];
 	}
