@@ -24,6 +24,7 @@ class Driver extends BaseEnum {
 	const HEADER = 'header';
 	const COOKIE = 'cookie';
 	const FILEDB = 'filedb';
+	const BRIDGE = 'bridge';
 	
 	public static function primary($withTest = false) {
 		$driver = env('domain.driver.primary');
