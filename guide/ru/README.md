@@ -23,6 +23,7 @@ Domain Driven Design
 
 * [Фабрика](factory.md)
 * [Запрос](query.md)
+* [Схема](schema.md)
 
 ## Драйвера
 
