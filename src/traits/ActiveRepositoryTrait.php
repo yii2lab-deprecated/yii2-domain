@@ -12,10 +12,6 @@ use yii2lab\domain\helpers\repository\RelationWithHelper;
 
 trait ActiveRepositoryTrait {
 	
-	public function relations() {
-		return [];
-	}
-	
 	public function isExistsById($id) {
 		try {
 			$this->oneById($id);

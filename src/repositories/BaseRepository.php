@@ -11,6 +11,8 @@ use Yii;
 use yii\base\Component as YiiComponent;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
+use yii2lab\domain\repositories\relations\BaseSchema;
+use yii2lab\helpers\ClassHelper;
 
 /**
  * Class Domain
@@ -37,10 +39,12 @@ abstract class BaseRepository extends YiiComponent {
 	private $queryValidator;
 	public $driver;
 	protected $primaryKey = 'id';
+	protected $schemaClass = false;
+	protected $schemaInstance;
 	
 	public function getDataProvider(Query $query = null) {
 		if(!$this instanceof ReadInterface) {
-			throw new InvalidConfigException("Repository {$this->className()} not implements of ReadInterface");
+			throw new InvalidConfigException("Repository {$this->class} not implements of ReadInterface");
 		}
 		$query = Query::forge($query);
 		$dataProvider = new ActiveDataProvider([
@@ -71,8 +75,31 @@ abstract class BaseRepository extends YiiComponent {
 		return [];
 	}
 	
+	public function relations() {
+		return $this->runSchemaMethod('relations');
+	}
+	
 	public function uniqueFields() {
-		return [];
+		return $this->runSchemaMethod('uniqueFields');
+	}
+	
+	private function runSchemaMethod($methodName) {
+		if(!isset($this->schemaInstance)) {
+			$schemaClass = $this->schemaClass;
+			if(empty($schemaClass)) {
+				return [];
+			}
+			if($schemaClass === true) {
+				$namespace = ClassHelper::getNamespace(static::class);
+				$namespace = dirname($namespace) . '\\schema\\';
+				$schemaClass = $namespace . ucfirst($this->id) . 'Schema';
+			}
+			$this->schemaInstance = new $schemaClass;
+			if(!$this->schemaInstance instanceof BaseSchema) {
+				return [];
+			}
+		}
+		return $this->schemaInstance->$methodName();
 	}
 	
 	public function whereFields() {
