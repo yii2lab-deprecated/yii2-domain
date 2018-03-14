@@ -38,12 +38,23 @@ class CollectionTest extends Unit {
 		expect($collection->last())->equals('item3');
 	}
 	
-	public function testLoad() {
+	public function testLoadFromArray() {
 		$collection = new Collection();
 		$collection->load($this->array);
-		expect($collection->fetch())->equals('item1');
+		
+		expect($collection->toArray())->equals($this->array);
+		
 		$collection->load($this->array);
 		expect($collection->fetch())->equals('item1');
+	}
+	
+	public function testLoadFromCollectionObject() {
+		$collection = new Collection();
+		$collection->load($this->array);
+		
+		$collection2 = new Collection();
+		$collection2->load($collection);
+		expect($collection->toArray())->equals($this->array);
 	}
 	
 	public function testFetch() {

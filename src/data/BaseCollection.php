@@ -12,11 +12,8 @@ class BaseCollection implements ArrayAccess, Countable, Iterator, Serializable {
 	protected $items = [];
 	protected $position = 0;
 	
-	public function __construct(array $array = null) {
-		if(!is_null($array)) {
-			$this->items = $array;
-		}
-		$this->rewind();
+	public function __construct($array = null) {
+		$this->loadItems($array);
 	}
 	
 	public function offsetExists($offset) {
@@ -77,5 +74,36 @@ class BaseCollection implements ArrayAccess, Countable, Iterator, Serializable {
 		} else {
 			$this->items = $data;
 		}
+		return null;
+	}
+	
+	public function all() {
+		return $this->items;
+	}
+	
+	public static function createInstance($items) {
+		return new static($items);
+	}
+	
+	protected function loadItems($items) {
+		if(empty($items)) {
+			return;
+		}
+		$this->items = $this->itemsToArray($items);
+		$this->rewind();
+	}
+	
+	protected function itemsToArray($items) {
+		if(empty($items)) {
+			return null;
+		}
+		if(is_object($items)) {
+			if($items instanceof self) {
+				$items = $items->all();
+			} elseif(method_exists($items, 'toArray')) {
+				$items = $items->toArray();
+			}
+		}
+		return $items;
 	}
 }

@@ -13,13 +13,14 @@ class Collection extends BaseCollection {
 		foreach($this as $value) {
 			return $value;
 		}
+		return null;
 	}
 	
 	public function last() {
 		if($this->count() == 0) {
 			return null;
 		}
-		return $this->items[$this->count()-1];
+		return $this->items[ $this->count() - 1 ];
 	}
 	
 	public function fetch() {
@@ -31,16 +32,12 @@ class Collection extends BaseCollection {
 		return $item;
 	}
 	
-	public function toArray()
-	{
+	public function toArray() {
 		return ArrayHelper::toArray($this->items);
 	}
 	
-	public function load(array $array) {
-		if(!is_null($array)) {
-			$this->items = $array;
-		}
-		$this->rewind();
+	public function load($array) {
+		$this->loadItems($array);
 	}
 	
 }
