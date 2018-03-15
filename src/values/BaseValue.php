@@ -2,7 +2,7 @@
 
 namespace yii2lab\domain\values;
 
-use InvalidArgumentException;
+use yii\base\InvalidArgumentException;
 
 class BaseValue {
 	

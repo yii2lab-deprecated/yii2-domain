@@ -2,8 +2,8 @@
 namespace tests\unit\values;
 
 use Codeception\Test\Unit;
-use InvalidArgumentException;
 use tests\_source\values\PercentEnumValue;
+use yii\base\InvalidArgumentException;
 
 class RangeValueTest extends Unit
 {
