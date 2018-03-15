@@ -98,11 +98,11 @@ class BaseCollection implements ArrayAccess, Countable, Iterator, Serializable {
 			return null;
 		}
 		if(is_object($items)) {
-			if($items instanceof self) {
+			if($items instanceof BaseCollection) {
 				$items = $items->all();
-			} elseif(method_exists($items, 'toArray')) {
+			} /*elseif(method_exists($items, 'toArray')) {
 				$items = $items->toArray();
-			}
+			}*/
 		}
 		return $items;
 	}
