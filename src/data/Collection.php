@@ -36,8 +36,8 @@ class Collection extends BaseCollection {
 		return ArrayHelper::toArray($this->items);
 	}
 	
-	public function load($array) {
-		$this->loadItems($array);
+	public function load($items) {
+		$this->loadItems($items);
 	}
 	
 }

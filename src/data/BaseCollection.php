@@ -12,8 +12,8 @@ class BaseCollection implements ArrayAccess, Countable, Iterator, Serializable {
 	protected $items = [];
 	protected $position = 0;
 	
-	public function __construct($array = null) {
-		$this->loadItems($array);
+	public function __construct($items = null) {
+		$this->loadItems($items);
 	}
 	
 	public function offsetExists($offset) {
