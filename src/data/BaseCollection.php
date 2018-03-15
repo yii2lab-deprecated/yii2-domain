@@ -6,11 +6,12 @@ use ArrayAccess;
 use Countable;
 use Iterator;
 use Serializable;
+use yii\base\InvalidArgumentException;
 
 class BaseCollection implements ArrayAccess, Countable, Iterator, Serializable {
 	
-	protected $items = [];
-	protected $position = 0;
+	private $items = [];
+	private $position = 0;
 	
 	public function __construct($items = null) {
 		$this->loadItems($items);
@@ -77,12 +78,13 @@ class BaseCollection implements ArrayAccess, Countable, Iterator, Serializable {
 		return null;
 	}
 	
-	public function all() {
-		return $this->items;
+	public function one($index) {
+		$items = $this->all();
+		return $items[$index];
 	}
 	
-	public static function createInstance($items) {
-		return new static($items);
+	public function all() {
+		return $this->items;
 	}
 	
 	protected function loadItems($items) {
@@ -100,9 +102,9 @@ class BaseCollection implements ArrayAccess, Countable, Iterator, Serializable {
 		if(is_object($items)) {
 			if($items instanceof BaseCollection) {
 				$items = $items->all();
-			} /*elseif(method_exists($items, 'toArray')) {
-				$items = $items->toArray();
-			}*/
+			} else {
+				throw new InvalidArgumentException();
+			}
 		}
 		return $items;
 	}

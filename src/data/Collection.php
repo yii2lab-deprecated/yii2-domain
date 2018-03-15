@@ -7,27 +7,37 @@ use yii2lab\helpers\yii\ArrayHelper;
 
 class Collection extends BaseCollection {
 	
-	public static function forge($items = null, array $params = null) {
-		$collection = Yii::createObject(static::class, $params);
+	public static function forge($items = null) {
+		$collection = Yii::createObject(static::class);
 		$collection->load($items);
 		return $collection;
+	}
+	
+	public static function createInstance($items) {
+		return new static($items);
+	}
+	
+	public function keys() {
+		return array_keys($this->all());
+	}
+	
+	public function values() {
+		return array_values($this->all());
 	}
 	
 	public function first() {
 		if($this->count() == 0) {
 			return null;
 		}
-		foreach($this as $value) {
-			return $value;
-		}
-		return null;
+		return $this->one(0);
 	}
 	
 	public function last() {
 		if($this->count() == 0) {
 			return null;
 		}
-		return $this->items[ $this->count() - 1 ];
+		$index = $this->count() - 1;
+		return $this->one($index);
 	}
 	
 	public function fetch() {
@@ -40,11 +50,16 @@ class Collection extends BaseCollection {
 	}
 	
 	public function toArray() {
-		return ArrayHelper::toArray($this->items);
+		return ArrayHelper::toArray($this->all());
 	}
 	
 	public function load($items) {
 		$this->loadItems($items);
+	}
+	
+	protected function itemsToArray($items) {
+		$items = parent::itemsToArray($items);
+		return array_values($items);
 	}
 	
 }
