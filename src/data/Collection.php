@@ -2,9 +2,16 @@
 
 namespace yii2lab\domain\data;
 
+use Yii;
 use yii2lab\helpers\yii\ArrayHelper;
 
 class Collection extends BaseCollection {
+	
+	public static function forge($items = null, array $params = null) {
+		$collection = Yii::createObject(static::class, $params);
+		$collection->load($items);
+		return $collection;
+	}
 	
 	public function first() {
 		if($this->count() == 0) {
