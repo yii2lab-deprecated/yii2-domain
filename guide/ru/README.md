@@ -17,7 +17,7 @@ Domain Driven Design
 * [Сервис](service.md)
 * [Хранилище](repository.md)
 * [Сущность](entity.md)
-* [Значение](value)
+* [Объект-значение](value.md)
 
 ## Классы
 
