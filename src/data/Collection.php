@@ -36,8 +36,8 @@ class Collection extends BaseCollection {
 		if($this->count() == 0) {
 			return null;
 		}
-		$index = $this->count() - 1;
-		return $this->one($index);
+		$lastIndex = $this->count() - 1;
+		return $this->one($lastIndex);
 	}
 	
 	public function fetch() {

@@ -79,8 +79,7 @@ class BaseCollection implements ArrayAccess, Countable, Iterator, Serializable {
 	}
 	
 	public function one($index) {
-		$items = $this->all();
-		return $items[$index];
+		return $this->offsetGet($index);
 	}
 	
 	public function all() {
