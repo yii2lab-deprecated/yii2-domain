@@ -3,11 +3,12 @@ Domain Driven Design
 
 ## Основное
 
+* [Установка](install.md)
+* [Конфигурация](config.md)
 * [Введение](intro.md)
 * [Архитектура](architecture.md)
 * [Обработка запроса](request.md)
 * [Именование методов](method-name.md)
-* [Конфигурация](config.md)
 * [Фильтры](filter.md)
 * [Межсерверное проектирование](multi-server-design.md)
 
