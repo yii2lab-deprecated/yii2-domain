@@ -49,14 +49,14 @@ class ActiveBaseService extends BaseService implements CrudInterface {
 	
 	private function userAccessOnly(Query $query) {
 		if($this->userAccessOnly) {
-			$userId = Yii::$app->account->auth->identity->id;
+			$userId = Yii::$app->user->identity->id;
 			$query->where($this->userIdField, "$userId");
 		}
 	}
 	
 	protected function addUserId(BaseEntity $entity) {
 		if($this->userAccessOnly) {
-			$userId = Yii::$app->account->auth->identity->id;
+			$userId = Yii::$app->user->identity->id;
 			$entity->{$this->userIdField} = $userId;
 		}
 	}
