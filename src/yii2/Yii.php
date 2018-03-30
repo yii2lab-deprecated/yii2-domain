@@ -6,7 +6,7 @@
  */
 
 require VENDOR_DIR . DS . 'yiisoft' . DS . 'yii2' . '/BaseYii.php';
-require VENDOR_DIR . DS . 'yii2lab/yii2-domain/src/yii2' . DS . 'DomainContainer.php';
+require VENDOR_DIR . DS . 'yii2lab' . DS . 'yii2-domain' . DS . 'src' . DS . 'yii2' . DS . 'DomainContainer.php';
 
 /**
  * Yii is a helper class serving common framework functionalities.
@@ -30,4 +30,3 @@ class Yii extends \yii\BaseYii
 spl_autoload_register(['Yii', 'autoload'], true, true);
 Yii::$classMap = require VENDOR_DIR . DS . 'yiisoft' . DS . 'yii2' . '/classes.php';
 Yii::$container = new yii\di\Container();
-Yii::$domain = new DomainContainer();
