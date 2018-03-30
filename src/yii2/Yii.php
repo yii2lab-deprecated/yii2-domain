@@ -20,7 +20,7 @@ class Yii extends \yii\BaseYii
 {
 	
 	/**
-	 * @var DomainContainer the domain container
+	 * @var \yii2lab\domain\yii2\DomainContainer the domain container
 	 */
 	public static $domain;
 	

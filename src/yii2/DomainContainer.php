@@ -1,5 +1,9 @@
 <?php
 
+namespace yii2lab\domain\yii2;
+
+use yii\di\ServiceLocator;
+
 /**
  * @property \yii2module\account\domain\v2\Domain $account
  * @property \yii2module\profile\domain\v2\Domain $profile
@@ -16,5 +20,5 @@
  * @property \yii2module\guide\domain\Domain $guide
  */
 
-class DomainContainer extends \yii\di\ServiceLocator {
+class DomainContainer extends ServiceLocator {
 }
