@@ -3,7 +3,7 @@
 namespace yii2lab\domain\web\actions;
 
 use yii2lab\domain\base\Action;
-use yii2lab\notify\domain\widgets\Alert;
+use yii2lab\navigation\domain\widgets\Alert;
 use Yii;
 
 class DeleteAction extends Action {
