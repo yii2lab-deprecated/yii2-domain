@@ -6,7 +6,6 @@
  */
 
 require VENDOR_DIR . DS . 'yiisoft' . DS . 'yii2' . '/BaseYii.php';
-require VENDOR_DIR . DS . 'yii2lab' . DS . 'yii2-domain' . DS . 'src' . DS . 'yii2' . DS . 'DomainContainer.php';
 
 /**
  * Yii is a helper class serving common framework functionalities.
