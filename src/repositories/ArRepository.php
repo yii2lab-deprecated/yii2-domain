@@ -79,7 +79,7 @@ class ArRepository extends BaseRepository {
 	
 	private function getParentModelClassName() {
 		if($this instanceof FiledbRepository || $this instanceof ActiveFiledbRepository) {
-			return 'yii2tech\filedb\ActiveRecord';
+			return 'yii2lab\domain\base\FiledbActiveRecord';
 		} else {
 			return 'yii\db\ActiveRecord';
 		}

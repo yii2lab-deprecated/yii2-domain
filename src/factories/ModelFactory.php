@@ -20,8 +20,8 @@ class ModelFactory extends BaseFactory {
 	
 	public function createVirtual($tableName, $parent = 'yii\db\ActiveRecord', $options = []) {
 		$params['extends'] = $parent;
-		$params['tableName'] = $params['extends'] == 'yii2tech\filedb\ActiveRecord' ? $tableName : '{{%'.$tableName.'}}';
-		$params['methodName'] = $params['extends'] == 'yii2tech\filedb\ActiveRecord' ? 'fileName' : 'tableName';
+		$params['tableName'] = $params['extends'] == 'yii2lab\domain\base\FiledbActiveRecord' ? $tableName : '{{%'.$tableName.'}}';
+		$params['methodName'] = $params['extends'] == 'yii2lab\domain\base\FiledbActiveRecord' ? 'fileName' : 'tableName';
 		if(isset($options['primaryKey'])) {
 			$params['primaryKey'] = $options['primaryKey'];
 		}
@@ -63,7 +63,8 @@ class ModelFactory extends BaseFactory {
 		if(!class_exists($class['className'])) {
 			$config = $class;
 			$config['use'] = [$params['extends']];
-			$config['afterClassName'] = 'extends ActiveRecord';
+			$isFileDb = $params['extends'] == 'yii2lab\domain\base\FiledbActiveRecord';
+			$config['afterClassName'] = $isFileDb ? 'extends FiledbActiveRecord' : 'extends ActiveRecord';
 			$config['code'] = $code;
 			$allClassCode = ClassGeneratorHelper::generateCode($config);
 			eval($allClassCode);
