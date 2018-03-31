@@ -4,8 +4,7 @@ namespace yii2lab\domain\repositories;
 
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\Query;
-use yii2lab\domain\interfaces\repositories\ModifyInterface;
-use yii2lab\domain\interfaces\repositories\ReadInterface;
+use yii2lab\domain\interfaces\repositories\CrudInterface;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -14,7 +13,7 @@ use yii\web\NotFoundHttpException;
  * @package yii2lab\domain\repositories
  * @deprecated use \yii2lab\core\domain\repositories\base\BaseActiveCoreRepository
  */
-class ActiveCoreRepository extends CoreRepository implements ReadInterface, ModifyInterface {
+class ActiveCoreRepository extends CoreRepository implements CrudInterface {
 	
 	public function all(Query $query = null) {
 		$query = Query::forge($query);

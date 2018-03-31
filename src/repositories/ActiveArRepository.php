@@ -5,15 +5,14 @@ namespace yii2lab\domain\repositories;
 use yii\web\ServerErrorHttpException;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\Query;
-use yii2lab\domain\interfaces\repositories\ReadInterface;
-use yii2lab\domain\interfaces\repositories\ModifyInterface;
+use yii2lab\domain\interfaces\repositories\CrudInterface;
 use yii2lab\domain\traits\ActiveRepositoryTrait;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\web\NotFoundHttpException;
 use yii\helpers\ArrayHelper;
 
-class ActiveArRepository extends ArRepository implements ReadInterface, ModifyInterface {
+class ActiveArRepository extends ArRepository implements CrudInterface {
 	
 	use ActiveRepositoryTrait;
 	
