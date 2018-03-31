@@ -4,7 +4,7 @@ namespace yii2lab\domain\interfaces\repositories;
 
 use yii2lab\domain\data\Query;
 
-interface ReadOneInterface {
+interface ReadOneInterface extends RepositoryInterface {
 	
 	/*
 	 * @param Query|null $query

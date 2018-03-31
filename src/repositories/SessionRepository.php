@@ -4,8 +4,9 @@ namespace yii2lab\domain\repositories;
 
 use Yii;
 use yii\helpers\Inflector;
+use yii2lab\domain\interfaces\repositories\RepositoryInterface;
 
-abstract class SessionRepository extends BaseRepository {
+abstract class SessionRepository extends BaseRepository implements RepositoryInterface {
 	
 	public $isFlash = false;
 	

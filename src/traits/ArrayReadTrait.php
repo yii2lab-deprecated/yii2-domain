@@ -21,14 +21,6 @@ trait ArrayReadTrait {
 		return [];
 	}
 	
-	/**
-	 * @param $query
-	 *
-	 * @return Query
-     * @deprecated use Query::forge()
-	 */
-	abstract protected function forgeQuery($query = null);
-
 	public function isExists($query) {
 		/** @var Query $query */
 		if(is_array($query)) {

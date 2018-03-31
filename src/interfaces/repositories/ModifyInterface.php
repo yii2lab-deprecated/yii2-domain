@@ -4,7 +4,7 @@ namespace yii2lab\domain\interfaces\repositories;
 
 use yii2lab\domain\BaseEntity;
 
-interface ModifyInterface {
+interface ModifyInterface extends RepositoryInterface {
 	
 	/**
 	 * @param BaseEntity $entity

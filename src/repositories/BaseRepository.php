@@ -83,25 +83,6 @@ abstract class BaseRepository extends YiiComponent {
 		return $this->runSchemaMethod('uniqueFields');
 	}
 	
-	private function runSchemaMethod($methodName) {
-		if(!isset($this->schemaInstance)) {
-			$schemaClass = $this->schemaClass;
-			if(empty($schemaClass)) {
-				return [];
-			}
-			if($schemaClass === true) {
-				$namespace = ClassHelper::getNamespace(static::class);
-				$namespace = dirname($namespace) . '\\schema\\';
-				$schemaClass = $namespace . ucfirst($this->id) . 'Schema';
-			}
-			$this->schemaInstance = new $schemaClass;
-			if(!$this->schemaInstance instanceof BaseSchema) {
-				return [];
-			}
-		}
-		return $this->schemaInstance->$methodName();
-	}
-	
 	public function whereFields() {
 		return $this->allFields();
 	}
@@ -135,17 +116,6 @@ abstract class BaseRepository extends YiiComponent {
 	}
 	
 	/**
-	 * @param $query
-	 *
-	 * @return Query
-	 *
-	 * @deprecated move to Query::forge()
-	 */
-	protected function forgeQuery($query = null) {
-		return Query::forge($query);
-	}
-	
-	/**
 	 * @param      $data
 	 * @param null $class
 	 *
@@ -161,6 +131,25 @@ abstract class BaseRepository extends YiiComponent {
 		$array = ArrayHelper::toArray($data);
 		$array = $this->getAlias()->decode($array);
 		return $this->domain->factory->entity->create($class, $array);
+	}
+	
+	private function runSchemaMethod($methodName) {
+		if(!isset($this->schemaInstance)) {
+			$schemaClass = $this->schemaClass;
+			if(empty($schemaClass)) {
+				return [];
+			}
+			if($schemaClass === true) {
+				$namespace = ClassHelper::getNamespace(static::class);
+				$namespace = dirname($namespace) . '\\schema\\';
+				$schemaClass = $namespace . ucfirst($this->id) . 'Schema';
+			}
+			$this->schemaInstance = new $schemaClass;
+			if(!$this->schemaInstance instanceof BaseSchema) {
+				return [];
+			}
+		}
+		return $this->schemaInstance->$methodName();
 	}
 	
 }
