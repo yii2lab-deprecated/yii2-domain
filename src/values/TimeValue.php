@@ -37,6 +37,10 @@ class TimeValue extends BaseValue {
 		$this->set($dateTime);
 	}
 	
+	public function setNow() {
+		$this->setFromFormat(TIMESTAMP, TimeValue::TIMESTAMP);
+	}
+	
 	public function getInFormat($mask = self::TIMESTAMP) {
 		$dateTime = $this->get();
 		if($mask == self::TIMESTAMP) {

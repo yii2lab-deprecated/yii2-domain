@@ -12,6 +12,11 @@ class BaseValue {
 		if(func_num_args() > 0) {
 			$this->set($value);
 		}
+		$this->init();
+	}
+	
+	public function init() {
+	
 	}
 	
 	public function set($value) {
