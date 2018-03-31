@@ -4,10 +4,17 @@ namespace yii2lab\domain\data;
 
 use yii\data\BaseDataProvider;
 use yii\db\ActiveQueryInterface;
+use yii2lab\domain\interfaces\services\CrudInterface;
 
 class ActiveDataProvider extends BaseDataProvider {
-
+	
+	/**
+	 * @var Query
+	 */
 	public $query;
+	/**
+	 * @var CrudInterface
+	 */
 	public $service;
 	public $key;
 	
@@ -16,7 +23,7 @@ class ActiveDataProvider extends BaseDataProvider {
 	 */
 	protected function prepareModels() {
 		$query = $this->cloneQueryClass();
-		$pagination = $this->getPagination([]);
+		$pagination = $this->getPagination();
 		if($pagination !== false) {
 			$pagination->totalCount = $this->getTotalCount();
 			if($pagination->totalCount === 0) {

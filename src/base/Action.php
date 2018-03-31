@@ -2,19 +2,28 @@
 
 namespace yii2lab\domain\base;
 
-use yii2lab\domain\base\Model;
 use Yii;
 use yii\base\Action as YiiAction;
+use yii2lab\domain\data\Query;
+use yii2lab\domain\services\BaseService;
+use yii2lab\domain\traits\action\ServiceTrait;
 
 class Action extends YiiAction {
+	
+	use ServiceTrait;
 	
 	public $formClass;
 	public $titleName;
 	public $baseUrl;
 	public $serviceMethod;
+	public $serviceMethodParams;
 	public $service;
 	public $render;
 	public $view;
+	/**
+	 * @var Query
+	 */
+	public $query = null;
 	
 	public function init()
 	{

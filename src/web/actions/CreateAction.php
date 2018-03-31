@@ -16,8 +16,7 @@ class CreateAction extends Action {
 		$model =$this->createForm();
 		if(Yii::$app->request->isPost && !$model->hasErrors()) {
 			try{
-				$method = $this->serviceMethod;
-				$this->service->$method($model->toArray());
+				$this->runServiceMethod($model->toArray());
 				Yii::$app->navigation->alert->create(['main', 'create_success'], Alert::TYPE_SUCCESS);
 				return $this->redirect($this->baseUrl);
 			} catch (UnprocessableEntityHttpException $e){
