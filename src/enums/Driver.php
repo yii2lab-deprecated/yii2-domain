@@ -12,6 +12,7 @@ class Driver extends BaseEnum {
 	const TPS = 'tps';
 	const FILE = 'file';
 	const UPLOAD = 'upload';
+	const FLY = 'fly';
 	const SESSION = 'session';
 	const REST = 'rest';
 	const TEST = 'test';
