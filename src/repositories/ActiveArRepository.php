@@ -48,6 +48,7 @@ class ActiveArRepository extends ArRepository implements CrudInterface {
 		/** @var ActiveRecord $model */
 		$model = Yii::createObject(get_class($this->model));
 		$this->massAssignment($model, $entity, self::SCENARIO_INSERT);
+		$transaction = Yii::$app->db->beginTransaction();
 		$result = $this->saveModel($model);
 		if(!empty($this->primaryKey) && $result) {
 			try {
@@ -59,11 +60,13 @@ class ActiveArRepository extends ArRepository implements CrudInterface {
 				// todo: как вариант
 				/*$tableSchema = Yii::$app->db->getTableSchema($this->tableSchema['name']);
 				$entity->{$this->primaryKey} =  Yii::$app->db->getLastInsertID($tableSchema->sequenceName);*/
-				
+				$transaction->commit();
 			}catch(\Exception $e) {
+				$transaction->rollback();
 				throw new ServerErrorHttpException('Postgre sequence error');
 			}
 		}
+		
 		return $entity;
 	}
 	
