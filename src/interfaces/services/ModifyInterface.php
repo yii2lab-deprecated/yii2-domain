@@ -10,7 +10,9 @@ interface ModifyInterface {
 	 * @throws \yii2lab\domain\exceptions\UnprocessableEntityHttpException
 	 */
 	public function create($data);
-
+	
+	//public function update(BaseEntity $entity);
+	
 	/**
 	 * @param $id
 	 * @param $data array
