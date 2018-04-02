@@ -129,6 +129,10 @@ class ActiveBaseService extends BaseService implements CrudInterface {
 		return $this->afterAction(self::EVENT_CREATE, $entity);
 	}
 	
+	public function update(BaseEntity $entity) {
+		// todo: реализовать метод
+	}
+	
 	public function updateById($id, $data) {
 		$this->beforeAction(self::EVENT_UPDATE);
 		$data = ArrayHelper::toArray($data);
