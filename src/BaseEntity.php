@@ -117,7 +117,7 @@ class BaseEntity extends Component implements Arrayable {
 	protected function forgeEntity($value, $className) {
         if(!empty($value) && ! $value instanceof BaseEntity) {
             $value = ArrayHelper::toArray($value);
-            $value = \Yii::$app->account->factory->entity->create($className, $value);
+            $value = \Yii::$domain->account->factory->entity->create($className, $value);
         }
         return $value;
     }

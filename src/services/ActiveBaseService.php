@@ -233,7 +233,7 @@ class ActiveBaseService extends BaseService implements CrudInterface {
 		$access['only'] = !empty($access['only']) ? ArrayHelper::toArray($access['only']) : null;
 		$isIntersectAction = empty($access['only']) || in_array($action, $access['only']);
 		if($isIntersectAction) {
-			Yii::$app->account->rbac->can($access['roles'], $param);
+			Yii::$domain->account->rbac->can($access['roles'], $param);
 		}
 	}
 

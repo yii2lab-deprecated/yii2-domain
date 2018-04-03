@@ -35,7 +35,7 @@ class BaseRestRepository extends BaseRepository {
 	protected function showException($response) {
 		$statusCode = $response->statusCode;
 		if($statusCode == 401) {
-			Yii::$app->account->auth->breakSession();
+			Yii::$domain->account->auth->breakSession();
 			//throw new UnauthorizedHttpException();
 		} elseif($statusCode == 403) {
 			throw new ForbiddenHttpException();

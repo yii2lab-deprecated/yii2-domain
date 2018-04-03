@@ -12,7 +12,7 @@ class TpsRepository extends BaseRepository {
 		try {
 			return $request->send();
 		} catch(NotAuthenticatedException $e) {
-			Yii::$app->account->auth->breakSession();
+			Yii::$domain->account->auth->breakSession();
 		}
 	}
 	
