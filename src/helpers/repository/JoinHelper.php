@@ -34,7 +34,6 @@ class JoinHelper {
 	private static function allForMany(array $collection, array $relationConfig) {
 		$query = self::forgeQuery($collection, $relationConfig);
 		$relCollection = RelationRepositoryHelper::getAll($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $query);
-		$relCollection = ArrayHelper::index($relCollection, $relationConfig['field']);
 		return $relCollection;
 	}
 	
