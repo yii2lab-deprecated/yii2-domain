@@ -9,6 +9,7 @@ use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use yii\web\NotFoundHttpException;
 use yii2lab\domain\helpers\repository\RelationHelper;
 use yii2lab\domain\helpers\repository\RelationWithHelper;
+use yii\base\InvalidArgumentException;
 
 trait ActiveRepositoryTrait {
 	
@@ -47,6 +48,9 @@ trait ActiveRepositoryTrait {
 	
 	public function one(Query $query = null) {
 		$query = Query::forge($query);
+		if(!$query->hasParam('where') || $query->getParam('where') == []) {
+		    throw new InvalidArgumentException(\Yii::t('domain:domain/repository', 'where_connot_be_empty'));
+		};
 		$query2 = clone $query;
 		$with = RelationWithHelper::cleanWith($this->relations(), $query);
 		$model = $this->oneModel($query);
