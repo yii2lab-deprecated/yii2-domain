@@ -3,6 +3,7 @@
 namespace yii2lab\domain;
 
 use yii\helpers\ArrayHelper;
+use yii2lab\domain\enums\Driver;
 use yii2lab\domain\factories\Factory;
 use Yii;
 use yii\base\BaseObject;
@@ -37,10 +38,13 @@ class Domain extends BaseObject {
 	public $container = [];
 	public $services = [];
 	public $translations = [];
+	public $primaryDriver;
+	public $slaveDriver;
 	
 	public function init() {
 		$this->initPath();
 		$this->initId();
+		$this->initDriver();
 		$this->initContainer();
 	}
 	
@@ -117,6 +121,15 @@ class Domain extends BaseObject {
 		}
 		if(!$this->isBaseClassName()) {
 			$this->path = ClassHelper::getNamespace(static::class);
+		}
+	}
+	
+	private function initDriver() {
+		if(!isset($this->primaryDriver)) {
+			$this->primaryDriver = Driver::primary();
+		}
+		if(!isset($this->slaveDriver)) {
+			$this->slaveDriver = Driver::slave();
 		}
 	}
 	
