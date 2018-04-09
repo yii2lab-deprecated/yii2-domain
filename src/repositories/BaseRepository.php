@@ -42,6 +42,12 @@ abstract class BaseRepository extends YiiComponent {
 	protected $schemaClass = false;
 	protected $schemaInstance;
 	
+	/**
+	 * @param Query|null $query
+	 *
+	 * @return ActiveDataProvider
+	 * @throws InvalidConfigException
+	 */
 	public function getDataProvider(Query $query = null) {
 		if(!$this instanceof ReadInterface) {
 			throw new InvalidConfigException("Repository {$this->class} not implements of ReadInterface");
@@ -107,6 +113,10 @@ abstract class BaseRepository extends YiiComponent {
 		return $this->alias;
 	}
 	
+	/**
+	 * @return object|QueryValidator
+	 * @throws InvalidConfigException
+	 */
 	public function getQueryValidator() {
 		if(!isset($this->queryValidator)) {
 			$this->queryValidator = Yii::createObject(QueryValidator::class);
