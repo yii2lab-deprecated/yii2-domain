@@ -3,6 +3,7 @@
 namespace yii2lab\domain\data;
 
 use yii\data\BaseDataProvider;
+use yii\data\Pagination;
 use yii\db\ActiveQueryInterface;
 use yii2lab\domain\interfaces\services\CrudInterface;
 
@@ -22,7 +23,6 @@ class ActiveDataProvider extends BaseDataProvider {
 	 * @inheritdoc
 	 */
 	protected function prepareModels() {
-		$query = $this->cloneQueryClass();
 		$pagination = $this->getPagination();
 		if($pagination !== false) {
 			$pagination->totalCount = $this->getTotalCount();
@@ -30,13 +30,7 @@ class ActiveDataProvider extends BaseDataProvider {
 				return [];
 			}
 		}
-		$offset = $query->getParam('offset', 'integer');
-		if($offset == 0) {
-			$offset = $pagination->getOffset();
-		} else {
-			$offset = $offset < $pagination->totalCount ? $offset : $pagination->totalCount;
-		}
-		$query->limit($pagination->getLimit())->offset($offset);
+		$query = $this->prepareQueryFromPagination($pagination);
 		return $this->service->all($query);
 	}
 	
@@ -83,7 +77,7 @@ class ActiveDataProvider extends BaseDataProvider {
 	/**
 	 * @inheritdoc
 	 */
-	protected function prepareTotalCount() {
+	protected function prepareTotalCount() : int {
 		$query = $this->cloneQueryClass();
 		$query->limit(null)->offset(null)->orderBy(null);
 		return (int) $this->service->count($query);
@@ -92,7 +86,7 @@ class ActiveDataProvider extends BaseDataProvider {
 	/**
 	 * @return Query
 	 */
-	private function cloneQueryClass() {
+	private function cloneQueryClass() : Query {
 		$query = $this->getQueryClass();
 		return clone $query;
 	}
@@ -100,10 +94,29 @@ class ActiveDataProvider extends BaseDataProvider {
 	/**
 	 * @return Query
 	 */
-	private function getQueryClass() {
+	private function getQueryClass() : Query {
 		if (!$this->query instanceof Query) {
 			$this->query = new Query;
 		}
 		return $this->query;
 	}
+	
+	private function prepareQueryFromPagination(Pagination $pagination) : Query {
+		$query = $this->cloneQueryClass();
+		$offset = $query->getParam('offset', 'integer');
+		$pagination->setPageSize($query->getParam('per-page', 'integer'), true);
+		$offset = $this->normalizeOffset($offset, $pagination);
+		$query->limit($pagination->getLimit())->offset($offset);
+		return $query;
+	}
+	
+	private function normalizeOffset($offset, Pagination $pagination) : int {
+		if($offset == 0) {
+			$offset = $pagination->getOffset();
+		} else {
+			$offset = $offset < $pagination->totalCount ? $offset : $pagination->totalCount;
+		}
+		return intval($offset);
+	}
+	
 }
