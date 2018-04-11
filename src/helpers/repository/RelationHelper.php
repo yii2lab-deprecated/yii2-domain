@@ -6,7 +6,7 @@ use Yii;
 use yii\web\BadRequestHttpException;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\dto\WithDto;
-use yii2lab\helpers\DomainHelper;
+use yii2lab\domain\helpers\DomainHelper;
 
 class RelationHelper {
 	

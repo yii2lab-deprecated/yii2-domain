@@ -3,7 +3,7 @@
 namespace yii2lab\domain\helpers\repository;
 
 use yii2lab\domain\enums\RelationEnum;
-use yii2lab\helpers\DomainHelper;
+use yii2lab\domain\helpers\DomainHelper;
 use yii2mod\helpers\ArrayHelper;
 use yii2lab\domain\data\Query;
 
