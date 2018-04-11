@@ -3,14 +3,44 @@
 namespace yii2lab\domain\helpers;
 
 use Yii;
+use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\base\UnknownPropertyException;
 use yii\web\NotFoundHttpException;
 use yii2lab\domain\BaseEntity;
+use yii2lab\domain\entities\ServiceExecutorEntity;
 use yii2lab\domain\services\BaseService;
 use yii2mod\helpers\ArrayHelper;
 
 class ServiceHelper {
+	
+	public static function isExists(string $domain, string $service) {
+		if(!DomainHelper::has($domain)) {
+			return false;
+		}
+		if(empty($service)) {
+			throw new InvalidArgumentException('Service name can not be empty!');
+		}
+		try {
+			Yii::$domain->{$domain}->{$service};
+			return true;
+		} catch(UnknownPropertyException $e) {
+		}
+		return false;
+	}
+	
+	public static function one(string $domain, string $service) {
+		if(!self::isExists($domain, $service)) {
+			throw new InvalidArgumentException('Service "' . $domain . '->' . $service . '" not defined!');
+		}
+		return Yii::$domain->{$domain}->{$service};
+	}
+	
+	public static function run(ServiceExecutorEntity $entity) {
+		$service = self::one($entity->domain, $entity->name);
+		$response = call_user_func_array([$service, $entity->method], $entity->params);
+		return $response;
+	}
 	
 	public static function has($serviceName) {
 		try {
