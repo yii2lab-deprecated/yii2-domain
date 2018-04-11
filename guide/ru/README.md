@@ -12,12 +12,13 @@ Domain Driven Design
 * [Фильтры](filter.md)
 * [Межсерверное проектирование](multi-server-design.md)
 
-## Слои
+## Базовые элементы
 
 * [Домен](domain.md)
 * [Сервис](service.md)
 * [Хранилище](repository.md)
 * [Сущность](entity.md)
+* [Коллекция](collection.md)
 * [Объект-значение](value.md)
 
 ## Классы
@@ -25,6 +26,7 @@ Domain Driven Design
 * [Фабрика](factory.md)
 * [Запрос](query.md)
 * [Схема](schema.md)
+* [DTO (Data transfer object)](dto.md)
 
 ## Драйвера
 
