@@ -37,7 +37,7 @@ class ServiceHelper {
 	}
 	
 	public static function run(ServiceExecutorEntity $entity) {
-		$service = self::one($entity->domain, $entity->name);
+		$service = self::one($entity->domain, $entity->service);
 		$response = call_user_func_array([$service, $entity->method], $entity->params);
 		return $response;
 	}

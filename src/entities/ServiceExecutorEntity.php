@@ -11,14 +11,14 @@ use yii2lab\domain\BaseEntity;
  * @package yii2lab\domain\entities
  *
  * @property $id string
- * @property $name string
+ * @property $service string
  * @property $domain string
  * @property $method string
  * @property $params array
  */
 class ServiceExecutorEntity extends BaseEntity {
 
-	protected $name;
+	protected $service;
 	protected $domain;
 	protected $method;
 	protected $params = [];
@@ -27,7 +27,7 @@ class ServiceExecutorEntity extends BaseEntity {
 		if(strpos($value, DOT) === false) {
 			throw new InvalidArgumentException('Invalid id format!');
 		}
-		list($this->domain, $this->name) = explode(DOT, $value);
+		list($this->domain, $this->service) = explode(DOT, $value);
 	}
 	
 	public function getId() {
@@ -37,7 +37,7 @@ class ServiceExecutorEntity extends BaseEntity {
 		if(empty($this->domain)) {
 			throw new InvalidArgumentException('Domain name can not be empty!');
 		}
-		return $this->domain . DOT . $this->name;
+		return $this->domain . DOT . $this->service;
 	}
 	
 	/**

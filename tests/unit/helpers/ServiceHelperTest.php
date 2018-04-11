@@ -23,7 +23,7 @@ class ServiceHelperTest extends Unit
 		TestAuthHelper::defineAccountDomain();
 		$executor = new ServiceExecutorEntity();
 		$executor->domain = 'account';
-		$executor->name = 'login';
+		$executor->service = 'login';
 		$executor->method = 'oneById';
 		$executor->params = 381949;
 		$entity = ServiceHelper::run($executor);
