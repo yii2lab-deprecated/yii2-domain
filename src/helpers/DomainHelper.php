@@ -12,6 +12,12 @@ use yii2mod\helpers\ArrayHelper;
 
 class DomainHelper {
 	
+	/**
+	 * @param $domainId
+	 * @param $definition
+	 *
+	 * @throws \yii\base\InvalidConfigException
+	 */
 	public static function define($domainId, $definition) {
 		$definition = ConfigHelper::normalizeItemConfig($domainId, $definition);
 		if(!Yii::$domain->has($domainId)) {
@@ -19,6 +25,14 @@ class DomainHelper {
 		}
 	}
 	
+	/**
+	 * @param string     $domainId
+	 * @param            $className
+	 * @param array|null $classDefinition
+	 *
+	 * @return array|mixed|null
+	 * @throws \yii\base\InvalidConfigException
+	 */
 	public static function getClassConfig(string $domainId, $className, array $classDefinition = null) {
 		$definition = self::getConfigFromDomainClass($className);
 		$definition = ConfigHelper::normalizeItemConfig($domainId, $definition);
@@ -30,6 +44,12 @@ class DomainHelper {
 		return $definition;
 	}
 	
+	/**
+	 * @param $className
+	 *
+	 * @return array
+	 * @throws \yii\base\InvalidConfigException
+	 */
 	private static function getConfigFromDomainClass($className) {
 		$definition = ClassHelper::normalizeComponentConfig($className);
 		/** @var Domain $domain */
@@ -46,6 +66,12 @@ class DomainHelper {
 		return is_array($data);
 	}
 	
+	/**
+	 * @param $name
+	 *
+	 * @return bool
+	 * @throws \yii\base\InvalidConfigException
+	 */
 	public static function has($name) {
 		if(empty($name)) {
 			throw new InvalidArgumentException('Domain name can not be empty!');
