@@ -2,7 +2,9 @@
 
 namespace yii2lab\domain\dto;
 
-class WithDto {
+use yii2lab\domain\base\BaseDto;
+
+class WithDto extends BaseDto {
 
 	public $query;
 	public $remain;
