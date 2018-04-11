@@ -9,6 +9,7 @@ use yii2lab\domain\BaseEntity;
 use yii2lab\domain\Domain;
 use yii2lab\domain\entities\ServiceExecutorEntity;
 use yii2lab\helpers\ClassHelper;
+use yii2lab\helpers\Helper;
 use yii2mod\helpers\ArrayHelper;
 
 class DomainHelper {
