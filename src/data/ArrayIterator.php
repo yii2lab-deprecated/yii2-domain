@@ -3,6 +3,7 @@
 namespace yii2lab\domain\data;
 
 use yii\web\NotFoundHttpException;
+use yii2lab\designPattern\scenario\helpers\ScenarioHelper;
 use yii2lab\helpers\ReflectionHelper;
 use yii2lab\designPattern\filter\helpers\FilterHelper;
 
@@ -59,7 +60,7 @@ class ArrayIterator {
 					'class' => 'yii2lab\domain\filters\iterator\\' . ucfirst($filterName),
 					'query' => $query,
 				];
-				$collection = FilterHelper::run($filterConfig, $collection);
+				$collection = ScenarioHelper::run($filterConfig, $collection);
 			}
 		}
 		$collection = array_values($collection);

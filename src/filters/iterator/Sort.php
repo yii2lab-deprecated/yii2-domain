@@ -2,18 +2,18 @@
 
 namespace yii2lab\domain\filters\iterator;
 
-use yii\base\BaseObject;
+use yii2lab\designPattern\scenario\base\BaseScenario;
 use yii2lab\domain\data\Query;
 use yii2lab\helpers\yii\ArrayHelper;
-use yii2lab\designPattern\filter\interfaces\FilterInterface;
 
-class Sort extends BaseObject implements FilterInterface {
+class Sort extends BaseScenario {
 
 	public $query;
 	
-	public function run($collection) {
+	public function run() {
+		$collection = $this->getData();
 		$collection = $this->filterSort($collection, $this->query);
-		return $collection;
+		$this->setData($collection);
 	}
 	
 	protected function filterSort(Array $collection, Query $query) {

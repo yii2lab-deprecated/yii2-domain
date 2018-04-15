@@ -3,21 +3,21 @@
 namespace yii2lab\domain\filters;
 
 use Yii;
-use yii\base\BaseObject;
-use yii2lab\designPattern\filter\interfaces\FilterInterface;
+use yii2lab\designPattern\scenario\base\BaseScenario;
 use yii2lab\domain\yii2\DomainContainer;
 use yii2module\lang\domain\helpers\DomainConfigHelper;
 
-class DefineDomainLocator extends BaseObject implements FilterInterface {
+class DefineDomainLocator extends BaseScenario {
 	
-	public function run($config) {
+	public function run() {
+		$config = $this->getData();
 		if(!$this->isHasDomainProperty()) {
 			return $config;
 		}
 		$this->loadDomainContainerClass();
 		$domains = $this->extractDomainsFromComponent($config['components']);
 		$this->createDomainLocator($domains);
-		return $config;
+		$this->setData($config);
 	}
 	
 	private function isHasDomainProperty() {
