@@ -40,7 +40,7 @@ abstract class BaseRepository extends YiiComponent {
 	public $driver;
 	protected $primaryKey = 'id';
 	protected $schemaClass = false;
-	protected $schemaInstance;
+	private $schemaInstance;
 	
 	/**
 	 * @param Query|null $query
@@ -142,24 +142,40 @@ abstract class BaseRepository extends YiiComponent {
 		$array = $this->getAlias()->decode($array);
 		return $this->domain->factory->entity->create($class, $array);
 	}
-	
+
+    /**
+     *
+     * @throws InvalidConfigException
+     * @throws \yii\web\ServerErrorHttpException
+     */
+    public function getSchemaInstance() {
+        if(!isset($this->schemaInstance)) {
+            $schemaClass = $this->getSchemaClassName();
+            if(empty($schemaClass)) {
+                return false;
+            }
+            $this->schemaInstance = ClassHelper::createObject($schemaClass, [], BaseSchema::class);
+        }
+        return $this->schemaInstance;
+    }
+
+    public function getSchemaClassName() {
+        $schemaClass = false;
+	    if(is_string($this->schemaClass)) {
+            $schemaClass = $this->schemaClass;
+        } elseif($this->schemaClass === true) {
+            $namespace = $this->domain->path . '\\repositories\\schema\\';
+            $schemaClass = $namespace . ucfirst($this->id) . 'Schema';
+        }
+        return $schemaClass;
+    }
+
 	private function runSchemaMethod($methodName) {
-		if(!isset($this->schemaInstance)) {
-			$schemaClass = $this->schemaClass;
-			if(empty($schemaClass)) {
-				return [];
-			}
-			if($schemaClass === true) {
-				$namespace = ClassHelper::getNamespace(static::class);
-				$namespace = dirname($namespace) . '\\schema\\';
-				$schemaClass = $namespace . ucfirst($this->id) . 'Schema';
-			}
-			$this->schemaInstance = new $schemaClass;
-			if(!$this->schemaInstance instanceof BaseSchema) {
-				return [];
-			}
-		}
-		return $this->schemaInstance->$methodName();
+        $schemaInstance = $this->getSchemaInstance();
+        if(empty($schemaInstance)) {
+            return [];
+        }
+		return $schemaInstance->$methodName();
 	}
 	
 }
