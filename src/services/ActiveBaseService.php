@@ -2,6 +2,7 @@
 
 namespace yii2lab\domain\services;
 
+use yii\base\InvalidArgumentException;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\helpers\ErrorCollection;
@@ -89,6 +90,9 @@ class ActiveBaseService extends BaseService implements CrudInterface {
 	 * @throws \yii\web\ServerErrorHttpException
 	 */
 	public function oneById($id, Query $query = null) {
+		if(empty($id)) {
+			throw new InvalidArgumentException('ID can not be empty in ' . __METHOD__ . ' ' . static::class);
+		}
 		$this->beforeAction(self::EVENT_VIEW);
 		$query = Query::forge($query);
 		$this->userAccessOnly($query);
