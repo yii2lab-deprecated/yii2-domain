@@ -17,6 +17,13 @@ use yii\web\ServerErrorHttpException;
 use yii2lab\domain\data\ActiveDataProvider;
 use yii2lab\domain\interfaces\repositories\ReadInterface;
 
+/**
+ * Class ActiveBaseService
+ *
+ * @package yii2lab\domain\services
+ *
+ * @property-read \yii2lab\domain\interfaces\repositories\CrudInterface $repository
+ */
 class ActiveBaseService extends BaseService implements CrudInterface {
 	
 	const EVENT_INDEX = 'index';

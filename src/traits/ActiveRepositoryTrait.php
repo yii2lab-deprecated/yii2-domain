@@ -38,6 +38,14 @@ trait ActiveRepositoryTrait {
 		}
 	}
 	
+	/**
+	 * @param            $id
+	 * @param Query|null $query
+	 *
+	 * @return BaseEntity
+	 *
+	 * @throws NotFoundHttpException
+	 */
 	public function oneById($id, Query $query = null) {
 		/** @var Query $query */
 		$query = Query::forge($query);
@@ -46,6 +54,14 @@ trait ActiveRepositoryTrait {
 		return $this->one($query);
 	}
 	
+	/**
+	 * @param Query|null $query
+	 *
+	 * @return BaseEntity
+	 *
+	 * @throws NotFoundHttpException
+	 * @throws \yii\web\BadRequestHttpException
+	 */
 	public function one(Query $query = null) {
 		$query = Query::forge($query);
 		if(!$query->hasParam('where') || $query->getParam('where') == []) {

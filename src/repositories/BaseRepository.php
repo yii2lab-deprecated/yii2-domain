@@ -31,8 +31,6 @@ abstract class BaseRepository extends YiiComponent {
 	
 	/** @var \yii2lab\domain\Domain */
 	public $domain;
-	
-	/** @var Alias */
 	private $alias;
 	
 	/** @var \yii2lab\domain\helpers\QueryValidator */
@@ -105,6 +103,9 @@ abstract class BaseRepository extends YiiComponent {
 		return [];
 	}
 	
+	/**
+	 * @return Alias
+	 */
 	public function getAlias() {
 		if(!isset($this->alias)) {
 			$this->alias = new Alias();

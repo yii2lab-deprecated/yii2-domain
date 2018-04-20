@@ -15,11 +15,12 @@ interface ModifyInterface {
 	
 	/**
 	 * @param $id
-	 * @param $data array
+	 * @param $data|BaseEntity array
 	 *
 	 * @throws \yii\web\NotFoundHttpException
 	 * @throws \yii2lab\domain\exceptions\UnprocessableEntityHttpException
 	 */
+	
 	public function updateById($id, $data);
 	
 	/**

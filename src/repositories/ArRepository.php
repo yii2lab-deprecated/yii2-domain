@@ -210,7 +210,7 @@ class ArRepository extends BaseRepository {
 			$this->query->select($fields);
 		}
 		if(!empty($q['with'])) {
-			$this->validateWithParam($q['with']);
+			//$this->validateWithParam($q['with']);
 			$with = $this->alias->encode($q['with']);
 			$this->query->with($with);
 		}
