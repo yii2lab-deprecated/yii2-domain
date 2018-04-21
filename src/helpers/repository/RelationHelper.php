@@ -53,10 +53,12 @@ class RelationHelper {
 		$isEntity = DomainHelper::isEntity($data);
 		$collection = $isEntity ? [$data] : $data;
 		$relCollection = JoinHelper::all($collection, $w->relationConfig);
-		foreach($collection as &$entity) {
-			$foreignRelation = RelationLoaderHelper::loadRelationItem($entity, $w, $relCollection);
-			if(!empty($w->remain[$w->relationName])) {
-				self::load($foreignRelation['foreign']['domain'], $foreignRelation['foreign']['name'], $w->query, $entity->{$w->relationName}, $w);
+		if(!empty($relCollection)) {
+			foreach($collection as &$entity) {
+				$foreignRelation = RelationLoaderHelper::loadRelationItem($entity, $w, $relCollection);
+				if(!empty($w->remain[$w->relationName])) {
+					self::load($foreignRelation['foreign']['domain'], $foreignRelation['foreign']['name'], $w->query, $entity->{$w->relationName}, $w);
+				}
 			}
 		}
 		return $isEntity ? $collection[0] : $collection;

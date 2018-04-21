@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii2lab\domain\helpers\repository\RelationHelper;
 use yii2lab\domain\helpers\repository\RelationWithHelper;
 use yii\base\InvalidArgumentException;
+use yii2mod\helpers\ArrayHelper;
 
 trait ActiveRepositoryTrait {
 	
@@ -65,6 +66,19 @@ trait ActiveRepositoryTrait {
 	public function one(Query $query = null) {
 		$query = Query::forge($query);
 		if(!$query->hasParam('where') || $query->getParam('where') == []) {
+			throw new InvalidArgumentException(Yii::t('domain:domain/repository', 'where_connot_be_empty'));
+		};
+		$query->limit(1);
+		$collection = $this->all($query);
+		if(empty($collection)) {
+			throw new NotFoundHttpException();
+		}
+		$entity = ArrayHelper::first($collection);
+		return $entity;
+	}
+	/*public function one(Query $query = null) {
+		$query = Query::forge($query);
+		if(!$query->hasParam('where') || $query->getParam('where') == []) {
 		    throw new InvalidArgumentException(\Yii::t('domain:domain/repository', 'where_connot_be_empty'));
 		};
 		$query2 = clone $query;
@@ -78,7 +92,7 @@ trait ActiveRepositoryTrait {
 			$entity = RelationHelper::load($this->domain->id, $this->id, $query2, $entity);
 		}
 		return $entity;
-	}
+	}*/
 	
 	public function all(Query $query = null) {
 		$query = Query::forge($query);

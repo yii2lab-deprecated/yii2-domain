@@ -35,6 +35,9 @@ class RelationWithHelper {
 		} else {
 			return [];
 		}
+		if(empty($withArray)) {
+			return [];
+		}
 		$fields = [];
 		foreach($withArray as $with) {
 			$dotPos = strpos($with, DOT);
