@@ -56,6 +56,9 @@ class BaseEntity extends Component implements Arrayable {
 	
 	public function __construct($config = [], $isNew = true) {
 		if(!empty($config)) {
+			if($config instanceof BaseEntity) {
+				$config = $config->toArray();
+			}
 			$this->old_attributes = $this->setAttributes($config);
 		}
 		$this->isNew = $isNew;
@@ -117,7 +120,7 @@ class BaseEntity extends Component implements Arrayable {
 	protected function forgeEntity($value, $className) {
         if(!empty($value) && ! $value instanceof BaseEntity) {
             $value = ArrayHelper::toArray($value);
-            $value = \Yii::$domain->account->factory->entity->create($className, $value);
+            $value = new $className($value);
         }
         return $value;
     }

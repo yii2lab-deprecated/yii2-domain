@@ -13,7 +13,7 @@ class BoolValue extends BaseValue {
 	}
 	
 	public function isValid($value) {
-		return $value === true || $value === false;
+		return !is_object($value) && !is_array($value);
 	}
 	
 }
