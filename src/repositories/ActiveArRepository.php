@@ -83,8 +83,7 @@ class ActiveArRepository extends ArRepository implements CrudInterface {
 		} else {
 			$condition = $entity->toArray();
 		}
-		$model = $this->findOne($condition);
-		$this->model::deleteAll($condition);
+		$this->deleteOne($condition);
 	}
 	
 	/**
@@ -102,4 +101,9 @@ class ActiveArRepository extends ArRepository implements CrudInterface {
 		return $model;
 	}
 	
+	protected function deleteOne($condition) {
+		$this->findOne($condition);
+		$encodedCondition = $this->alias->encode($condition);
+		$this->model::deleteAll($encodedCondition);
+	}
 }
