@@ -138,17 +138,19 @@ class BaseEntity extends Component implements Arrayable {
 		return $fields;
 	}
 	
-	public function load($attributes) {
+	public function load($attributes, $only = null) {
 		$attributes = ArrayHelper::toArray($attributes);
-		$this->setAttributes($attributes);
+		$this->setAttributes($attributes, $only);
 	}
 	
-	protected function setAttributes($values) {
+	protected function setAttributes($values, $attributeNames = null) {
 		if(empty($values) || !is_array($values)) {
 			return null;
 		}
 		$old_attributes = [];
-		$attributeNames = $this->attributes();
+		if(empty($attributeNames)) {
+			$attributeNames = $this->attributes();
+		}
 		foreach($values as $name => $value) {
 			if(in_array($name, $attributeNames)) { //isset($values[$name]) &&
 				$value = Helper::toArray($values[ $name ]);
