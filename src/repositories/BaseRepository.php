@@ -5,6 +5,7 @@ namespace yii2lab\domain\repositories;
 use yii2lab\domain\Alias;
 use yii2lab\domain\data\ActiveDataProvider;
 use yii2lab\domain\data\Query;
+use yii2lab\domain\Domain;
 use yii2lab\domain\helpers\QueryValidator;
 use yii2lab\domain\interfaces\repositories\ReadInterface;
 use Yii;
@@ -21,6 +22,7 @@ use yii2lab\helpers\ClassHelper;
  *
  * @property Alias $alias
  * @property QueryValidator $queryValidator
+ * @property Domain $domain
  */
 abstract class BaseRepository extends YiiComponent {
 	
