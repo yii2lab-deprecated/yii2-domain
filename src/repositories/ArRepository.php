@@ -36,7 +36,10 @@ class ArRepository extends BaseRepository {
 	
 	public function tableName()
 	{
-		return $this->tableName;
+		if(!empty($this->tableName)) {
+			return $this->tableName;
+		}
+		return $this->domain->id . BL . $this->id;
 	}
 	
 	public function getModel() {
