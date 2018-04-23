@@ -3,6 +3,7 @@
 namespace yii2lab\domain\repositories;
 
 use yii\base\Model;
+use yii\helpers\Inflector;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\helpers\ErrorCollection;
@@ -39,7 +40,7 @@ class ArRepository extends BaseRepository {
 		if(!empty($this->tableName)) {
 			return $this->tableName;
 		}
-		return $this->domain->id . BL . $this->id;
+		return $this->domain->id . BL . Inflector::underscore($this->id);
 	}
 	
 	public function getModel() {
@@ -89,7 +90,7 @@ class ArRepository extends BaseRepository {
 	}
 	
 	private function initModel() {
-		if($this->tableName()) {
+		if(empty($this->modelClass)) {
 			$this->createVirtualModel();
 		} else {
 			if(!isset($this->modelClass)) {
