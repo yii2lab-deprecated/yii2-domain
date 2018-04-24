@@ -16,7 +16,7 @@ trait ServiceTrait {
 		if($this->serviceName === null) {
 			throw new InvalidConfigException('The "serviceName" property must be set.');
 		}
-		$this->service = ArrayHelper::getValue(Yii::$app, $this->serviceName);
+		$this->service = ArrayHelper::getValue(Yii::$domain, $this->serviceName);
 	}
 
 	protected function getAccessBehaviors($behaviors = []) {
