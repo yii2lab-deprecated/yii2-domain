@@ -108,6 +108,14 @@ class Query extends Component {
 		return $this;
 	}
 	
+	public function removeWith($key) {
+		if(!empty($key)) {
+			unset($this->query['with'][ $key ]);
+		} else {
+			unset($this->query['with']);
+		}
+	}
+	
 	public function page($value) {
 		if($value === null) {
 			unset($this->query['page']);

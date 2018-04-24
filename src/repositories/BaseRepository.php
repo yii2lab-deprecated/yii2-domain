@@ -52,7 +52,7 @@ abstract class BaseRepository extends YiiComponent {
 		if(!$this instanceof ReadInterface) {
 			throw new InvalidConfigException("Repository {$this->class} not implements of ReadInterface");
 		}
-		$query = Query::forge($query);
+		$query = $this->prepareQuery($query);
 		$dataProvider = new ActiveDataProvider([
 			'query' => $query,
 			'service' => $this,
@@ -99,6 +99,11 @@ abstract class BaseRepository extends YiiComponent {
 	
 	public function selectFields() {
 		return $this->allFields();
+	}
+	
+	protected function prepareQuery(Query $query = null) {
+		$query = Query::forge($query);
+		return $query;
 	}
 	
 	public function fieldAlias() {

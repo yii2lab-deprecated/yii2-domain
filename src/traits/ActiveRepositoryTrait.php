@@ -14,6 +14,13 @@ use yii2mod\helpers\ArrayHelper;
 
 trait ActiveRepositoryTrait {
 	
+	/**
+	 * @param Query|null $query
+	 *
+	 * @return Query
+	 */
+	abstract protected function prepareQuery(Query $query = null);
+	
 	public function isExistsById($id) {
 		try {
 			$this->oneById($id);
@@ -25,7 +32,7 @@ trait ActiveRepositoryTrait {
 	
 	public function isExists($condition) {
 		/** @var Query $query */
-		$query = Query::forge();
+		$query = $this->prepareQuery();
 		if(is_array($condition)) {
 			$query->whereFromCondition($condition);
 		} else {
@@ -49,7 +56,7 @@ trait ActiveRepositoryTrait {
 	 */
 	public function oneById($id, Query $query = null) {
 		/** @var Query $query */
-		$query = Query::forge($query);
+		$query = $this->prepareQuery($query);
 		$query->removeParam('where');
 		$query->where($this->primaryKey, $id);
 		return $this->one($query);
@@ -64,7 +71,7 @@ trait ActiveRepositoryTrait {
 	 * @throws \yii\web\BadRequestHttpException
 	 */
 	public function one(Query $query = null) {
-		$query = Query::forge($query);
+		$query = $this->prepareQuery($query);
 		if(!$query->hasParam('where') || $query->getParam('where') == []) {
 			throw new InvalidArgumentException(Yii::t('domain:domain/repository', 'where_connot_be_empty'));
 		};
@@ -77,7 +84,7 @@ trait ActiveRepositoryTrait {
 		return $entity;
 	}
 	/*public function one(Query $query = null) {
-		$query = Query::forge($query);
+		$query = $this->prepareQuery($query);
 		if(!$query->hasParam('where') || $query->getParam('where') == []) {
 		    throw new InvalidArgumentException(\Yii::t('domain:domain/repository', 'where_connot_be_empty'));
 		};
@@ -95,7 +102,7 @@ trait ActiveRepositoryTrait {
 	}*/
 	
 	public function all(Query $query = null) {
-		$query = Query::forge($query);
+		$query = $this->prepareQuery($query);
 		$query2 = clone $query;
 		$with = RelationWithHelper::cleanWith($this->relations(), $query);
 		$models = $this->allModels($query);
@@ -108,7 +115,7 @@ trait ActiveRepositoryTrait {
 	
 	protected function oneModelByCondition($condition, Query $query = null) {
 		/** @var Query $query */
-		$query = Query::forge($query);
+		$query = $this->prepareQuery($query);
 		$query->whereFromCondition($condition);
 		$model = $this->oneModel($query);
 		if(empty($model)) {
@@ -119,7 +126,7 @@ trait ActiveRepositoryTrait {
 	
 	protected function allModelsByCondition($condition = [], Query $query = null) {
 		/** @var Query $query */
-		$query = Query::forge($query);
+		$query = $this->prepareQuery($query);
 		$query->whereFromCondition($condition);
 		$models = $this->allModels($query);
 		return $models;
