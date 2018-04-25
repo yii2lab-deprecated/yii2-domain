@@ -5,6 +5,13 @@ namespace yii2lab\domain\services;
 use yii2lab\core\domain\repositories\base\BaseCoreRepository;
 use yii2lab\helpers\ClassHelper;
 
+/**
+ * Class CoreBaseService
+ *
+ * @package yii2lab\domain\services
+ *
+ * @property BaseCoreRepository $repository
+ */
 class CoreBaseService extends BaseService {
 	
 	public $point = EMP;
