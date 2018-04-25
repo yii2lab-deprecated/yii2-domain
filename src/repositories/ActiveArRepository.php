@@ -5,6 +5,7 @@ namespace yii2lab\domain\repositories;
 use yii\web\ServerErrorHttpException;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\Query;
+use yii2lab\domain\exceptions\BadQueryHttpException;
 use yii2lab\domain\interfaces\repositories\CrudInterface;
 use yii2lab\domain\traits\ActiveRepositoryTrait;
 use Yii;
@@ -21,7 +22,11 @@ class ActiveArRepository extends ArRepository implements CrudInterface {
 		$this->resetQuery();
 		$this->forgeQueryForAll($query);
 		$this->forgeQueryForWhere($query);
-		return (int) $this->query->count();
+		try {
+			return (int) $this->query->count();
+		} catch(\yii\db\Exception $e) {
+			throw new BadQueryHttpException(null, 0, $e);
+		}
 	}
 	
 	protected function forgeUniqueFields() {

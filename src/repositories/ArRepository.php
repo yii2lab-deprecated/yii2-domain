@@ -6,6 +6,7 @@ use yii\base\Model;
 use yii\helpers\Inflector;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\Query;
+use yii2lab\domain\exceptions\BadQueryHttpException;
 use yii2lab\domain\helpers\ErrorCollection;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use Yii;
@@ -137,7 +138,15 @@ class ArRepository extends BaseRepository {
 		$this->getQueryValidator()->validateSortFields($query);
 		$this->forgeQueryForAll($query);
 		$this->forgeQueryForWhere($query);
-		$models = $this->query->all();
+		try {
+			$models = $this->query->all();
+		} catch(\yii\base\InvalidArgumentException $e) {
+			if(strpos($e->getMessage(), 'has no relation named') !== false) {
+				throw new BadQueryHttpException('Relation not defined', 0, $e);
+			} else {
+				throw new BadQueryHttpException(null, 0, $e);
+			}
+		}
 		$modelData = $this->modelToArray($models, $query);
 		return $modelData;
 	}
@@ -269,7 +278,7 @@ class ArRepository extends BaseRepository {
 		/*$modelExtraFields = $this->getModelExtraFields();
 		foreach($with as $key => $value) {
 			if(!in_array($value, $modelExtraFields)) {
-				throw new BadRequestHttpException(Yii::t('domain/exception', 'not_allowed_to_use_parameter_in_expand {parameter}', ['parameter' => $value]));
+				throw new BadQueryHttpException(Yii::t('domain/exception', 'not_allowed_to_use_parameter_in_expand {parameter}', ['parameter' => $value]));
 			}
 		}*/
 	}

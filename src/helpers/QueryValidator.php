@@ -6,6 +6,7 @@ use Yii;
 use yii2lab\domain\data\Query;
 use yii\base\BaseObject;
 use yii\web\BadRequestHttpException;
+use yii2lab\domain\exceptions\BadQueryHttpException;
 
 class QueryValidator extends BaseObject {
 	
@@ -35,7 +36,7 @@ class QueryValidator extends BaseObject {
 		if(!empty($diff)) {
 			$fieldName = $diff[ key($diff) ];
 			$message = Yii::t('domain/db', 'field_not_exists {field}', ['field' => $fieldName]);
-			throw new BadRequestHttpException($message);
+			throw new BadQueryHttpException($message);
 		}
 	}
 	
@@ -45,11 +46,11 @@ class QueryValidator extends BaseObject {
 		}
 		$fields = $this->repository->$type();
 		if(empty($fields)) {
-			throw new BadRequestHttpException(Yii::t('domain/exception', 'not_allowed_to_use_parameter_in_' . $type));
+			throw new BadQueryHttpException(Yii::t('domain/exception', 'not_allowed_to_use_parameter_in_' . $type));
 		}
 		foreach($data as $name => $value) {
 			if(!in_array($name, $fields)) {
-				throw new BadRequestHttpException(Yii::t('domain/exception', 'not_allowed_to_use_parameter_in_' . $type . ' {parameter}', ['parameter' => $name]));
+				throw new BadQueryHttpException(Yii::t('domain/exception', 'not_allowed_to_use_parameter_in_' . $type . ' {parameter}', ['parameter' => $name]));
 			}
 		}
 		return $data;

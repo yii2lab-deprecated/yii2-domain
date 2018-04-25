@@ -50,7 +50,7 @@ class DomainHelper {
 	 * @return array
 	 * @throws \yii\base\InvalidConfigException
 	 */
-	private static function getConfigFromDomainClass($className) {
+	public static function getConfigFromDomainClass($className) {
 		$definition = ClassHelper::normalizeComponentConfig($className);
 		/** @var Domain $domain */
 		$domain = Yii::createObject($definition);
