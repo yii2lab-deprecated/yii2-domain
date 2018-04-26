@@ -10,7 +10,14 @@ use yii\web\ServerErrorHttpException;
 use yii2lab\domain\entities\RequestEntity;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 
-class BaseRestRepository extends BaseRepository {
+/**
+ * Class BaseRestRepository
+ *
+ * @package yii2lab\domain\repositories
+ *
+ * @deprecated use class \yii2lab\rest\domain\repositories\base\BaseRestRepository
+ */
+abstract class BaseRestRepository extends BaseRepository {
 	
 	public function send(RequestEntity $requestEntity) {
 		$requestEntity->validate();

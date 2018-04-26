@@ -10,6 +10,13 @@ use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 
+/**
+ * Class BaseApiRepository
+ *
+ * @package yii2lab\domain\repositories
+ *
+ * @deprecated use class \\yii2lab\rest\domain\repositories\base\BaseRestRepository
+ */
 abstract class BaseApiRepository extends BaseRepository {
 	
 	abstract public function getBaseUrl();

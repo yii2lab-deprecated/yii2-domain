@@ -6,6 +6,13 @@ use yii\base\InvalidConfigException;
 use yii2lab\domain\entities\RequestEntity;
 use yii2lab\misc\enums\HttpMethodEnum;
 
+/**
+ * Class ApiRepository
+ *
+ * @package yii2lab\domain\repositories
+ *
+ * @deprecated use class \yii2lab\rest\domain\repositories\base\BaseRestRepository
+ */
 class ApiRepository extends BaseApiRepository {
 	
 	public $baseUrl;

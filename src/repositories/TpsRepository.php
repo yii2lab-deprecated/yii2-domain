@@ -2,18 +2,13 @@
 
 namespace yii2lab\domain\repositories;
 
-use Yii;
-use yii2woop\generated\exception\tps\NotAuthenticatedException;
-use yii2woop\generated\request\BaseRequest;
+/**
+ * Class TpsRepository
+ *
+ * @package yii2lab\domain\repositories
+ *
+ * @deprecated use class \yii2woop\common\repositories\base\BaseTpsRepository
+ */
+abstract class TpsRepository extends \yii2woop\common\repositories\base\BaseTpsRepository {
 
-class TpsRepository extends BaseRepository {
-	
-	public function send(BaseRequest $request) {
-		try {
-			return $request->send();
-		} catch(NotAuthenticatedException $e) {
-			Yii::$domain->account->auth->breakSession();
-		}
-	}
-	
 }

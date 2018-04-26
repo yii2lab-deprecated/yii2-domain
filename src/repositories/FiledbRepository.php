@@ -2,6 +2,13 @@
 
 namespace yii2lab\domain\repositories;
 
-class FiledbRepository extends ArRepository {
+/**
+ * Class FiledbRepository
+ *
+ * @package yii2lab\domain\repositories
+ *
+ * @deprecated use class \yii2lab\extension\filedb\repositories\base\BaseFiledbRepository
+ */
+abstract class FiledbRepository extends \yii2lab\extension\filedb\repositories\base\BaseFiledbRepository {
 
 }

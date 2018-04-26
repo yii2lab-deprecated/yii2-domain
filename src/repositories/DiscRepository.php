@@ -5,6 +5,13 @@ namespace yii2lab\domain\repositories;
 use Yii;
 use yii2lab\store\Store;
 
+/**
+ * Class DiscRepository
+ *
+ * @package yii2lab\domain\repositories
+ *
+ * @deprecated use class \yii2lab\extension\filedb\repositories\base\BaseFiledbRepository
+ */
 abstract class DiscRepository extends BaseRepository {
 
 	public $table;

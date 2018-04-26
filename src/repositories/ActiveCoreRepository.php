@@ -13,7 +13,7 @@ use yii\web\NotFoundHttpException;
  * @package yii2lab\domain\repositories
  * @deprecated use \yii2lab\core\domain\repositories\base\BaseActiveCoreRepository
  */
-class ActiveCoreRepository extends CoreRepository implements CrudInterface {
+abstract class ActiveCoreRepository extends CoreRepository implements CrudInterface {
 	
 	public function all(Query $query = null) {
 		$query = Query::forge($query);

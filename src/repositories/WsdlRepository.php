@@ -13,6 +13,13 @@ use yii2lab\domain\data\ArrayIterator;
 use yii2lab\domain\data\Query;
 use yii2lab\misc\exceptions\InvalidMethodParameterException;
 
+/**
+ * Class WsdlRepository
+ *
+ * @package yii2lab\domain\repositories
+ *
+ * @deprecated перенести в проект
+ */
 class WsdlRepository extends BaseRepository {
 	
 	public $authLogin;

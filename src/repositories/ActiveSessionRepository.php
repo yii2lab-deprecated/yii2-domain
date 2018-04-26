@@ -2,13 +2,13 @@
 
 namespace yii2lab\domain\repositories;
 
-use yii2lab\domain\interfaces\repositories\CrudInterface;
-use yii2lab\domain\traits\ArrayModifyTrait;
-use yii2lab\domain\traits\ArrayReadTrait;
+/**
+ * Class ActiveSessionRepository
+ *
+ * @package yii2lab\domain\repositories
+ *
+ * @deprecated use class \yii2lab\extension\session\repositories\base\BaseActiveSessionRepository
+ */
+abstract class ActiveSessionRepository extends \yii2lab\extension\session\repositories\base\BaseActiveSessionRepository {
 
-abstract class ActiveSessionRepository extends SessionRepository implements CrudInterface {
-	
-	use ArrayReadTrait;
-	use ArrayModifyTrait;
-	
 }

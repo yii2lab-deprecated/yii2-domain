@@ -6,7 +6,7 @@ use Yii;
 use yii\base\InvalidConfigException;
 use yii\helpers\FileHelper;
 
-class FileRepository extends BaseRepository {
+abstract class FileRepository extends BaseRepository {
 	
 	public $pathName;
 	public $format;
