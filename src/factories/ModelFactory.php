@@ -4,6 +4,7 @@ namespace yii2lab\domain\factories;
 
 use Yii;
 use yii\helpers\Inflector;
+use yii2lab\extension\filedb\base\FiledbActiveRecord;
 use yii2lab\helpers\generator\ClassGeneratorHelper;
 
 class ModelFactory extends BaseFactory {
@@ -20,8 +21,8 @@ class ModelFactory extends BaseFactory {
 	
 	public function createVirtual($tableName, $parent = 'yii\db\ActiveRecord', $options = []) {
 		$params['extends'] = $parent;
-		$params['tableName'] = $params['extends'] == 'yii2lab\domain\base\FiledbActiveRecord' ? $tableName : '{{%'.$tableName.'}}';
-		$params['methodName'] = $params['extends'] == 'yii2lab\domain\base\FiledbActiveRecord' ? 'fileName' : 'tableName';
+		$params['tableName'] = $params['extends'] == FiledbActiveRecord::class ? $tableName : '{{%'.$tableName.'}}';
+		$params['methodName'] = $params['extends'] == FiledbActiveRecord::class ? 'fileName' : 'tableName';
 		if(isset($options['primaryKey'])) {
 			$params['primaryKey'] = $options['primaryKey'];
 		}
@@ -63,7 +64,7 @@ class ModelFactory extends BaseFactory {
 		if(!class_exists($class['className'])) {
 			$config = $class;
 			$config['use'] = [$params['extends']];
-			$isFileDb = $params['extends'] == 'yii2lab\domain\base\FiledbActiveRecord';
+			$isFileDb = $params['extends'] == FiledbActiveRecord::class;
 			$config['afterClassName'] = $isFileDb ? 'extends FiledbActiveRecord' : 'extends ActiveRecord';
 			$config['code'] = $code;
 			$allClassCode = ClassGeneratorHelper::generateCode($config);

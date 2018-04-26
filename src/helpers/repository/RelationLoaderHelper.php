@@ -6,7 +6,7 @@ use yii2lab\domain\BaseEntity;
 use yii2lab\domain\dto\WithDto;
 use yii2lab\domain\enums\RelationEnum;
 use yii2mod\helpers\ArrayHelper;
-use yii2lab\domain\data\ArrayIterator;
+use yii2lab\extension\arrayTools\helpers\ArrayIterator;
 use yii2lab\domain\data\Query;
 
 class RelationLoaderHelper {

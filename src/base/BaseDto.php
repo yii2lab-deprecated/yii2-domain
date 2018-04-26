@@ -6,6 +6,4 @@ use yii\base\Model;
 
 class BaseDto extends Model {
 
-
-
 }

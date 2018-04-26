@@ -3,8 +3,8 @@
 namespace yii2lab\domain\repositories;
 
 use yii\base\InvalidConfigException;
-use yii2lab\domain\entities\RequestEntity;
 use yii2lab\misc\enums\HttpMethodEnum;
+use yii2lab\rest\domain\entities\RequestEntity;
 
 /**
  * Class ApiRepository

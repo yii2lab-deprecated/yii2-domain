@@ -8,17 +8,7 @@
 namespace yii2lab\domain\db;
 
 /**
- * The QueryInterface defines the minimum set of methods to be implemented by a database query.
- *
- * The default implementation of this interface is provided by [[QueryTrait]].
- *
- * It has support for getting [[one]] instance or [[all]].
- * Allows pagination via [[limit]] and [[offset]].
- * Sorting is supported via [[orderBy]] and items can be limited to match some conditions using [[where]].
- *
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @author Carsten Brandt <mail@cebe.cc>
- * @since 2.0
+ * @deprecated
  */
 interface PaginationQueryInterface {
 	/**

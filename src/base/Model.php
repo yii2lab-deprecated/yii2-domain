@@ -4,10 +4,11 @@ namespace yii2lab\domain\base;
 
 use yii\base\Model as YiiModel;
 use yii\helpers\ArrayHelper;
+use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 
 class Model extends YiiModel
 {
-	public function addErrorsFromException($e) {
+	public function addErrorsFromException(UnprocessableEntityHttpException $e) {
 		$errors = $e->getErrors();
 		if($errors instanceof YiiModel) {
 			$errors = $errors->getErrors();

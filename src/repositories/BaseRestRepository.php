@@ -7,7 +7,7 @@ use yii\httpclient\Client;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
-use yii2lab\domain\entities\RequestEntity;
+use yii2lab\rest\domain\entities\RequestEntity;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 
 /**

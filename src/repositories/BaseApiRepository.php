@@ -4,7 +4,7 @@ namespace yii2lab\domain\repositories;
 
 use yii\web\ServerErrorHttpException;
 use yii\web\UnauthorizedHttpException;
-use yii2lab\domain\entities\RequestEntity;
+use yii2lab\rest\domain\entities\RequestEntity;
 use yii\httpclient\Client;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;

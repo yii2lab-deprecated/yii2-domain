@@ -3,8 +3,8 @@
 namespace yii2lab\domain\repositories;
 
 use yii2lab\domain\interfaces\repositories\CrudInterface;
-use yii2lab\domain\traits\ArrayModifyTrait;
-use yii2lab\domain\traits\ArrayReadTrait;
+use yii2lab\extension\arrayTools\traits\ArrayModifyTrait;
+use yii2lab\extension\arrayTools\traits\ArrayReadTrait;
 
 /**
  * Class ActiveDiscRepository

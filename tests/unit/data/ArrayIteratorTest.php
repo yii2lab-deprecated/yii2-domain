@@ -2,7 +2,7 @@
 namespace tests\unit\data;
 
 use Codeception\Test\Unit;
-use yii2lab\domain\data\ArrayIterator;
+use yii2lab\extension\arrayTools\helpers\ArrayIterator;
 use yii2lab\domain\data\Query;
 use yii2lab\test\base\_support\UnitTester;
 use yii2lab\test\helpers\DataHelper;

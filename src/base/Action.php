@@ -5,9 +5,16 @@ namespace yii2lab\domain\base;
 use Yii;
 use yii\base\Action as YiiAction;
 use yii2lab\domain\data\Query;
-use yii2lab\domain\services\BaseService;
 use yii2lab\domain\traits\action\ServiceTrait;
+use yii2lab\domain\web\ActiveController;
 
+/**
+ * Class Action
+ *
+ * @package yii2lab\domain\base
+ *
+ * @property ActiveController $controller
+ */
 class Action extends YiiAction {
 	
 	use ServiceTrait;
