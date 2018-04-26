@@ -35,7 +35,7 @@ class ArrayIterator {
 	public function one(Query $query = null, $filters = [self::FILTER_SORT, self::FILTER_WHERE]) {
 		$collection = $this->runFilters($query, $filters);
 		if(empty($collection) || empty($collection[0])) {
-			throw new NotFoundHttpException(static::class);
+			throw new NotFoundHttpException(__METHOD__ . ':' . __LINE__);
 		}
 		return $collection[0];
 	}

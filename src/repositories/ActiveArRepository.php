@@ -101,7 +101,7 @@ class ActiveArRepository extends ArRepository implements CrudInterface {
 		$condition = $this->alias->encode($condition);
 		$model = $this->model->findOne($condition);
 		if(empty($model)) {
-			throw new NotFoundHttpException(static::class);
+			throw new NotFoundHttpException(__METHOD__ . ':' . __LINE__);
 		}
 		return $model;
 	}

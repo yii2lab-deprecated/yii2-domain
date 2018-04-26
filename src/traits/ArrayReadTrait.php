@@ -60,7 +60,7 @@ trait ArrayReadTrait {
 		$with = RelationWithHelper::cleanWith($this->relations(), $query);
 		$collection = $this->all($query);
 		if(empty($collection)) {
-			throw new NotFoundHttpException(static::class);
+			throw new NotFoundHttpException(__METHOD__ . ':' . __LINE__);
 		}
 		$entity = $collection[0];
 		if(!empty($with)) {

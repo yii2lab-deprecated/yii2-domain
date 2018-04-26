@@ -42,7 +42,7 @@ class BaseRestRepository extends BaseRepository {
 		} elseif($statusCode == 422) {
 			throw new UnprocessableEntityHttpException($response->data);
 		} elseif($statusCode == 404) {
-			throw new NotFoundHttpException(static::class);
+			throw new NotFoundHttpException(__METHOD__ . ':' . __LINE__);
 		} else {
 			if($response->data['type']) {
 				$exception = $response->data['type'];

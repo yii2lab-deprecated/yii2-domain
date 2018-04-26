@@ -34,7 +34,7 @@ class ActiveCoreRepository extends CoreRepository implements CrudInterface {
 		$query = Query::forge($query);
 		$collection = $this->all($query);
 		if(empty($collection)) {
-			throw new NotFoundHttpException(static::class);
+			throw new NotFoundHttpException(__METHOD__ . ':' . __LINE__);
 		}
 		return $collection[0];
 	}

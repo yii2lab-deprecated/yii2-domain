@@ -124,7 +124,7 @@ class ArRepository extends BaseRepository {
 		$this->forgeQueryForWhere($query);
 		$model = $this->query->one();
 		if(empty($model)) {
-			throw new NotFoundHttpException(static::class);
+			throw new NotFoundHttpException(__METHOD__ . ':' . __LINE__);
 		}
 		$modelData = $this->modelToArray($model, $query);
 		return $modelData;
