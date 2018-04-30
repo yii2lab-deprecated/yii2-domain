@@ -4,9 +4,38 @@ namespace yii2lab\domain\helpers;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii2lab\domain\BaseEntity;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 
 class Helper {
+	
+	public static function forgeEntity($value, string $className, bool $isCollection = null) {
+		if(empty($value)) {
+			return null;
+		}
+		if($value instanceof $className) {
+			return $value;
+		}
+		if(!is_array($value)) {
+			return null;
+		}
+		if(ArrayHelper::isIndexed($value)) {
+			$result = [];
+			foreach($value as &$item) {
+				$result[] = self::forgeEntity($item, $className);
+			}
+		} else {
+			/** @var BaseEntity $result */
+			$result = new $className();
+			$result->load($value);
+		}
+		/*if($isCollection !== null) {
+			if() {
+			
+			}
+		}*/
+		return $result;
+	}
 	
 	public static function validateForm($form, $data = null, $scenario = null) {
 		if(is_string($form) || is_array($form)) {
