@@ -4,7 +4,7 @@ namespace yii2lab\domain\generator;
 
 use yii2lab\extension\activeRecord\repositories\base\BaseActiveArRepository;
 use yii2lab\extension\code\entities\ClassEntity;
-use yii2lab\extension\code\entities\ClassVariableEntity;
+use yii2lab\extension\code\enums\AccessEnum;
 
 class RepositoryGenerator extends BaseGenerator {
 
@@ -20,7 +20,7 @@ class RepositoryGenerator extends BaseGenerator {
 		$classEntity->variables = [
 			[
 				'name' => 'schemaClass',
-				'access' => ClassVariableEntity::ACCESS_PROTECTED,
+				'access' => AccessEnum::PROTECTED,
 				'value' => 'true',
 			],
 		];
