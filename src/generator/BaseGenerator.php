@@ -2,8 +2,11 @@
 
 namespace yii2lab\domain\generator;
 
+use yii\base\InvalidArgumentException;
 use yii2lab\designPattern\scenario\base\BaseScenario;
+use yii2lab\extension\code\entities\ClassEntity;
 use yii2lab\extension\code\entities\DocBlockEntity;
+use yii2lab\extension\code\entities\InterfaceEntity;
 use yii2lab\extension\code\helpers\ClassHelper;
 use yii2lab\helpers\yii\ArrayHelper;
 
@@ -14,9 +17,16 @@ abstract class BaseGenerator extends BaseScenario {
 	public $docBlockParameters = [];
 	public $implements;
 	
-	public function generate($classEntity) {
-		$classEntity->doc_block = new DocBlockEntity([
-			'title' => 'Class ' . $classEntity->name,
+	public function generate($entity) {
+		if($entity instanceof ClassEntity) {
+			$typeName = 'Class';
+		} elseif($entity instanceof InterfaceEntity) {
+			$typeName = 'Interface';
+		} else {
+			throw new InvalidArgumentException('Unknown entity type');
+		}
+		$entity->doc_block = new DocBlockEntity([
+			'title' => $typeName . SPC . $entity->name,
 			'parameters' => $this->docBlockParameters,
 		]);
 		if(isset($this->implements)) {
