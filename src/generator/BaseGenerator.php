@@ -30,9 +30,9 @@ abstract class BaseGenerator extends BaseScenario {
 			'parameters' => $this->docBlockParameters,
 		]);
 		if(isset($this->implements)) {
-			$classEntity->implements = $this->implements;
+			$entity->implements = $this->implements;
 		}
 		$uses = ArrayHelper::merge($this->defaultUses, $this->uses);
-		ClassHelper::generate($classEntity, $uses);
+		ClassHelper::generate($entity, $uses);
 	}
 }
