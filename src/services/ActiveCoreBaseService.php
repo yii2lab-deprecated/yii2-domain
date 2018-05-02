@@ -2,7 +2,7 @@
 
 namespace yii2lab\domain\services;
 
-use yii2lab\core\services\base\BaseActiveCoreService;
+use yii2lab\core\domain\services\base\BaseActiveCoreService;
 
 /**
  * Class ActiveCoreBaseService
