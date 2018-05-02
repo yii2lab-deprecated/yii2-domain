@@ -246,6 +246,8 @@ class Query extends Component {
 	/**
 	 * @return object|Rest
 	 * @throws \yii\base\InvalidConfigException
+	 *
+	 * @deprecated move to builder
 	 */
 	public function getRest() {
 		/** @var Rest $instance */
