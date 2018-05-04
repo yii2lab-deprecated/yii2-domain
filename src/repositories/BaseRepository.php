@@ -10,7 +10,7 @@ use yii2lab\domain\helpers\QueryValidator;
 use yii2lab\domain\helpers\repository\QueryFilter;
 use yii2lab\domain\interfaces\repositories\ReadInterface;
 use Yii;
-use yii\base\Component as YiiComponent;
+use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii2lab\domain\repositories\relations\BaseSchema;
@@ -26,7 +26,7 @@ use yii2lab\helpers\ClassHelper;
  * @property Domain $domain
  *
  */
-abstract class BaseRepository extends YiiComponent {
+abstract class BaseRepository extends Component {
 	
 	const SCENARIO_INSERT = 'insert';
 	const SCENARIO_UPDATE = 'update';
