@@ -18,8 +18,17 @@ use yii2mod\helpers\ArrayHelper;
  */
 class Query extends Component {
 	
+	const WHERE = 'where';
+	const SELECT = 'select';
+	const WITH = 'with';
+	const PAGE = 'page';
+	const PER_PAGE = 'per_page';
+	const LIMIT = 'limit';
+	const OFFSET = 'offset';
+	const ORDER = 'order';
+	
 	private $query = [
-		'where' => null,
+		self::WHERE => null,
 		'nestedQuery' => [],
 	];
 
@@ -41,7 +50,7 @@ class Query extends Component {
 	
 	public function where($key, $value = null) {
 		if(func_num_args() == 1) {
-			$this->query['where'] = $key;
+			$this->query[self::WHERE] = $key;
 		} else {
 			$this->oldWhere($key, $value);
 		}
@@ -50,10 +59,10 @@ class Query extends Component {
 	
 	public function andWhere($condition)
 	{
-		if ($this->query['where'] === null) {
-			$this->query['where'] = $condition;
+		if ($this->query[self::WHERE] === null) {
+			$this->query[self::WHERE] = $condition;
 		} else {
-			$this->query['where'] = ['and', $this->query['where'], $condition];
+			$this->query[self::WHERE] = ['and', $this->query[self::WHERE], $condition];
 		}
 		
 		return $this;
@@ -61,10 +70,10 @@ class Query extends Component {
 	
 	public function orWhere($condition)
 	{
-		if ($this->query['where'] === null) {
-			$this->query['where'] = $condition;
+		if ($this->query[self::WHERE] === null) {
+			$this->query[self::WHERE] = $condition;
 		} else {
-			$this->query['where'] = ['or', $this->query['where'], $condition];
+			$this->query[self::WHERE] = ['or', $this->query[self::WHERE], $condition];
 		}
 		
 		return $this;
@@ -72,15 +81,15 @@ class Query extends Component {
 	
 	private function oldWhere($key, $value) {
 		if($value === null) {
-			unset($this->query['where'][ $key ]);
+			unset($this->query[self::WHERE][ $key ]);
 		} else {
-			$this->query['where'][ $key ] = $value;
+			$this->query[self::WHERE][ $key ] = $value;
 		}
 		return $this;
 	}
 	
 	public function removeWhere($key) {
-		unset($this->query['where'][ $key ]);
+		unset($this->query[self::WHERE][ $key ]);
 	}
 	
 	public function whereFromCondition($condition) {
@@ -96,32 +105,32 @@ class Query extends Component {
 	
 	public function select($fields) {
 		if($fields === null) {
-			unset($this->query['select']);
+			unset($this->query[self::SELECT]);
 			return $this;
 		}
-		$this->setParam($fields, 'select');
+		$this->setParam($fields, self::SELECT);
 		return $this;
 	}
 	
 	public function with($names) {
-		$this->setParam($names, 'with');
+		$this->setParam($names, self::WITH);
 		return $this;
 	}
 	
 	public function removeWith($key) {
 		if(!empty($key)) {
-			unset($this->query['with'][ $key ]);
+			unset($this->query[self::WITH][ $key ]);
 		} else {
-			unset($this->query['with']);
+			unset($this->query[self::WITH]);
 		}
 	}
 	
 	public function page($value) {
 		if($value === null) {
-			unset($this->query['page']);
+			unset($this->query[self::PAGE]);
 			return $this;
 		}
-		$this->query['page'] = $value;
+		$this->query[self::PAGE] = $value;
 		return $this;
 	}
 	
@@ -136,19 +145,19 @@ class Query extends Component {
 	
 	public function limit($value) {
 		if($value === null) {
-			unset($this->query['limit']);
+			unset($this->query[self::LIMIT]);
 			return $this;
 		}
-		$this->query['limit'] = $value;
+		$this->query[self::LIMIT] = $value;
 		return $this;
 	}
 	
 	public function offset($value) {
 		if($value === null) {
-			unset($this->query['offset']);
+			unset($this->query[self::OFFSET]);
 			return $this;
 		}
-		$this->query['offset'] = $value;
+		$this->query[self::OFFSET] = $value;
 		return $this;
 	}
 	
@@ -171,7 +180,7 @@ class Query extends Component {
 	 */
 	public function orderBy($columns)
 	{
-		$this->query['order'] = $this->normalizeOrderBy($columns);
+		$this->query[self::ORDER] = $this->normalizeOrderBy($columns);
 		return $this;
 	}
 	
@@ -195,10 +204,10 @@ class Query extends Component {
 	public function addOrderBy($columns)
 	{
 		$columns = $this->normalizeOrderBy($columns);
-		if ($this->query['order'] === null) {
-			$this->query['order'] = $columns;
+		if ($this->query[self::ORDER] === null) {
+			$this->query[self::ORDER] = $columns;
 		} else {
-			$this->query['order'] = array_merge($this->query['order'], $columns);
+			$this->query[self::ORDER] = array_merge($this->query[self::ORDER], $columns);
 		}
 		return $this;
 	}
@@ -212,7 +221,7 @@ class Query extends Component {
 	 * @deprecated use method addOrderBy()
 	 */
 	public function addOrder($field, $direction = SORT_ASC) {
-		$this->query['order'][ $field ] = $direction;
+		$this->query[self::ORDER][ $field ] = $direction;
 		return $this;
 	}
 	
@@ -239,7 +248,7 @@ class Query extends Component {
 	public static function cloneForCount(Query $query = null) {
 		$query = self::forge($query);
 		$queryClone = self::forge();
-		$queryClone->whereFromCondition($query->getParam('where'));
+		$queryClone->whereFromCondition($query->getParam(self::WHERE));
 		return $queryClone;
 	}
 	
