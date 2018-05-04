@@ -7,6 +7,7 @@ use yii2lab\domain\data\ActiveDataProvider;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\Domain;
 use yii2lab\domain\helpers\QueryValidator;
+use yii2lab\domain\helpers\repository\QueryFilter;
 use yii2lab\domain\interfaces\repositories\ReadInterface;
 use Yii;
 use yii\base\Component as YiiComponent;
@@ -23,6 +24,7 @@ use yii2lab\helpers\ClassHelper;
  * @property Alias $alias
  * @property QueryValidator $queryValidator
  * @property Domain $domain
+ *
  */
 abstract class BaseRepository extends YiiComponent {
 	
@@ -42,6 +44,16 @@ abstract class BaseRepository extends YiiComponent {
 	protected $schemaClass = false;
 	private $schemaInstance;
 	
+	protected function queryFilterInstance(Query $query = null) {
+		$query = $this->prepareQuery($query);
+		$queryFilter = Yii::createObject([
+			'class' => QueryFilter::class,
+			'repository' => $this,
+			'query' => $query,
+		]);
+		return $queryFilter;
+	}
+	
 	/**
 	 * @param Query|null $query
 	 *
@@ -50,7 +62,7 @@ abstract class BaseRepository extends YiiComponent {
 	 */
 	public function getDataProvider(Query $query = null) {
 		if(!$this instanceof ReadInterface) {
-			throw new InvalidConfigException("Repository {$this->class} not implements of ReadInterface");
+			throw new InvalidConfigException("Repository " . static::class . " not implements of ReadInterface");
 		}
 		$query = $this->prepareQuery($query);
 		$dataProvider = new ActiveDataProvider([
