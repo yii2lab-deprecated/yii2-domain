@@ -31,7 +31,13 @@ class Query extends Component {
 		self::WHERE => null,
 		'nestedQuery' => [],
 	];
-
+	
+	public function getHash() {
+		ksort($this->query);
+		$serialized = serialize($this->query);
+		return hash('crc32b', $serialized);
+	}
+	
 	public static function forge($query = null) {
 		if($query instanceof Query) {
 			return $query;
