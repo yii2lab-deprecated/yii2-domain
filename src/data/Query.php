@@ -33,8 +33,14 @@ class Query extends Component {
 	];
 	
 	public function getHash() {
-		ksort($this->query);
-		$serialized = serialize($this->query);
+		$query = $this->query;
+		foreach($query as $key => $value) {
+			if(empty($value)) {
+				unset($key);
+			}
+		}
+		ksort($query);
+		$serialized = serialize($query);
 		return hash('crc32b', $serialized);
 	}
 	
