@@ -8,6 +8,7 @@ use yii2lab\extension\code\entities\InterfaceEntity;
 class RepositoryInterfaceGenerator extends BaseGenerator {
 
 	public $name;
+	public $extends = 'CrudInterface';
 	public $defaultUses = [
 		['name' => CrudInterface::class],
 	];
@@ -15,7 +16,7 @@ class RepositoryInterfaceGenerator extends BaseGenerator {
 	public function run() {
 		$classEntity = new InterfaceEntity();
 		$classEntity->name = $this->name;
-		$classEntity->extends = 'CrudInterface';
+		$classEntity->extends = $this->extends;
 		$this->generate($classEntity);
 	}
 	
