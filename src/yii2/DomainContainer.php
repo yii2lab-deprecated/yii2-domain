@@ -5,19 +5,19 @@ namespace yii2lab\domain\yii2;
 use yii\di\ServiceLocator;
 
 /**
- * @property \yii2lab\notify\domain\Domain $notify
- * @property \yii2lab\navigation\domain\Domain $navigation
- * @property \yii2lab\rbac\domain\Domain $rbac
- * @property \yii2lab\app\domain\Domain $app
- * @property \yii2lab\geo\domain\Domain $geo
- * @property \yii2module\account\domain\v2\Domain $account
- * @property \yii2module\profile\domain\v2\Domain $profile
- * @property \yii2module\lang\domain\Domain $lang
- * @property \yii2module\vendor\domain\Domain $vendor
- * @property \yii2module\tool\domain\Domain $tool
- * @property \yii2module\encrypt\domain\Domain $encrypt
- * @property \yii2module\article\domain\Domain $article
- * @property \yii2module\guide\domain\Domain $guide
+ * @property-read \yii2lab\notify\domain\Domain $notify
+ * @property-read \yii2lab\navigation\domain\Domain $navigation
+ * @property-read \yii2lab\rbac\domain\Domain $rbac
+ * @property-read \yii2lab\app\domain\Domain $app
+ * @property-read \yii2lab\geo\domain\Domain $geo
+ * @property-read \yii2module\account\domain\v2\Domain $account
+ * @property-read \yii2module\profile\domain\v2\Domain $profile
+ * @property-read \yii2module\lang\domain\Domain $lang
+ * @property-read \yii2module\vendor\domain\Domain $vendor
+ * @property-read \yii2module\tool\domain\Domain $tool
+ * @property-read \yii2module\encrypt\domain\Domain $encrypt
+ * @property-read \yii2module\article\domain\Domain $article
+ * @property-read \yii2module\guide\domain\Domain $guide
  */
 
 class DomainContainer extends ServiceLocator {
