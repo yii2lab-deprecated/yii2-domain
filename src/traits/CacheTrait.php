@@ -13,7 +13,17 @@ trait CacheTrait {
 	 * @var Cache
 	 */
 	private $cacheInstance;
-
+	
+	protected function cacheMethod($method, $params, $duration = null) {
+		$cacheKey = static::class . DOT . $method . DOT . serialize($params);
+		$data = Yii::$app->cache->get($cacheKey);
+		if(empty($data)) {
+			$data = call_user_func_array('parent::' . $method, $params);
+			Yii::$app->cache->set($cacheKey, $data, $duration);
+		}
+		return $data;
+	}
+	
 	public function getFromCache($uri, $data = [], $headers = []) {
 		$callback = function() use($uri, $data, $headers) {
 			return parent::get($uri, $data, $headers)->data;
