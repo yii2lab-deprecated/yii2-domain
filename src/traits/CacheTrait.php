@@ -2,6 +2,7 @@
 
 namespace yii2lab\domain\traits;
 
+use Closure;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\caching\Cache;
@@ -14,14 +15,26 @@ trait CacheTrait {
 	 */
 	private $cacheInstance;
 	
-	protected function cacheMethod($method, $params, $duration = null) {
+	protected function cacheMethod($method, $params, $duration = null, Closure $isValidClosure = null) {
 		$cacheKey = static::class . DOT . $method . DOT . serialize($params);
 		$data = Yii::$app->cache->get($cacheKey);
 		if(empty($data)) {
 			$data = call_user_func_array('parent::' . $method, $params);
-			Yii::$app->cache->set($cacheKey, $data, $duration);
+			$isValidData = $this->isValidDataByClosure($data, $isValidClosure);
+			if($isValidData) {
+				Yii::$app->cache->set($cacheKey, $data, $duration);
+			} else {
+				Yii::$app->cache->delete($cacheKey);
+			}
 		}
 		return $data;
+	}
+	
+	private function isValidDataByClosure($data, Closure $isValidClosure = null) {
+		if($isValidClosure === null) {
+			return true;
+		}
+		return (bool) $isValidClosure($data);
 	}
 	
 	public function getFromCache($uri, $data = [], $headers = []) {
