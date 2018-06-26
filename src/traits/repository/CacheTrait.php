@@ -5,6 +5,7 @@ namespace yii2lab\domain\traits\repository;
 use Closure;
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii2lab\helpers\PhpHelper;
 
 trait CacheTrait {
 	
@@ -15,7 +16,7 @@ trait CacheTrait {
 		$cacheComponent = $this->getCacheComponent();
 		$data = $cacheComponent->get($cacheKey);
 		if(empty($data)) {
-			$data = call_user_func_array('parent::' . $method, $params);
+			$data = $this->callMethod($method, $params);
 			$isValidData = $this->isValidDataByClosure($data, $isValidClosure);
 			if($isValidData) {
 				$cacheComponent->set($cacheKey, $data, $duration);
@@ -23,6 +24,16 @@ trait CacheTrait {
 				$cacheComponent->delete($cacheKey);
 			}
 		}
+		return $data;
+	}
+	
+	private function callMethod($method, $params) {
+		if(PhpHelper::isValidName($method)) {
+			$targetMethod = ['parent', $method];
+		} else {
+			$targetMethod = $method;
+		}
+		$data = call_user_func_array($targetMethod, $params);
 		return $data;
 	}
 	
