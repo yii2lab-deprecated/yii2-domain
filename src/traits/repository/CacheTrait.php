@@ -12,7 +12,7 @@ trait CacheTrait {
 	protected $cacheComponentName = 'cache';
 	
 	protected function cacheMethod($method, $params, $duration = null, Closure $isValidClosure = null) {
-		$cacheKey = static::class . DOT . $method . DOT . serialize($params);
+		$cacheKey = static::class . DOT . serialize($method) . DOT . serialize($params);
 		$cacheComponent = $this->getCacheComponent();
 		$data = $cacheComponent->get($cacheKey);
 		if(empty($data)) {
