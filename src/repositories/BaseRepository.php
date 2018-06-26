@@ -46,6 +46,7 @@ abstract class BaseRepository extends Component {
 	
 	protected function queryFilterInstance(Query $query = null) {
 		$query = $this->prepareQuery($query);
+		/** @var QueryFilter $queryFilter */
 		$queryFilter = Yii::createObject([
 			'class' => QueryFilter::class,
 			'repository' => $this,
