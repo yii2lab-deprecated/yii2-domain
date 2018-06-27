@@ -3,7 +3,6 @@
 namespace yii2lab\domain\rest;
 
 use yii2lab\domain\data\GetParams;
-use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use Yii;
 use yii\base\Action;
 use yii\base\InvalidConfigException;
