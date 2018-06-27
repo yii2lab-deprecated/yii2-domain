@@ -31,6 +31,10 @@ class GetParams {
 			$result['offset'] = $params['offset'];
 			unset($params['offset']);
 		}
+		if(isset($params['limit'])) {
+			$result['limit'] = $params['limit'];
+			unset($params['limit']);
+		}
 		if(isset($params)) {
 			$result['where'] = $params;
 		}
@@ -61,6 +65,9 @@ class GetParams {
 		}
 		if(isset($params['offset'])) {
 			$query->offset($params['offset']);
+		}
+		if(isset($params['limit'])) {
+			$query->limit($params['limit']);
 		}
 		if(isset($params['where'])) {
 			foreach($params['where'] as $name => $value) {
