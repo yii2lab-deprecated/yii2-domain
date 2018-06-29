@@ -20,13 +20,13 @@ class RelationWithHelperTest extends Unit
 				'currency.country',
 			],
 			'region' => [
-				'cities.country.currency',
 				'cities.region',
+				'cities.country.currency',
 			],
 		]);
 		expect($fields)->equals([
-			'country',
 			'region',
+			'country',
 		]);
 		
 		$withArray = $withTrimmedArray['region'];
@@ -34,8 +34,8 @@ class RelationWithHelperTest extends Unit
 		$fields = RelationWithHelper::fetch($withArray, $withTrimmedArray);
 		expect($withTrimmedArray)->equals([
 			'cities' => [
-				'country.currency',
 				'region',
+				'country.currency',
 			],
 		]);
 		expect($fields)->equals([
@@ -52,8 +52,8 @@ class RelationWithHelperTest extends Unit
 			'region' => [],
 		]);
 		expect($fields)->equals([
-			'country',
 			'region',
+			'country',
 		]);
 		
 		$withArray = $withTrimmedArray['country'];

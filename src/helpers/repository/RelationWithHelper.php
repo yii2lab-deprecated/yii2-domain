@@ -38,6 +38,7 @@ class RelationWithHelper {
 		if(empty($withArray)) {
 			return [];
 		}
+		$withArray = self::sortWithParam($withArray);
 		$fields = [];
 		foreach($withArray as $with) {
 			$dotPos = strpos($with, DOT);
@@ -60,6 +61,13 @@ class RelationWithHelper {
 		}
 		$fields = array_unique($fields);
 		return $fields;
+	}
+	
+	private static function sortWithParam($withArray) {
+		$withArray = array_unique($withArray);
+		usort($withArray, 'sortByLen');
+		$withArray = array_reverse($withArray);
+		return $withArray;
 	}
 	
 	private static function extractName($w) {
