@@ -10,6 +10,7 @@ use yii\di\ServiceLocator;
  * @property-read \yii2lab\rbac\domain\Domain $rbac
  * @property-read \yii2lab\app\domain\Domain $app
  * @property-read \yii2lab\geo\domain\Domain $geo
+ * @property-read \yii2lab\rest\domain\Domain $rest
  * @property-read \yii2module\account\domain\v2\Domain $account
  * @property-read \yii2module\profile\domain\v2\Domain $profile
  * @property-read \yii2module\lang\domain\Domain $lang
