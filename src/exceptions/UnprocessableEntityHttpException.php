@@ -2,6 +2,7 @@
 
 namespace yii2lab\domain\exceptions;
 
+use yii\base\Model;
 use yii2lab\domain\helpers\ErrorCollection;
 use Exception;
 use yii\helpers\ArrayHelper;
@@ -14,7 +15,10 @@ class UnprocessableEntityHttpException extends HttpException {
 	public function __construct($errors = [], $code = 0, Exception $previous = null) {
 		$message = '';
 		if (!empty($errors)) {
-			$message = json_encode(ArrayHelper::toArray($errors));;
+			if($errors instanceof Model) {
+				$errors = $errors->getErrors();
+			}
+			$message = json_encode(ArrayHelper::toArray($errors));
 		}
 		parent::__construct(422, $message, $code, $previous);
 		$this->setErrors($errors);
