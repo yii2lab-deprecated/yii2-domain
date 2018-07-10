@@ -15,6 +15,7 @@ class DefineDomainLocator extends BaseScenario {
 			return $config;
 		}
 		$this->loadDomainContainerClass();
+		// todo: deprecated ($config['components'])
 		$domains = $this->extractDomainsFromComponent($config['components']);
 		$this->createDomainLocator($domains);
 		$this->setData($config);
