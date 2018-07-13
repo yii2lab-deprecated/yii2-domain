@@ -55,6 +55,17 @@ abstract class BaseRepository extends Component {
 		return $queryFilter;
 	}
 	
+	protected function allWithRelation(Query $query = null, $callback) {
+		$queryFilter = $this->queryFilterInstance($query);
+		$queryWithoutRelations = $queryFilter->getQueryWithoutRelations();
+		
+		$models = $this->{$callback}($queryWithoutRelations);
+		$collection = $this->forgeEntity($models);
+		
+		$collection = $queryFilter->loadRelations($collection);
+		return $collection;
+	}
+	
 	/**
 	 * @param Query|null $query
 	 *
