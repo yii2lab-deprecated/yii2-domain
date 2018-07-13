@@ -44,6 +44,11 @@ class Query extends Component {
 		return hash('crc32b', $serialized);
 	}
 	
+	/**
+	 * @param null $query
+	 *
+	 * @return Query
+	 */
 	public static function forge($query = null) {
 		if($query instanceof Query) {
 			return $query;
