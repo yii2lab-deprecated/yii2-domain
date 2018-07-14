@@ -2,29 +2,11 @@
 
 namespace yii2lab\domain\rest;
 
-use yii2lab\domain\traits\controller\ServiceTrait;
-use yii\rest\Controller as YiiController;
-
-class Controller extends YiiController {
-
-	use ServiceTrait;
-	
-	public function format() {
-		return [];
-	}
-
-	public function init() {
-		parent::init();
-		$this->initService();
-		$this->initFormat();
-	}
-	
-	private function initFormat() {
-		$format = $this->format();
-		$this->serializer = [
-			'class' => Serializer::class,
-			'format' => $format,
-		];
-	}
+/**
+ * @package yii2lab\domain\rest
+ *
+ * @deprecated use parent
+ */
+class Controller extends \yii2lab\rest\domain\rest\Controller {
 
 }

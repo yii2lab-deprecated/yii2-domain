@@ -2,14 +2,11 @@
 
 namespace yii2lab\domain\rest;
 
-use Yii;
+/**
+ * @package yii2lab\domain\rest
+ *
+ * @deprecated use parent
+ */
+class ViewAction extends \yii2lab\rest\domain\rest\ViewAction {
 
-class ViewAction extends BaseAction {
-
-	public $serviceMethod = 'findOne';
-	
-	public function run($id) {
-		$params = Yii::$app->request->get();
-		return $this->runServiceMethod($id, $params);
-	}
 }

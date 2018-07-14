@@ -2,13 +2,11 @@
 
 namespace yii2lab\domain\rest;
 
-class ViewActionWithQuery extends BaseAction {
-
-	public $serviceMethod = 'oneById';
-	
-	public function run($id) {
-		$query = $this->getQuery();
-		return $this->runServiceMethod($id, $query);
-	}
+/**
+ * @package yii2lab\domain\rest
+ *
+ * @deprecated use parent
+ */
+class ViewActionWithQuery extends \yii2lab\rest\domain\rest\ViewActionWithQuery {
 
 }

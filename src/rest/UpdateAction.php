@@ -2,15 +2,11 @@
 
 namespace yii2lab\domain\rest;
 
-use Yii;
+/**
+ * @package yii2lab\domain\rest
+ *
+ * @deprecated use parent
+ */
+class UpdateAction extends \yii2lab\rest\domain\rest\UpdateAction {
 
-class UpdateAction extends BaseAction {
-
-	public $serviceMethod = 'update';
-	public $successStatusCode = 204;
-	
-	public function run($id) {
-		$body = Yii::$app->request->getBodyParams();
-		return $this->runServiceMethod($id, $body);
-	}
 }

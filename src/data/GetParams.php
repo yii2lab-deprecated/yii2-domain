@@ -4,43 +4,6 @@ namespace yii2lab\domain\data;
 
 class GetParams {
 	
-	public function convertParams($params = []) {
-		$result = [];
-		if(isset($params['expand'])) {
-			$result['expand'] = $this->splitStringParam($params['expand']);
-			unset($params['expand']);
-		}
-		if(isset($params['fields'])) {
-			$result['fields'] = $this->splitStringParam($params['fields']);
-			unset($params['fields']);
-		}
-		if(isset($params['sort'])) {
-			$params['sort'] = $this->splitStringParam($params['sort']);
-			$result['sort'] = $this->splitSortParam($params['sort']);
-			unset($params['sort']);
-		}
-		if(isset($params['page'])) {
-			$result['page'] = $params['page'];
-			unset($params['page']);
-		}
-		if(isset($params['per-page'])) {
-			$result['per-page'] = $params['per-page'];
-			unset($params['per-page']);
-		}
-		if(isset($params['offset'])) {
-			$result['offset'] = $params['offset'];
-			unset($params['offset']);
-		}
-		if(isset($params['limit'])) {
-			$result['limit'] = $params['limit'];
-			unset($params['limit']);
-		}
-		if(isset($params)) {
-			$result['where'] = $params;
-		}
-		return $result;
-	}
-	
 	public function getAllParams($params = []) {
 		$query = new Query();
 		if(empty($params)) {
@@ -75,6 +38,43 @@ class GetParams {
 			}
 		}
 		return $query;
+	}
+	
+	private function convertParams($params = []) {
+		$result = [];
+		if(isset($params['expand'])) {
+			$result['expand'] = $this->splitStringParam($params['expand']);
+			unset($params['expand']);
+		}
+		if(isset($params['fields'])) {
+			$result['fields'] = $this->splitStringParam($params['fields']);
+			unset($params['fields']);
+		}
+		if(isset($params['sort'])) {
+			$params['sort'] = $this->splitStringParam($params['sort']);
+			$result['sort'] = $this->splitSortParam($params['sort']);
+			unset($params['sort']);
+		}
+		if(isset($params['page'])) {
+			$result['page'] = $params['page'];
+			unset($params['page']);
+		}
+		if(isset($params['per-page'])) {
+			$result['per-page'] = $params['per-page'];
+			unset($params['per-page']);
+		}
+		if(isset($params['offset'])) {
+			$result['offset'] = $params['offset'];
+			unset($params['offset']);
+		}
+		if(isset($params['limit'])) {
+			$result['limit'] = $params['limit'];
+			unset($params['limit']);
+		}
+		if(isset($params)) {
+			$result['where'] = $params;
+		}
+		return $result;
 	}
 	
 	protected function splitStringParam($value) {

@@ -2,15 +2,11 @@
 
 namespace yii2lab\domain\rest;
 
-use Yii;
+/**
+ * @package yii2lab\domain\rest
+ *
+ * @deprecated use parent
+ */
+class CreateAction extends \yii2lab\rest\domain\rest\CreateAction {
 
-class CreateAction extends BaseAction {
-
-	public $serviceMethod = 'create';
-	public $successStatusCode = 201;
-	
-	public function run() {
-		$body = Yii::$app->request->getBodyParams();
-		return $this->runServiceMethod($body);
-	}
 }

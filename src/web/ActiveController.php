@@ -3,6 +3,7 @@
 namespace yii2lab\domain\web;
 
 use Yii;
+use yii2lab\helpers\Behavior;
 
 class ActiveController extends Controller {
 
@@ -31,7 +32,11 @@ class ActiveController extends Controller {
 	}
 	
 	public function behaviors() {
-		return $this->getAccessBehaviors();
+		$behaviors = [];
+		foreach($this->service->access() as $access) {
+			$behaviors[] = Behavior::access($access['roles'], $access['only']);
+		}
+		return $behaviors;
 	}
 	
 	public function actions() {

@@ -5,8 +5,8 @@ namespace yii2lab\domain\base;
 use Yii;
 use yii\base\Action as YiiAction;
 use yii2lab\domain\data\Query;
-use yii2lab\domain\traits\action\ServiceTrait;
 use yii2lab\domain\web\ActiveController;
+use yii2lab\extension\web\helpers\ControllerHelper;
 
 /**
  * Class Action
@@ -16,8 +16,6 @@ use yii2lab\domain\web\ActiveController;
  * @property ActiveController $controller
  */
 class Action extends YiiAction {
-	
-	use ServiceTrait;
 	
 	public $formClass;
 	public $titleName;
@@ -71,6 +69,19 @@ class Action extends YiiAction {
 	public function render($view, $params = [])
 	{
 		return $this->controller->render($view, $params);
+	}
+	
+	
+	protected function runServiceMethod() {
+		$args = func_get_args();
+		return ControllerHelper::runServiceMethod($this->getService(), $this->serviceMethod, $args, $this->serviceMethodParams);
+	}
+	
+	protected function getService() {
+		if(empty($this->service)) {
+			$this->service = $this->controller->service;
+		}
+		return $this->service;
 	}
 	
 }

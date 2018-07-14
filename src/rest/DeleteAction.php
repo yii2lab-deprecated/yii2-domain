@@ -2,12 +2,11 @@
 
 namespace yii2lab\domain\rest;
 
-class DeleteAction extends BaseAction {
+/**
+ * @package yii2lab\domain\rest
+ *
+ * @deprecated use parent
+ */
+class DeleteAction extends \yii2lab\rest\domain\rest\DeleteAction {
 
-	public $serviceMethod = 'delete';
-	public $successStatusCode = 204;
-	
-	public function run($id) {
-		$this->runServiceMethod($id);
-	}
 }

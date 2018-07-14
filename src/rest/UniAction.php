@@ -2,16 +2,11 @@
 
 namespace yii2lab\domain\rest;
 
-use Yii;
-
-class UniAction extends BaseAction {
-
-	public $serviceMethod = 'update';
-	
-	public function run() {
-		$body = Yii::$app->request->getBodyParams();
-		$response = $this->runServiceMethod($body);
-		return $this->responseToArray($response);
-	}
+/**
+ * @package yii2lab\domain\rest
+ *
+ * @deprecated use parent
+ */
+class UniAction extends \yii2lab\rest\domain\rest\UniAction {
 
 }

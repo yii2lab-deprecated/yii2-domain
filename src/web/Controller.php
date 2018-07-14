@@ -2,16 +2,16 @@
 
 namespace yii2lab\domain\web;
 
-use yii2lab\domain\traits\controller\ServiceTrait;
 use yii\web\Controller as YiiController;
+use yii2lab\extension\web\helpers\ControllerHelper;
 
 class Controller extends YiiController {
 	
-	use ServiceTrait;
+	public $service = null;
 	
 	public function init() {
 		parent::init();
-		$this->initService();
+		$this->service = ControllerHelper::forgeService($this->service);
 	}
 	
 }
