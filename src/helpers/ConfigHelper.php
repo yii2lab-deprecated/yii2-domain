@@ -24,7 +24,7 @@ class ConfigHelper {
 			$domainConfig = $domainInstance->config();
 			if(!empty($domainConfig)) {
 				$domainConfig = self::normalizeSubItems($domainId, $domainConfig);
-				$data = ArrayHelper::merge($data, $domainConfig);
+				$data = ArrayHelper::merge($domainConfig, $data);
 			}
 		}
 		return $data;
