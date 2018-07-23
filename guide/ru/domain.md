@@ -303,7 +303,7 @@ return [
 ```php
 'profile' => [
 	'class' => Domain::class,
-	'path' => 'yii2woop\profile\domain',
+	'path' => 'yii2module\profile\domain\v2',
 	'repositories' => [
 		'profile',
 		'address',

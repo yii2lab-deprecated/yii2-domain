@@ -45,7 +45,7 @@
 		'class' => Domain::class,
 		'path' => 'yii2module\profile\domain',
 		'container' => [
-				'yii2module\profile\domain\repositories\tps\IinRepository' => 'yii2woop\common\domain\profile\repositories\tps\IinRepository',
+				'yii2module\profile\domain\repositories\tps\IinRepository' => 'yii2module\example\domain\profile\repositories\tps\IinRepository',
 		],
 		...
 ],

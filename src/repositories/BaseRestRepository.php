@@ -54,12 +54,6 @@ abstract class BaseRestRepository extends BaseRepository {
 			if($response->data['type']) {
 				$exception = $response->data['type'];
 				$message = $response->data['message'];
-				if($exception == 'yii2woop\common\virt\exceptions\ExternalException') {
-					if(YII_DEBUG) {
-						throw new $exception($message);
-					}
-					throw new ServerErrorHttpException(Yii::t('tps', 'ExternalException'));
-				}
 				throw new $exception($message);
 			} else {
 				throw new ServerErrorHttpException();

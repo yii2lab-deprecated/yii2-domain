@@ -39,7 +39,7 @@ return [
 		// ...
 		'account' => [
 			'class' => 'yii2lab\domain\Domain',
-			'path' => 'yii2woop\account\domain',
+			'path' => 'yii2module\account\domain\v2',
 			'repositories' => [
 				'auth' => Driver::remote(),
 				'login' => Driver::remote(),
