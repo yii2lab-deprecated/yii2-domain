@@ -41,7 +41,7 @@ class BaseActiveService extends BaseService implements CrudInterface {
 	public $userIdField = 'user_id';
 	
 	public function getDataProvider(Query $query = null) {
-		$query = Query::forge($query);
+		$query = $this->prepareQuery($query);
 		$isReadInterface = $this->repository instanceof ReadInterface;
 		$isMethodExists = method_exists($this->repository, 'getDataProvider');
 		if($isReadInterface && $isMethodExists) {
@@ -79,7 +79,7 @@ class BaseActiveService extends BaseService implements CrudInterface {
 	
 	public function one(Query $query = null) {
 		$this->beforeAction(self::EVENT_VIEW);
-		$query = Query::forge($query);
+		$query = $this->prepareQuery($query);
 		$this->userAccessOnly($query);
 		$result = $this->repository->one($query);
 		if(empty($result)) {
@@ -101,7 +101,7 @@ class BaseActiveService extends BaseService implements CrudInterface {
 			throw new InvalidArgumentException('ID can not be empty in ' . __METHOD__ . ' ' . static::class);
 		}
 		$this->beforeAction(self::EVENT_VIEW);
-		$query = Query::forge($query);
+		$query = $this->prepareQuery($query);
 		$this->userAccessOnly($query);
 		$result = $this->repository->oneById($id, $query);
 		if(empty($result)) {
@@ -112,7 +112,7 @@ class BaseActiveService extends BaseService implements CrudInterface {
 	
 	public function count(Query $query = null) {
 		$this->beforeAction(self::EVENT_INDEX);
-		$query = Query::forge($query);
+		$query = $this->prepareQuery($query);
 		$this->userAccessOnly($query);
 		$result = $this->repository->count($query);
 		return $this->afterAction(self::EVENT_INDEX, $result);
@@ -120,7 +120,7 @@ class BaseActiveService extends BaseService implements CrudInterface {
 	
 	public function all(Query $query = null) {
 		$this->beforeAction(self::EVENT_INDEX);
-		$query = Query::forge($query);
+		$query = $this->prepareQuery($query);
 		$this->userAccessOnly($query);
 		$result = $this->repository->all($query);
 		return $this->afterAction(self::EVENT_INDEX, $result);

@@ -49,6 +49,11 @@ class BaseService extends YiiComponent {
 		return Query::forge($query);
 	}
 	
+	protected function prepareQuery(Query $query = null) {
+		$query = Query::forge($query);
+		return $query;
+	}
+	
 	/**
 	 * @param      $form
 	 * @param null $data
