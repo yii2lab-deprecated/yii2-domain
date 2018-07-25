@@ -65,6 +65,28 @@ class Query extends Component {
 		return ArrayHelper::getValue($this->query, "nestedQuery.$key");
 	}
 	
+	public function getWhere($key) {
+		$where = $this->query[self::WHERE];
+		return $this->findWhereInArray($key, $where);
+	}
+	
+	private function findWhereInArray($fieldName, $array) {
+		if(!is_array($array) || empty($array)) {
+			return null;
+		}
+		foreach($array as $key => &$value) {
+			if($key === $fieldName) {
+				return $value;
+			} elseif(is_array($value)) {
+				$value = $this->findWhereInArray($fieldName, $value);
+				if(!empty($value)) {
+					return $value;
+				}
+			}
+		}
+		return null;
+	}
+	
 	public function where($key, $value = null) {
 		if(func_num_args() == 1) {
 			$this->query[self::WHERE] = $key;
@@ -105,8 +127,27 @@ class Query extends Component {
 		return $this;
 	}
 	
-	public function removeWhere($key) {
-		unset($this->query[self::WHERE][ $key ]);
+	public function removeWhere($fieldName) {
+		$where = $this->query[self::WHERE];
+		$where = $this->removeWhereInArray($fieldName, $where);
+		$this->query[self::WHERE] = $where;
+	}
+	
+	private function removeWhereInArray($fieldName, $array) {
+		if(!is_array($array) || empty($array)) {
+			return null;
+		}
+		foreach($array as $key => &$value) {
+			if($key === $fieldName) {
+				unset($array[$key]);
+			} elseif(is_array($value)) {
+				$value = $this->removeWhereInArray($fieldName, $value);
+				if(empty($value)) {
+					unset($array[$key]);
+				}
+			}
+		}
+		return $array;
 	}
 	
 	public function whereFromCondition($condition) {
