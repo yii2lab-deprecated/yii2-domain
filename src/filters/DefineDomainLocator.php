@@ -3,6 +3,7 @@
 namespace yii2lab\domain\filters;
 
 use common\locators\DomainLocator;
+use Dii;
 use Yii;
 use yii2lab\designPattern\scenario\base\BaseScenario;
 
@@ -15,6 +16,7 @@ class DefineDomainLocator extends BaseScenario {
 		if(!$this->isHasDomainProperty()) {
 			return $config;
 		}
+		$this->loadDomainContainerClass();
 		// todo: deprecated ($config['components'])
 		$domains = $this->extractDomainsFromComponent($config['components']);
 		$this->createDomainLocator($domains);
@@ -26,9 +28,16 @@ class DefineDomainLocator extends BaseScenario {
 		return property_exists(Yii::class, 'domain');
 	}
 	
+	private function loadDomainContainerClass() {
+		if(!class_exists(Dii::class)) {
+			require VENDOR_DIR . DS . 'yii2lab' . DS . 'yii2-domain' . DS . 'src' . DS . 'yii2' . DS . 'Dii.php';
+		}
+	}
 	private function createDomainLocator($domains) {
 		Yii::$domain = new DomainLocator();
 		Yii::$domain->setComponents($domains);
+		Dii::$domain = new DomainLocator;
+		Dii::$domain->setComponents($domains);
 	}
 	
 	private function extractDomainsFromComponent($components) {

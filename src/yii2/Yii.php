@@ -13,6 +13,7 @@ class Yii extends \yii\BaseYii
 	
 	/**
 	 * @var \common\locators\DomainLocator the domain container
+	 * @deprecated use \Dii::$domain
 	 */
 	public static $domain;
 	
