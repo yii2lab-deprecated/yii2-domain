@@ -12,7 +12,7 @@ class Yii extends \yii\BaseYii
 {
 	
 	/**
-	 * @var \yii2lab\domain\yii2\DomainContainer the domain container
+	 * @var \common\locators\DomainLocator the domain container
 	 */
 	public static $domain;
 	
