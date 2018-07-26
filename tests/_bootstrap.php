@@ -1,6 +1,7 @@
 <?php
 
 use yii2lab\app\App;
+use yii2lab\test\helpers\TestHelper;
 
 $name = 'console';
 $path = '../../../..';
@@ -13,3 +14,5 @@ if(!class_exists('yii2lab\app\App')) {
 }
 
 App::init($name, __DIR__ . '/_application');
+
+TestHelper::copySqlite(__DIR__);
