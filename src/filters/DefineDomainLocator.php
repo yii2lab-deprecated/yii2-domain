@@ -7,12 +7,14 @@ use Dii;
 use Yii;
 use yii2lab\designPattern\scenario\base\BaseScenario;
 
+use yii2lab\designPattern\scenario\helpers\ScenarioHelper;
 use yii2module\lang\domain\helpers\DomainConfigHelper;
 
 class DefineDomainLocator extends BaseScenario {
 	
 	public function run() {
 		$config = $this->getData();
+		$config = ScenarioHelper::run(SetDomainTranslationConfig::class, $config);
 		if(!$this->isHasDomainProperty()) {
 			return $config;
 		}
@@ -34,10 +36,9 @@ class DefineDomainLocator extends BaseScenario {
 		}
 	}
 	private function createDomainLocator($domains) {
-		Yii::$domain = new DomainLocator();
-		Yii::$domain->setComponents($domains);
 		Dii::$domain = new DomainLocator;
 		Dii::$domain->setComponents($domains);
+		Yii::$domain = Dii::$domain;
 	}
 	
 	private function extractDomainsFromComponent($components) {
