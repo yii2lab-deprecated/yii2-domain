@@ -262,7 +262,7 @@ class Query extends Component {
 	public function addOrderBy($columns)
 	{
 		$columns = $this->normalizeOrderBy($columns);
-		if ($this->query[self::ORDER] === null) {
+		if (ArrayHelper::getValue($this->query, self::ORDER) === null) {
 			$this->query[self::ORDER] = $columns;
 		} else {
 			$this->query[self::ORDER] = array_merge($this->query[self::ORDER], $columns);
