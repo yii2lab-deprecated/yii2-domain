@@ -6,6 +6,7 @@ use yii\base\InvalidArgumentException;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\helpers\ErrorCollection;
+use yii2lab\domain\interfaces\repositories\ReadExistsInterface;
 use yii2lab\domain\interfaces\repositories\SearchInterface;
 use yii2lab\domain\interfaces\services\CrudInterface;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
@@ -24,7 +25,7 @@ use yii2lab\extension\activeRecord\helpers\SearchHelper;
  *
  * @package yii2lab\domain\services
  *
- * @property-read \yii2lab\domain\interfaces\repositories\CrudInterface|SearchInterface $repository
+ * @property-read \yii2lab\domain\interfaces\repositories\CrudInterface|SearchInterface|ReadExistsInterface $repository
  */
 class BaseActiveService extends BaseService implements CrudInterface {
 	

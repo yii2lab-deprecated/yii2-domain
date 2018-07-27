@@ -12,4 +12,8 @@ class BaseSchema {
 		return [];
 	}
 	
+	public function searchByTextFields() {
+		return [];
+	}
+	
 }

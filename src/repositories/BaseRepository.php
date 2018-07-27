@@ -113,6 +113,10 @@ abstract class BaseRepository extends Component {
 		return $this->runSchemaMethod('uniqueFields');
 	}
 	
+	public function searchByTextFields() {
+		return $this->runSchemaMethod('searchByTextFields');
+	}
+	
 	public function whereFields() {
 		return $this->allFields();
 	}
