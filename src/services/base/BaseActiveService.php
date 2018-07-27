@@ -33,6 +33,7 @@ class BaseActiveService extends BaseService implements CrudInterface {
 	const EVENT_DELETE = 'delete';
 	
 	const SEARCH_TEXT_MIN_LENGTH = 3;
+	const SEARCH_PARAM_NAME = 'search-text';
 	
 	/** @var \yii2lab\domain\BaseEntity */
 	public $foreignServices;
@@ -46,19 +47,10 @@ class BaseActiveService extends BaseService implements CrudInterface {
 		return [];
 	}
 	
-	public function searchByText($text, Query $query = null) {
-		$text = trim($text);
-		if(empty($text) || mb_strlen($text) < self::SEARCH_TEXT_MIN_LENGTH) {
-			$error = new ErrorCollection;
-			$error->add('text', 'yii', '{attribute} should contain at least {min, number} {min, plural, one{character} other{characters}}.', [
-				'attribute'=>'text',
-				'min'=>self::SEARCH_TEXT_MIN_LENGTH,
-			]);
-			throw new UnprocessableEntityHttpException($error);
-		}
-		$likeCondition = $this->generateLikeCondition($text);
-		$query->andWhere($likeCondition);
-		return $this->getDataProvider($query);
+	protected function prepareQuery(Query $query = null) {
+		$query = parent::prepareQuery($query);
+		$this->appendSearchCondition($query);
+		return $query;
 	}
 	
 	public function getDataProvider(Query $query = null) {
@@ -74,6 +66,30 @@ class BaseActiveService extends BaseService implements CrudInterface {
 			]);
 		}
 		return $dataProvider;
+	}
+	
+	protected function appendSearchCondition(Query $query) {
+		$searchText = $query->getWhere(self::SEARCH_PARAM_NAME);
+		if(empty($searchText)) {
+			return;
+		}
+		$query->removeWhere(self::SEARCH_PARAM_NAME);
+		$searchText = trim($searchText);
+		$this->validateSearchText($searchText);
+		$likeCondition = $this->generateLikeCondition($searchText);
+		$query->andWhere($likeCondition);
+	}
+	
+	private function validateSearchText($text) {
+		$text = trim($text);
+		if(empty($text) || mb_strlen($text) < self::SEARCH_TEXT_MIN_LENGTH) {
+			$error = new ErrorCollection;
+			$error->add('text', 'yii', '{attribute} should contain at least {min, number} {min, plural, one{character} other{characters}}.', [
+				'attribute'=>'text',
+				'min'=>self::SEARCH_TEXT_MIN_LENGTH,
+			]);
+			throw new UnprocessableEntityHttpException($error);
+		}
 	}
 	
 	private function generateLikeCondition($text) {
