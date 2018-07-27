@@ -1,7 +1,7 @@
 <?php
 namespace tests\unit\values;
 
-use Codeception\Test\Unit;
+use yii2lab\test\Test\Unit;
 use DateTime;
 use yii2lab\domain\values\TimeValue;
 

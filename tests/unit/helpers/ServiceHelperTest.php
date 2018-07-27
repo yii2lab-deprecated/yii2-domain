@@ -1,20 +1,12 @@
 <?php
 namespace tests\unit\helpers;
 
-use Codeception\Test\Unit;
+use yii2lab\test\Test\Unit;
 use yii\base\InvalidArgumentException;
 use yii2lab\domain\entities\ServiceExecutorEntity;
 use yii2lab\domain\helpers\ServiceHelper;
-use yii2lab\test\base\_support\UnitTester;
 use yii2module\account\domain\v2\helpers\TestAuthHelper;
 
-/**
- * Class DomainHelperTest
- *
- * @package tests\unit\helpers
- *
- * @property UnitTester $tester
- */
 class ServiceHelperTest extends Unit
 {
 	

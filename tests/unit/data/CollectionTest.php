@@ -2,18 +2,10 @@
 
 namespace tests\unit\data;
 
-use Codeception\Test\Unit;
+use yii2lab\test\Test\Unit;
 use yii\base\ErrorException;
 use yii2lab\domain\data\Collection;
-use yii2lab\test\base\_support\UnitTester;
 
-/**
- * Class ArrayIteratorTest
- *
- * @package tests\unit\data
- *
- * @property UnitTester $tester
- */
 class CollectionTest extends Unit {
 	
 	private $array = [
