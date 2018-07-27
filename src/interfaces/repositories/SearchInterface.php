@@ -7,5 +7,6 @@ use yii2lab\domain\data\Query;
 interface SearchInterface extends RepositoryInterface {
 	
 	public function searchByText($text, Query $query = null);
+	public function searchByTextFields();
 	
 }
