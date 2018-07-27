@@ -6,6 +6,7 @@ use yii\base\InvalidArgumentException;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\helpers\ErrorCollection;
+use yii2lab\domain\interfaces\repositories\SearchInterface;
 use yii2lab\domain\interfaces\services\CrudInterface;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use Yii;
@@ -16,13 +17,14 @@ use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
 use yii2lab\domain\data\ActiveDataProvider;
 use yii2lab\domain\interfaces\repositories\ReadInterface;
+use yii2lab\extension\activeRecord\helpers\SearchHelper;
 
 /**
  * Class ActiveBaseService
  *
  * @package yii2lab\domain\services
  *
- * @property-read \yii2lab\domain\interfaces\repositories\CrudInterface $repository
+ * @property-read \yii2lab\domain\interfaces\repositories\CrudInterface|SearchInterface $repository
  */
 class BaseActiveService extends BaseService implements CrudInterface {
 	
@@ -32,9 +34,6 @@ class BaseActiveService extends BaseService implements CrudInterface {
 	const EVENT_UPDATE = 'update';
 	const EVENT_DELETE = 'delete';
 	
-	const SEARCH_TEXT_MIN_LENGTH = 3;
-	const SEARCH_PARAM_NAME = 'search-text';
-	
 	/** @var \yii2lab\domain\BaseEntity */
 	public $foreignServices;
 	public $forbiddenChangeFields;
@@ -43,77 +42,35 @@ class BaseActiveService extends BaseService implements CrudInterface {
 	public $userAccessOnly = false;
 	public $userIdField = 'user_id';
 	
-	public function searchByTextFields() {
-		return [];
-	}
-	
-	protected function prepareQuery(Query $query = null) {
-		$query = parent::prepareQuery($query);
-		$this->appendSearchCondition($query);
-		return $query;
-	}
-	
 	public function getDataProvider(Query $query = null) {
 		$query = $this->prepareQuery($query);
-		$isReadInterface = $this->repository instanceof ReadInterface;
-		$isMethodExists = method_exists($this->repository, 'getDataProvider');
-		if($isReadInterface && $isMethodExists) {
-			$dataProvider = $this->repository->getDataProvider($query);
-		} else {
-			$dataProvider = new ActiveDataProvider([
-				'query' => $query,
-				'service' => $this,
-			]);
+		$searchText = SearchHelper::extractSearchTextFromQuery($query);
+		if(!empty($searchText)) {
+			if($this->repository instanceof SearchInterface) {
+				return $this->repository->searchByText($searchText, $query);
+			}
+			throw new ServerErrorHttpException(static::class . ' not implement "SearchInterface" functional');
 		}
+		if($this->repository instanceof ReadInterface) {
+			return $this->repository->getDataProvider($query);
+		}
+		$dataProvider = new ActiveDataProvider([
+			'query' => $query,
+			'service' => $this,
+		]);
 		return $dataProvider;
-	}
-	
-	protected function appendSearchCondition(Query $query) {
-		$searchText = $query->getWhere(self::SEARCH_PARAM_NAME);
-		if(empty($searchText)) {
-			return;
-		}
-		$query->removeWhere(self::SEARCH_PARAM_NAME);
-		$searchText = trim($searchText);
-		$this->validateSearchText($searchText);
-		$likeCondition = $this->generateLikeCondition($searchText);
-		$query->andWhere($likeCondition);
-	}
-	
-	private function validateSearchText($text) {
-		$text = trim($text);
-		if(empty($text) || mb_strlen($text) < self::SEARCH_TEXT_MIN_LENGTH) {
-			$error = new ErrorCollection;
-			$error->add('text', 'yii', '{attribute} should contain at least {min, number} {min, plural, one{character} other{characters}}.', [
-				'attribute'=>'text',
-				'min'=>self::SEARCH_TEXT_MIN_LENGTH,
-			]);
-			throw new UnprocessableEntityHttpException($error);
-		}
-	}
-	
-	private function generateLikeCondition($text) {
-		$searchByTextFields = $this->searchByTextFields();
-		if(empty($searchByTextFields)) {
-			throw new InvalidArgumentException('Method "searchByTextFields" return empty array!');
-		}
-		$q = Query::forge();
-		foreach($searchByTextFields as $key) {
-			$q->orWhere(['ilike', $key, $text]);
-		}
-		return $q->getParam('where');
 	}
 	
 	private function userAccessOnly(Query $query) {
 		if($this->userAccessOnly) {
-			$userId = Yii::$app->user->identity->id;
+			$userId = Yii::$domain->account->auth->identity->id;
 			$query->where($this->userIdField, "$userId");
 		}
 	}
 	
 	protected function addUserId(BaseEntity $entity) {
 		if($this->userAccessOnly) {
-			$userId = Yii::$app->user->identity->id;
+			$userId = Yii::$domain->account->auth->identity->id;
 			$entity->{$this->userIdField} = $userId;
 		}
 	}
@@ -260,7 +217,7 @@ class BaseActiveService extends BaseService implements CrudInterface {
 			if(!empty($data[ $fieldName ])) {
 				try {
 					$serviceInstance = ArrayHelper::getValue(Yii::$app, $serviceKey);
-					$entity = $serviceInstance->oneById($data[ $fieldName ]);
+					$serviceInstance->oneById($data[ $fieldName ]);
 				} catch(NotFoundHttpException $e) {
 					$notFoundMessage = $serviceConfig['notFoundMessage'];
 					$error = new ErrorCollection();
