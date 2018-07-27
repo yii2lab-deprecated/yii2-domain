@@ -32,6 +32,8 @@ class BaseActiveService extends BaseService implements CrudInterface {
 	const EVENT_UPDATE = 'update';
 	const EVENT_DELETE = 'delete';
 	
+	const SEARCH_TEXT_MIN_LENGTH = 3;
+	
 	/** @var \yii2lab\domain\BaseEntity */
 	public $foreignServices;
 	public $forbiddenChangeFields;
@@ -39,6 +41,25 @@ class BaseActiveService extends BaseService implements CrudInterface {
 	/** @var bool private data for user */
 	public $userAccessOnly = false;
 	public $userIdField = 'user_id';
+	
+	public function searchByTextFields() {
+		return [];
+	}
+	
+	public function searchByText($text, Query $query = null) {
+		$text = trim($text);
+		if(empty($text) || mb_strlen($text) < self::SEARCH_TEXT_MIN_LENGTH) {
+			$error = new ErrorCollection;
+			$error->add('text', 'yii', '{attribute} should contain at least {min, number} {min, plural, one{character} other{characters}}.', [
+				'attribute'=>'text',
+				'min'=>self::SEARCH_TEXT_MIN_LENGTH,
+			]);
+			throw new UnprocessableEntityHttpException($error);
+		}
+		$likeCondition = $this->generateLikeCondition($text);
+		$query->andWhere($likeCondition);
+		return $this->getDataProvider($query);
+	}
 	
 	public function getDataProvider(Query $query = null) {
 		$query = $this->prepareQuery($query);
@@ -53,6 +74,18 @@ class BaseActiveService extends BaseService implements CrudInterface {
 			]);
 		}
 		return $dataProvider;
+	}
+	
+	private function generateLikeCondition($text) {
+		$searchByTextFields = $this->searchByTextFields();
+		if(empty($searchByTextFields)) {
+			throw new InvalidArgumentException('Method "searchByTextFields" return empty array!');
+		}
+		$q = Query::forge();
+		foreach($searchByTextFields as $key) {
+			$q->orWhere(['ilike', $key, $text]);
+		}
+		return $q->getParam('where');
 	}
 	
 	private function userAccessOnly(Query $query) {

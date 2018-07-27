@@ -14,4 +14,12 @@ interface ReadPaginationInterface {
 	 */
 	public function getDataProvider(Query $query = null);
 	
+	/**
+	 * @param     string $text
+	 * @param Query|null $query
+	 *
+	 * @return DataProviderInterface
+	 */
+	public function searchByText($text, Query $query = null);
+	
 }
