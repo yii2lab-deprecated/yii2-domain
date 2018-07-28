@@ -12,6 +12,16 @@ use yii2mod\helpers\ArrayHelper;
 
 class DomainHelper {
 	
+	public static function isDomain($config) {
+		if(empty($config['class'])) {
+			return false;
+		}
+		if($config['class'] == Domain::class || is_subclass_of($config['class'], Domain::class)) {
+			return true;
+		}
+		return false;
+	}
+	
 	/**
 	 * @param $domainId
 	 * @param $definition

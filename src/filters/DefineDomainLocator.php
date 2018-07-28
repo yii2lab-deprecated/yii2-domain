@@ -6,28 +6,28 @@ use common\locators\DomainLocator;
 use Dii;
 use Yii;
 use yii2lab\designPattern\scenario\base\BaseScenario;
-
 use yii2lab\designPattern\scenario\helpers\ScenarioHelper;
-use yii2module\lang\domain\helpers\DomainConfigHelper;
+use yii2lab\domain\helpers\DomainLangHelper;
 
 class DefineDomainLocator extends BaseScenario {
 	
+	public $filters = [];
+	
 	public function run() {
-		$config = $this->getData();
-		$config = ScenarioHelper::run(SetDomainTranslationConfig::class, $config);
-		if(!$this->isHasDomainProperty()) {
-			return $config;
-		}
-		$this->loadDomainContainerClass();
-		// todo: deprecated ($config['components'])
-		$domains = $this->extractDomainsFromComponent($config['components']);
+		/*$config = $this->getData();
+		$domains = $config['params']['domains'];
+		unset($config['params']['domains']);*/
+		$domains = $this->loadConfig();
+		//prr($domains,1,1);
 		$this->createDomainLocator($domains);
-		$this->setData($config);
-		return null;
+		//$config = DomainLangHelper::setDomainTranslationConfig($config, $domains);
+		//$this->setData($config);
 	}
 	
-	private function isHasDomainProperty() {
-		return property_exists(Yii::class, 'domain');
+	private function loadConfig() {
+		$loaders = ScenarioHelper::forgeCollection($this->filters);
+		$domains = ScenarioHelper::runAll($loaders, []);
+		return $domains;
 	}
 	
 	private function loadDomainContainerClass() {
@@ -35,19 +35,12 @@ class DefineDomainLocator extends BaseScenario {
 			require VENDOR_DIR . DS . 'yii2lab' . DS . 'yii2-domain' . DS . 'src' . DS . 'yii2' . DS . 'Dii.php';
 		}
 	}
+	
 	private function createDomainLocator($domains) {
+		$this->loadDomainContainerClass();
 		Dii::$domain = new DomainLocator;
 		Dii::$domain->setComponents($domains);
 		Yii::$domain = Dii::$domain;
 	}
 	
-	private function extractDomainsFromComponent($components) {
-		$domains = [];
-		foreach($components as $id => $component) {
-			if(DomainConfigHelper::isDomain($component)) {
-				$domains[$id] = $component;
-			}
-		}
-		return $domains;
-	}
 }

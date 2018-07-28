@@ -45,7 +45,7 @@ class ServiceHelper {
 	
 	public static function has($serviceName) {
 		try {
-			$serviceInstance = ArrayHelper::getValue(Yii::$app, $serviceName);
+			$serviceInstance = ArrayHelper::getValue(Yii::$domain, $serviceName);
 			return is_object($serviceInstance);
 		} catch(UnknownPropertyException $e) {
 			return false;
@@ -63,7 +63,7 @@ class ServiceHelper {
 		if($service instanceof BaseService) {
 			return $service;
 		}
-		$serviceInstance = ArrayHelper::getValue(Yii::$app, $service, $default);
+		$serviceInstance = ArrayHelper::getValue(Yii::$domain, $service, $default);
 		if(!is_object($serviceInstance)) {
 			throw new InvalidConfigException("Service \"$service\" not found");
 		}

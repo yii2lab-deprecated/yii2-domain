@@ -7,7 +7,7 @@ use yii2lab\domain\helpers\ConfigHelper;
 
 class LoadDomainConfig extends LoadConfig {
 	
-	public $assignTo = 'components';
+	public $assignTo = '';
 	
 	protected function normalizeItem($domainId, $data) {
 		return ConfigHelper::normalizeItemConfig($domainId, $data);

@@ -217,7 +217,7 @@ class BaseActiveService extends BaseService implements CrudInterface {
 			}
 			if(!empty($data[ $fieldName ])) {
 				try {
-					$serviceInstance = ArrayHelper::getValue(Yii::$app, $serviceKey);
+					$serviceInstance = ArrayHelper::getValue(Yii::$domain, $serviceKey);
 					$serviceInstance->oneById($data[ $fieldName ]);
 				} catch(NotFoundHttpException $e) {
 					$notFoundMessage = $serviceConfig['notFoundMessage'];
