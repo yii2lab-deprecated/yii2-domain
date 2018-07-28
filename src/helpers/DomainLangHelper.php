@@ -2,6 +2,8 @@
 
 namespace yii2lab\domain\helpers;
 
+use yii2module\lang\domain\helpers\LangHelper;
+
 class DomainLangHelper {
 	
 	public static function setDomainTranslationConfig($config, $domains) {
@@ -9,7 +11,7 @@ class DomainLangHelper {
 		foreach($domains as $domain) {
 			if(!empty($domain['translations'])) {
 				foreach($domain['translations'] as $translationId => $translation) {
-					$translation = self::normalizeTranslation($translation);
+					$translation = LangHelper::normalizeTranslation($translation);
 					$config = self::addPrefix($config);
 					$config['components']['i18n']['translations']['domain:' . $translationId] = $translation;
 				}
@@ -44,18 +46,11 @@ class DomainLangHelper {
 			return $config;
 		}
 		foreach($translations as $id => $translationConfig) {
-			$translationConfig = self::normalizeTranslation($translationConfig);
+			$translationConfig = LangHelper::normalizeTranslation($translationConfig);
 			$config['components']['i18n']['translations'][$id] = $translationConfig;
 			$config['components']['i18n']['translations']['domain:' . $id] = self::addPrefix($translationConfig);
 		}
 		return $config;
 	}
-	
-	private static function normalizeTranslation($config) {
-		$config['class'] = 'yii2module\lang\domain\i18n\PhpMessageSource';
-		$config['on missingTranslation'] = ['yii2module\lang\domain\handlers\TranslationEventHandler', 'handleMissingTranslation'];
-		return $config;
-	}
-	
 	
 }
