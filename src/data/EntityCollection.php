@@ -30,6 +30,9 @@ class EntityCollection extends Collection {
 	}
 	
 	private function validateItems($items) {
+		if(empty($items)) {
+			return [];
+		}
 		foreach($items as &$item) {
 			$item = $this->validateItem($item);
 		}
