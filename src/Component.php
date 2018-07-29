@@ -6,11 +6,14 @@ use DateTime;
 use Yii;
 use yii\base\Behavior;
 use yii\base\InvalidCallException;
+use yii\base\ModelEvent;
 use yii\base\UnknownPropertyException;
 use yii2lab\domain\values\BaseValue;
 use yii2lab\domain\values\TimeValue;
 
 class Component extends \yii\base\Component {
+	
+	const EVENT_SET_ATTRIBUTE = 'set_attribute';
 	
 	protected function extractValue($value, $inRaw = false) {
 		if($inRaw) {
@@ -58,6 +61,8 @@ class Component extends \yii\base\Component {
 	}
 	
 	public function __set($name, $value) {
+		$event = new ModelEvent();
+		$this->trigger(self::EVENT_SET_ATTRIBUTE, $event);
 		$setter = $this->magicMethodName($name, 'set');
 		if(method_exists($this, $setter)) {
 			// set property

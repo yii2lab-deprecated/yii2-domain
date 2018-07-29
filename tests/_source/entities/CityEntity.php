@@ -2,6 +2,7 @@
 
 namespace tests\_source\entities;
 
+use paulzi\jsonBehavior\JsonBehavior;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\values\TimeValue;
 use yii2lab\geo\domain\entities\CountryEntity;

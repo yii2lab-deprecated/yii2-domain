@@ -7,6 +7,7 @@ use yii\helpers\ArrayHelper;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\Collection;
 use yii2lab\domain\data\EntityCollection;
+use yii2lab\domain\helpers\Helper;
 use yii2lab\domain\values\BaseValue;
 
 class ObjectType extends BaseType {
@@ -16,22 +17,14 @@ class ObjectType extends BaseType {
 			return true;
 		}
 		$class = $config['type'];
-		$isCollection = !empty($config['isCollection']);
 		if(is_object($value)) {
-			if($value instanceof Collection && !$isCollection) {
-				throw new InvalidArgumentException('Value can not be collection');
-			}
-			if($isCollection && !$value instanceof Collection) {
-				throw new InvalidArgumentException('Need collection');
-			}
-			if(!$value instanceof $class) {
-				throw new InvalidArgumentException('Object not instance of class');
-			}
+			self::validateObject($config, $value);
 		} else {
 			$isEntityClassName = is_subclass_of($class, BaseEntity::class);
 			if($isEntityClassName && !is_array($value)) {
 				throw new InvalidArgumentException('Entity data not array or object!');
 			}
+			self::validateCollection($config, $value);
 		}
 		return true;
 	}
@@ -48,14 +41,34 @@ class ObjectType extends BaseType {
 			return $valueObject;
 		}
 		if(is_subclass_of($class, BaseEntity::class)) {
-			if(!empty($value)) {
-				return self::forgeEntity($config, $value);
+			$isCollection = !empty($config['isCollection']);
+			if($isCollection) {
+				return new EntityCollection($class, $value);
+			} else {
+				return Helper::forgeEntity($value, $class);
 			}
 		}
 		return null;
 	}
 	
-	private static function forgeEntity($config, $value) {
+	private static function validateObject($config, $value) {
+		$class = $config['type'];
+		$isCollection = !empty($config['isCollection']);
+		if($value instanceof Collection && !$isCollection) {
+			throw new InvalidArgumentException('Value can not be collection');
+		}
+		if($isCollection && !$value instanceof Collection) {
+			throw new InvalidArgumentException('Need collection');
+		}
+		if(!$value instanceof $class) {
+			throw new InvalidArgumentException('Object not instance of class');
+		}
+	}
+	
+	private static function validateCollection($config, $value) {
+		if(empty($value)) {
+			return;
+		}
 		$isCollection = !empty($config['isCollection']);
 		$isIndexed = ArrayHelper::isIndexed($value);
 		if($isCollection && !$isIndexed) {
@@ -64,14 +77,6 @@ class ObjectType extends BaseType {
 		if(!$isCollection && $isIndexed) {
 			throw new InvalidArgumentException('Need array of item for entity');
 		}
-		
-		$class = $config['type'];
-		$result = null;
-		if($isCollection) {
-			return new EntityCollection($class, $value);
-		} else {
-			$result = new $class($value);
-		}
-		return $result;
 	}
+	
 }

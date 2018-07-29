@@ -3,6 +3,7 @@
 namespace yii2lab\domain;
 
 use yii\base\InvalidArgumentException;
+use yii\base\ModelEvent;
 use yii2lab\domain\helpers\EntityType;
 use yii2lab\domain\helpers\Helper;
 use yii2lab\helpers\ReflectionHelper;
@@ -16,6 +17,9 @@ use yii2lab\validator\DynamicModel;
 // todo: implement Model interfaces
 
 class BaseEntity extends Component implements Arrayable {
+	
+	const EVENT_INIT = 'init';
+	const EVENT_SET_ATTRIBUTE = 'set_attribute';
 	
 	private $old_attributes = [];
 	private $isNew = true;
@@ -36,7 +40,10 @@ class BaseEntity extends Component implements Arrayable {
 		return [];
 	}*/
 	
-	public function init() {
+	public function init()
+	{
+		parent::init();
+		$this->trigger(self::EVENT_INIT);
 	}
 	
 	public function fields() {
@@ -152,6 +159,8 @@ class BaseEntity extends Component implements Arrayable {
 	}
 	
 	private function setFieldValue($name, $value) {
+		$event = new ModelEvent();
+		$this->trigger(self::EVENT_SET_ATTRIBUTE, $event);
 		$method = $this->magicMethodName($name, 'set');
 		if(method_exists($this, $method)) {
 			$this->$method($value);
