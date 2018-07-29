@@ -7,6 +7,7 @@ use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\Collection;
+use yii2lab\domain\data\EntityCollection;
 use yii2lab\domain\values\BaseValue;
 use yii2lab\helpers\ClassHelper;
 use yii2lab\helpers\TypeHelper;
@@ -29,19 +30,18 @@ class EntityType {
 			return null;
 		}
 		$class = $config['type'];
-		
+		$isCollection = !empty($config['isCollection']);
 		if(is_object($value)) {
-			if($value instanceof Collection) {
-				if(empty($config['isCollection'])) {
-					throw new InvalidArgumentException('Value can not be collection');
-				}
-				// check collection items
-				return $value;
-			} elseif($value instanceof $class) {
-				return $value;
-			} else {
+			if($value instanceof Collection && !$isCollection) {
+				throw new InvalidArgumentException('Value can not be collection');
+			}
+			if($isCollection && !$value instanceof Collection) {
+				throw new InvalidArgumentException('Need collection');
+			}
+			if(!$value instanceof $class) {
 				throw new InvalidArgumentException('Object not instance of class');
 			}
+			return $value;
 		}
 		
 		if(is_subclass_of($class, BaseValue::class)) {
@@ -87,17 +87,12 @@ class EntityType {
 			throw new InvalidArgumentException('Need array of item for entity');
 		}
 		
-		$type = $config['type'];
+		$class = $config['type'];
 		$result = null;
-		if(!empty($config['isCollection'])) {
-			if(empty($value)) {
-				return null;
-			}
-			foreach($value as $item) {
-				$result[] = new $type($item);
-			}
+		if($isCollection) {
+			return new EntityCollection($class, $value);
 		} else {
-			$result = new $type($value);
+			$result = new $class($value);
 		}
 		return $result;
 	}

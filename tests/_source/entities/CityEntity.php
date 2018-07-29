@@ -19,7 +19,9 @@ use yii2lab\geo\domain\entities\RegionEntity;
  * @property $name
  * @property CountryEntity $country
  * @property RegionEntity $region
+ * @property StreetEntity[] $streets
  * @property TimeValue|null $created_at
+ * @property $hash
  */
 class CityEntity extends BaseEntity {
 	
@@ -33,7 +35,9 @@ class CityEntity extends BaseEntity {
     protected $name;
     protected $country;
     protected $region;
+	protected $streets;
 	protected $created_at;
+	protected $hash;
 
 	public function rules() {
 		$types = $this->getConstantEnum('type');
@@ -57,6 +61,10 @@ class CityEntity extends BaseEntity {
 			],
 			'region' => [
 				'type' => RegionEntity::class,
+			],
+			'streets' => [
+				'type' => StreetEntity::class,
+				'isCollection' => true,
 			],
 			'created_at' => TimeValue::class,
 		];
