@@ -14,6 +14,7 @@ use yii2lab\domain\values\TimeValue;
 class Component extends \yii\base\Component {
 	
 	const EVENT_SET_ATTRIBUTE = 'set_attribute';
+	const EVENT_GET_ATTRIBUTE = 'get_attribute';
 	
 	protected function extractValue($value, $inRaw = false) {
 		if($inRaw) {

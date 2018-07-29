@@ -19,7 +19,6 @@ use yii2lab\validator\DynamicModel;
 class BaseEntity extends Component implements Arrayable {
 	
 	const EVENT_INIT = 'init';
-	const EVENT_SET_ATTRIBUTE = 'set_attribute';
 	
 	private $old_attributes = [];
 	private $isNew = true;
