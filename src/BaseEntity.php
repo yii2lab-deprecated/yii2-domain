@@ -2,6 +2,7 @@
 
 namespace yii2lab\domain;
 
+use yii\base\InvalidArgumentException;
 use yii2lab\domain\helpers\EntityType;
 use yii2lab\domain\helpers\Helper;
 use yii2lab\helpers\ReflectionHelper;
@@ -11,6 +12,8 @@ use ReflectionProperty;
 use yii\base\Arrayable;
 use yii\helpers\ArrayHelper;
 use yii2lab\validator\DynamicModel;
+
+// todo: implement Model interfaces
 
 class BaseEntity extends Component implements Arrayable {
 	
@@ -29,20 +32,9 @@ class BaseEntity extends Component implements Arrayable {
 		return [];
 	}
 	
-	public function hideIfNullFields() {
-		$fields = [];
-		$fieldType = $this->fieldType();
-		foreach($fieldType as $fieldName => $fieldConfig) {
-			if(!empty($fieldConfig['isHideIfNull'])) {
-				$fields[] = $fieldName;
-			}
-		}
-		return $fields;
-	}
-	
-	public static function primaryKey() {
+	/*public static function primaryKey() {
 		return [];
-	}
+	}*/
 	
 	public function init() {
 	}
@@ -73,16 +65,16 @@ class BaseEntity extends Component implements Arrayable {
 		}
 	}
 	
-	public function getIsNew() {
+	/*public function getIsNew() {
 		return $this->isNew;
-	}
+	}*/
 	
 	public function getConstantEnum($prefix = null) {
 		$enums = ReflectionHelper::getConstantsValuesByPrefix($this, $prefix);
 		return $enums;
 	}
 	
-	public function getPrimaryKey($asArray = false) {
+	/*public function getPrimaryKey($asArray = false) {
 		$keys = $this->primaryKey();
 		$attributes = $this->toArray();
 		if(!$asArray && count($keys) === 1) {
@@ -94,7 +86,7 @@ class BaseEntity extends Component implements Arrayable {
 			}
 			return $values;
 		}
-	}
+	}*/
 	
 	public function toArrayRaw(array $fields = [], array $expand = [], $recursive = true) {
 		return $this->toArray($fields, $expand, $recursive, true);
@@ -108,23 +100,12 @@ class BaseEntity extends Component implements Arrayable {
 		$result = [];
 		foreach($fields as $name) {
 			$value = $this->getAttribute($name, $isRaw);
-			$isHide = $value === null && $this->isInHiddenFieldOnNull($name);
-			if(!$isHide) {
-				$result[ $name ] = Helper::toArray($value);
-			}
+			$result[ $name ] = Helper::toArray($value);
 		}
 		return $result;
 	}
 	
-	protected function forgeEntity($value, $className) {
-        if(!empty($value) && ! $value instanceof BaseEntity) {
-            $value = ArrayHelper::toArray($value);
-            $value = new $className($value);
-        }
-        return $value;
-    }
-	
-	protected function addExtraFields($fields, $expand) {
+	private function addExtraFields($fields, $expand) {
 		$extra = $this->extraFields();
 		if(empty($extra)) {
 			return $fields;
@@ -138,11 +119,11 @@ class BaseEntity extends Component implements Arrayable {
 	}
 	
 	public function load($attributes, $only = null) {
-		$attributes = ArrayHelper::toArray($attributes);
+		//$attributes = ArrayHelper::toArray($attributes);
 		$this->setAttributes($attributes, $only);
 	}
 	
-	protected function setAttributes($values, $attributeNames = null) {
+	private function setAttributes($values, $attributeNames = null) {
 		if(empty($values) || !is_array($values)) {
 			return null;
 		}
@@ -152,7 +133,7 @@ class BaseEntity extends Component implements Arrayable {
 		}
 		foreach($values as $name => $value) {
 			if(in_array($name, $attributeNames)) { //isset($values[$name]) &&
-				$value = Helper::toArray($values[ $name ]);
+				//$value = Helper::toArray($values[ $name ]);
 				$old_attributes[ $name ] = $this->setFieldValue($name, $value);
 			}
 		}
@@ -169,32 +150,6 @@ class BaseEntity extends Component implements Arrayable {
 		}
 		return $names;
 	}
-	
-	private function isInHiddenFieldOnNull($name) {
-		$hide = $this->hideIfNullFields();
-		if(empty($hide)) {
-			return false;
-		}
-		return !is_array($hide) || in_array($name, $hide);
-	}
-	
-	private function getFieldValue($name) {
-		return $this->__get($name);
-	}
-	
-	/*private function getTypesFromRules() {
-		$typesFromRules = [];
-		foreach($this->rules() as $rule) {
-			$values = ArrayHelper::toArray($rule[0]);
-			$type = $rule[1];
-			if($type == 'integer' || $type == 'boolean') {
-				foreach($values as $value) {
-					$typesFromRules[ $value ] = $type;
-				}
-			}
-		}
-		return $typesFromRules;
-	}*/
 	
 	private function setFieldValue($name, $value) {
 		$method = $this->magicMethodName($name, 'set');
@@ -214,5 +169,5 @@ class BaseEntity extends Component implements Arrayable {
 		}
 		return $this->$name;
 	}
-	
+
 }

@@ -40,7 +40,7 @@ class Component extends \yii\base\Component {
 		
 		// behavior property
 		$this->ensureBehaviors();
-		foreach($this->_behaviors as $behavior) {
+		foreach($this->behaviors as $behavior) {
 			if($behavior->canGetProperty($name)) {
 				return $this->extractValue($behavior->$name, $inRaw);
 			}
@@ -63,18 +63,18 @@ class Component extends \yii\base\Component {
 			// set property
 			$this->$setter($value);
 			
-			return;
+			return null;
 		} elseif(strncmp($name, 'on ', 3) === 0) {
 			// on event: attach event handler
 			$this->on(trim(substr($name, 3)), $value);
 			
-			return;
+			return null;
 		} elseif(strncmp($name, 'as ', 3) === 0) {
 			// as behavior: attach behavior
 			$name = trim(substr($name, 3));
 			$this->attachBehavior($name, $value instanceof Behavior ? $value : Yii::createObject($value));
 			
-			return;
+			return null;
 		}
 		
 		if(property_exists($this, $name)) {
@@ -85,10 +85,10 @@ class Component extends \yii\base\Component {
 		
 		// behavior property
 		$this->ensureBehaviors();
-		foreach($this->_behaviors as $behavior) {
+		foreach($this->behaviors as $behavior) {
 			if($behavior->canSetProperty($name)) {
 				$behavior->$name = $value;
-				return;
+				return null;
 			}
 		}
 		
@@ -107,7 +107,7 @@ class Component extends \yii\base\Component {
 		
 		// behavior property
 		$this->ensureBehaviors();
-		foreach($this->_behaviors as $behavior) {
+		foreach($this->behaviors as $behavior) {
 			if($behavior->canGetProperty($name)) {
 				return $behavior->$name !== null;
 			}
@@ -120,15 +120,15 @@ class Component extends \yii\base\Component {
 		$setter = $this->magicMethodName($name, 'set');
 		if(method_exists($this, $setter)) {
 			$this->$setter(null);
-			return;
+			return null;
 		}
 		
 		// behavior property
 		$this->ensureBehaviors();
-		foreach($this->_behaviors as $behavior) {
+		foreach($this->behaviors as $behavior) {
 			if($behavior->canSetProperty($name)) {
 				$behavior->$name = null;
-				return;
+				return null;
 			}
 		}
 		
