@@ -21,10 +21,13 @@ class ObjectType extends BaseType {
 			self::validateObject($config, $value);
 		} else {
 			$isEntityClassName = is_subclass_of($class, BaseEntity::class);
-			if($isEntityClassName && !is_array($value)) {
-				throw new InvalidArgumentException('Entity data not array or object!');
+			
+			if($isEntityClassName) {
+				if(!is_array($value)) {
+					throw new InvalidArgumentException('Entity data not array or object!');
+				}
+				self::validateCollection($config, $value);
 			}
-			self::validateCollection($config, $value);
 		}
 		return true;
 	}

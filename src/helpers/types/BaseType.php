@@ -10,6 +10,9 @@ abstract class BaseType {
 	abstract public function normalizeValue($value, $params = null);
 	
 	public function validate($value, $params = null) {
+		if($value === null) {
+			return;
+		}
 		if(!$this->isValid($value, $params)) {
 			$class = basename(static::class);
 			throw new InvalidArgumentException('Value "' . $value . '" not valid of "' . $class . '"!');
