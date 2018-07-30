@@ -7,6 +7,18 @@ use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii2lab\domain\BaseEntity;
 
+/**
+ * Class PostEntity
+ *
+ * @package tests\_source\entities
+ *
+ * @property $id
+ * @property $text
+ * @property $created_at
+ * @property $updated_at
+ * @property $created_by
+ * @property $updated_by
+ */
 class PostEntity extends BaseEntity {
 	
 	protected $id;
