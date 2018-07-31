@@ -12,6 +12,11 @@ use yii2mod\helpers\ArrayHelper;
 
 class DomainHelper {
 	
+	public static function defineDomain($id, $class) {
+		$domainDefinition = DomainHelper::getClassConfig($id, $class);
+		self::define($id, $domainDefinition);
+	}
+	
 	public static function isDomain($config) {
 		if(empty($config['class'])) {
 			return false;
