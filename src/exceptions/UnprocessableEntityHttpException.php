@@ -7,6 +7,7 @@ use yii2lab\domain\helpers\ErrorCollection;
 use Exception;
 use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
+use yii2module\error\domain\helpers\UnProcessibleHelper;
 
 class UnprocessableEntityHttpException extends HttpException {
 	
@@ -18,6 +19,7 @@ class UnprocessableEntityHttpException extends HttpException {
 			if($errors instanceof Model) {
 				$errors = $errors->getErrors();
 			}
+			$errors = UnProcessibleHelper::assoc2indexed($errors);
 			$message = json_encode(ArrayHelper::toArray($errors));
 		}
 		parent::__construct(422, $message, $code, $previous);
