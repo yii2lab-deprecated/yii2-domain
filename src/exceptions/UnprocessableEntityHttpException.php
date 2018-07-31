@@ -16,9 +16,6 @@ class UnprocessableEntityHttpException extends HttpException {
 	public function __construct($errors = [], $code = 0, Exception $previous = null) {
 		$message = '';
 		if (!empty($errors)) {
-			if($errors instanceof Model) {
-				$errors = $errors->getErrors();
-			}
 			$errors = UnProcessibleHelper::assoc2indexed($errors);
 			$message = json_encode(ArrayHelper::toArray($errors));
 		}
