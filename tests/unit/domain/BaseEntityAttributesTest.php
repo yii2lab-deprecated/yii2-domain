@@ -141,7 +141,16 @@ class BaseEntityAttributesTest extends Unit {
             $entity->id = 88;
             $this->tester->assertTrue(false);
         } catch (\yii\base\InvalidCallException $e) {
-            $this->tester->assertTrue(true);
+            $this->tester->assertExceptionMessage('Setting read-only property: tests\_source\entities\CityEntity::id', $e);
+        }
+
+        try {
+            $entity->load([
+                'id' => '7',
+            ]);
+            $this->tester->assertTrue(false);
+        } catch (\yii\base\InvalidCallException $e) {
+            $this->tester->assertExceptionMessage('Setting read-only property: tests\_source\entities\CityEntity::id', $e);
         }
     }
 }
