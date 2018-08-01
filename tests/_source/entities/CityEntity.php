@@ -3,10 +3,11 @@
 namespace tests\_source\entities;
 
 use paulzi\jsonBehavior\JsonBehavior;
+use yii2lab\domain\behaviors\ReadOnlyBehavior;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\values\TimeValue;
-use yii2lab\geo\domain\entities\CountryEntity;
-use yii2lab\geo\domain\entities\RegionEntity;
+use tests\_source\entities\CountryEntity;
+use tests\_source\entities\RegionEntity;
 
 /**
  * Class CityEntity
@@ -50,7 +51,16 @@ class CityEntity extends BaseEntity {
 			[['type'], 'in', 'range' => $types],
 		];
 	}
-	
+
+   /* public function behaviors() {
+        return [
+            [
+                'class' => ReadOnlyBehavior::class,
+                'attributes' => ['id'],
+            ],
+        ];
+    }*/
+
 	public function fieldType() {
 		return [
 			'id' => 'integer',
@@ -70,7 +80,13 @@ class CityEntity extends BaseEntity {
 			'created_at' => TimeValue::class,
 		];
 	}
-	
+
+    public function readOnlyFields() {
+        return [
+            'id',
+        ];
+    }
+
 	public function extraFields() {
 		return [
 			'hash',

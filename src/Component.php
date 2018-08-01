@@ -28,8 +28,8 @@ class Component extends \yii\base\Component {
 		}
 		return $value;
 	}
-	
-	protected function getAttribute($name, $inRaw = false) {
+
+    protected function getAttribute($name, $inRaw = false) {
 		$getter = $this->magicMethodName($name, 'get');
 		if(method_exists($this, $getter)) {
 			// read property, e.g. getName()
@@ -62,8 +62,8 @@ class Component extends \yii\base\Component {
 	}
 	
 	public function __set($name, $value) {
-		$event = new ModelEvent();
-		$this->trigger(self::EVENT_SET_ATTRIBUTE, $event);
+        $this->isReadOnly($name);
+	    $this->trigger(self::EVENT_SET_ATTRIBUTE);
 		$setter = $this->magicMethodName($name, 'set');
 		if(method_exists($this, $setter)) {
 			// set property
@@ -84,9 +84,11 @@ class Component extends \yii\base\Component {
 		}
 		
 		if(property_exists($this, $name)) {
-			
+
+            return $this->$name = $this->evaluteFieldValue($name, $value);
+
 			// read property, e.g. getName()
-			return $this->$name = $value;
+			//$value;
 		}
 		
 		// behavior property

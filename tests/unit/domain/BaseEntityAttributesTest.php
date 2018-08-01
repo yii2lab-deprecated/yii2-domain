@@ -6,8 +6,8 @@ use tests\_source\entities\CityEntity;
 use yii\base\InvalidArgumentException;
 use yii2lab\domain\data\Collection;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
-use yii2lab\geo\domain\entities\CountryEntity;
-use yii2lab\geo\domain\entities\CurrencyEntity;
+use tests\_source\entities\CountryEntity;
+use tests\_source\entities\CurrencyEntity;
 use yii2lab\test\Test\Unit;
 
 class BaseEntityAttributesTest extends Unit {
@@ -105,4 +105,43 @@ class BaseEntityAttributesTest extends Unit {
 		];
 		$this->tester->assertEquals($expected, $actual);
 	}
+
+    public function testEdited() {
+        $entity = new CityEntity();
+        $entity->load([
+            'id' => '7',
+            'country_id' => '4',
+            'region_id' => '5',
+            'name' => 'Бендиго',
+        ]);
+
+        $entity->country_id = 77;
+        $entity->name = 'Бендиго111';
+
+        $actual = $entity->modifiedFields();
+        $expected = [
+            'country_id',
+            'name',
+        ];
+        $this->tester->assertEquals($expected, $actual);
+    }
+
+    public function testReadOnlyFields() {
+        $entity = new CityEntity();
+        $entity->load([
+            'id' => '7',
+            'country_id' => '4',
+            'region_id' => '5',
+            'name' => 'Бендиго',
+        ]);
+
+        $entity->country_id = 77;
+        $entity->name = 'Бендиго111';
+        try {
+            $entity->id = 88;
+            $this->tester->assertTrue(false);
+        } catch (\yii\base\InvalidCallException $e) {
+            $this->tester->assertTrue(true);
+        }
+    }
 }

@@ -6,8 +6,8 @@ use tests\_source\entities\CityEntity;
 use yii\base\InvalidArgumentException;
 use yii2lab\domain\data\Collection;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
-use yii2lab\geo\domain\entities\CountryEntity;
-use yii2lab\geo\domain\entities\CurrencyEntity;
+use tests\_source\entities\CountryEntity;
+use tests\_source\entities\CurrencyEntity;
 use yii2lab\test\Test\Unit;
 
 class BaseEntityTest extends Unit {

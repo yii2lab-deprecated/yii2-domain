@@ -2,8 +2,11 @@
 
 namespace yii2lab\domain;
 
+use yii\base\InvalidCallException;
+use yii\base\Event;
 use yii\base\InvalidArgumentException;
 use yii\base\ModelEvent;
+use yii2lab\domain\exceptions\ReadOnlyException;
 use yii2lab\domain\helpers\EntityType;
 use yii2lab\domain\helpers\Helper;
 use yii2lab\helpers\ReflectionHelper;
@@ -21,12 +24,17 @@ class BaseEntity extends Component implements Arrayable {
 	const EVENT_INIT = 'init';
 	
 	private $old_attributes = [];
+    private $modifiedAttributes = [];
 	private $isNew = true;
-	
+
 	public function fieldType() {
 		return [];
 	}
-	
+
+    public function readOnlyFields() {
+        return [];
+    }
+
 	public function extraFields() {
 		return [];
 	}
@@ -56,7 +64,7 @@ class BaseEntity extends Component implements Arrayable {
 			if($config instanceof BaseEntity) {
 				$config = $config->toArray();
 			}
-			$this->old_attributes = $this->setAttributes($config);
+			$this->setAttributes($config);
 		}
 		$this->isNew = $isNew;
 		$this->init();
@@ -128,24 +136,44 @@ class BaseEntity extends Component implements Arrayable {
 		//$attributes = ArrayHelper::toArray($attributes);
 		$this->setAttributes($attributes, $only);
 	}
-	
+
+    public function modifiedFields() {
+        if(empty($attributeNames)) {
+            $attributeNames = $this->attributes();
+        }
+        $result = [];
+        foreach($attributeNames as $name) {
+            if(array_key_exists($name, $this->old_attributes)) {
+                if($this->{$name} !== $this->old_attributes[$name]) { //isset($values[$name]) &&
+                    $result[] = $name;
+                }
+            }
+        }
+        return $result;
+    }
+
 	private function setAttributes($values, $attributeNames = null) {
 		if(empty($values) || !is_array($values)) {
 			return null;
 		}
-		$old_attributes = [];
 		if(empty($attributeNames)) {
 			$attributeNames = $this->attributes();
 		}
+        $this->old_attributes = [];
 		foreach($values as $name => $value) {
-			if(in_array($name, $attributeNames)) { //isset($values[$name]) &&
-				//$value = Helper::toArray($values[ $name ]);
-				$old_attributes[ $name ] = $this->setFieldValue($name, $value);
+			if(in_array($name, $attributeNames)) {
+				//$this->setFieldValue($name, $value);
+                $this->__set($name, $value);
 			}
 		}
-		return $old_attributes;
+        foreach($attributeNames as $name) {
+            if(isset($this->$name)) {
+                $this->old_attributes[ $name ] = $this->$name;
+            }
+        }
+		return $this->old_attributes;
 	}
-	
+
 	public static function attributes() {
 		$class = new ReflectionClass(static::class);
 		$propertyTypes = ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED;
@@ -156,26 +184,40 @@ class BaseEntity extends Component implements Arrayable {
 		}
 		return $names;
 	}
-	
-	private function setFieldValue($name, $value) {
-		$event = new ModelEvent();
-		$this->trigger(self::EVENT_SET_ATTRIBUTE, $event);
-		$method = $this->magicMethodName($name, 'set');
-		if(method_exists($this, $method)) {
-			$this->$method($value);
-		} else {
-			$fieldType = $this->fieldType();
-			
-			//$typesFromRules = $this->getTypesFromRules();
-			
-			//prr($typesFromRules);
-			if(!empty($fieldType[ $name ])) {
-				$this->$name = EntityType::encode($value, $fieldType[ $name ]);
-			} else {
-				$this->$name = $value;
-			}
-		}
-		return $this->$name;
+
+    protected function isReadOnly($name) {
+        $readOnly = $this->readOnlyFields();
+	    if(empty($readOnly)) {
+	        return false;
+        }
+        if(!in_array($name, $readOnly)) {
+            return false;
+        }
+        //$modifiedFields = $this->modifiedFields();
+        if(!empty($this->$name)) {
+            throw new InvalidCallException('Setting read-only property: ' . get_class($this) . '::' . $name);
+            // ReadOnlyException
+        }
+	    return true;
+    }
+
+	protected function evaluteFieldValue($name, $value) {
+	   /*$modifiedFields = $this->modifiedFields();
+	    if($this->isReadOnly($name) && in_array($name, $modifiedFields)) {
+	        throw new ReadOnlyException('Field "' . $name . '" is read only');
+        }*/
+        //$event->data = $value;
+        //$this->trigger(self::EVENT_SET_ATTRIBUTE);
+
+        $fieldType = $this->fieldType();
+
+        //$typesFromRules = $this->getTypesFromRules();
+
+        //prr($typesFromRules);
+        if (empty($fieldType[$name])) {
+            return $value;
+        }
+        return EntityType::encode($value, $fieldType[$name]);
 	}
 
 }
