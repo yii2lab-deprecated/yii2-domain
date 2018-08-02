@@ -12,7 +12,7 @@ use yii2lab\domain\values\BaseValue;
 
 class ObjectType extends BaseType {
 	
-	public function isValid($value, $config = null) {
+	protected function _isValid($value, $config = null) {
 		if ($value === null) {
 			return true;
 		}

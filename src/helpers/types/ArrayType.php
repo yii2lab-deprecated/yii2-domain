@@ -4,7 +4,7 @@ namespace yii2lab\domain\helpers\types;
 
 class ArrayType extends BaseType {
 	
-	public function isValid($value, $params = null) {
+	protected function _isValid($value, $params = null) {
 		return is_array($value);
 	}
 	

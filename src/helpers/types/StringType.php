@@ -4,7 +4,7 @@ namespace yii2lab\domain\helpers\types;
 
 class StringType extends BaseType {
 	
-	public function isValid($value, $params = null) {
+	protected function _isValid($value, $params = null) {
 		return is_string($value) || is_numeric($value);
 	}
 	
