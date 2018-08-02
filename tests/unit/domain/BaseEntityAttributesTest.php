@@ -106,6 +106,23 @@ class BaseEntityAttributesTest extends Unit {
 		$this->tester->assertEquals($expected, $actual);
 	}
 
+    public function testSelectFields() {
+        $entity = new CityEntity();
+        $entity->load([
+            'id' => '7',
+            'country_id' => '4',
+            'region_id' => '5',
+            'name' => 'Бендиго',
+        ]);
+        $actual = $entity->toArray(['id', 'name', 'country_id']);
+        $expected = [
+            'id' => 7,
+            'country_id' => 4,
+            'name' => 'Бендиго',
+        ];
+        $this->tester->assertEquals($expected, $actual);
+    }
+
     public function testEdited() {
         $entity = new CityEntity();
         $entity->load([

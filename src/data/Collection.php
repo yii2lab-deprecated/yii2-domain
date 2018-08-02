@@ -30,7 +30,7 @@ class Collection extends BaseCollection {
 		if($this->count() == 0) {
 			return null;
 		}
-		return $this->one(0);
+		return $this->offsetGet(0);
 	}
 	
 	public function last() {
@@ -38,7 +38,7 @@ class Collection extends BaseCollection {
 			return null;
 		}
 		$lastIndex = $this->count() - 1;
-		return $this->one($lastIndex);
+		return $this->offsetGet($lastIndex);
 	}
 	
 	public function fetch() {

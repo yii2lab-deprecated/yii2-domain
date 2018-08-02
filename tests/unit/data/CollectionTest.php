@@ -133,8 +133,8 @@ class CollectionTest extends Unit {
 	
 	public function testOneByIndex() {
 		$collection = new Collection($this->array);
-		$this->tester->assertEquals($collection->one(0), 'item1');
-		$this->tester->assertEquals($collection->one(2), 'item3');
+		$this->tester->assertEquals($collection->offsetGet(0), 'item1');
+		$this->tester->assertEquals($collection->offsetGet(2), 'item3');
 	}
 	
 }
