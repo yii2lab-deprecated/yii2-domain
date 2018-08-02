@@ -100,13 +100,16 @@ class BaseEntityRelationTest extends Unit {
 		];
 		$this->tester->assertEquals($expected, $actual);
 		
-		$actual = $entity->country->toArray();
+		$actualCountry = $entity->country->toArray();
 		$expected = [
 			'id' => '4',
 			'name' => 'Австралия',
 			'currency' => null,
 		];
-		$this->tester->assertEquals($expected, $actual);
+		$this->tester->assertEquals($expected, $actualCountry);
+
+        $this->tester->assertEquals('Австралия', $entity->country->name);
+        $this->tester->assertEquals(4, $entity->country->id);
 	}
 	
 	public function testBadRelationEntity() {

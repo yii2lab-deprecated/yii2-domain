@@ -6,6 +6,8 @@ use yii\behaviors\AttributeBehavior;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii2lab\domain\BaseEntity;
+use yii2lab\domain\values\ArrayValue;
+use yii2lab\domain\values\TimeValue;
 
 /**
  * Class PostEntity
@@ -14,6 +16,7 @@ use yii2lab\domain\BaseEntity;
  *
  * @property $id
  * @property $text
+ * @property $categories_id
  * @property $created_at
  * @property $updated_at
  * @property $created_by
@@ -23,6 +26,7 @@ class PostEntity extends BaseEntity {
 	
 	protected $id;
 	protected $text;
+    protected $categories_id;
 	protected $created_at;
 	protected $updated_at;
 	protected $created_by = null;
@@ -45,17 +49,21 @@ class PostEntity extends BaseEntity {
 				],
 				//'value' => new TimeValue(),
 			],
-			/*[
-				'class' => AttributeBehavior::class,
-				'attributes' => [
-					self::EVENT_BEFORE_SET_ATTRIBUTE => ['text'],
-				],
-				'value' => function ($event) {
-					return 'some value';
-				},
-			],*/
 		];
 	}
+
+    public function fieldType() {
+        return [
+            'id' => 'integer',
+            'text' => 'string',
+            'categories_id' => ArrayValue::class,
+            'created_at' => TimeValue::class,
+            'updated_at' => TimeValue::class,
+            'created_by' => 'integer',
+            'updated_by' => 'integer',
+
+        ];
+    }
 
     public function readOnlyFields() {
         return [
