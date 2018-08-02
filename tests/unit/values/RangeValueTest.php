@@ -20,23 +20,23 @@ class RangeValueTest extends Unit
 		$value = $this->buildInstance();
 		try {
 			$value->set(101);
-			expect(false)->true();
+			$this->tester->assertTrue(false);
 		} catch(InvalidArgumentException $e) {
-			expect(true)->true();
+			$this->tester->assertTrue(true);
 		}
 		try {
 			$value->set(-1);
-			expect(false)->true();
+			$this->tester->assertTrue(false);
 		} catch(InvalidArgumentException $e) {
-			expect(true)->true();
+			$this->tester->assertTrue(true);
 		}
 	}
 	
 	public function testDefaultValue()
 	{
 		$value = $this->buildInstance();
-		expect($value->get())->equals(0);
-		expect($value->getDefault())->equals(0);
+		$this->tester->assertEquals($value->get(), 0);
+		$this->tester->assertEquals($value->getDefault(), 0);
 	}
 	
 	public function testSetAndGetValue()
@@ -44,10 +44,10 @@ class RangeValueTest extends Unit
 		$value = $this->buildInstance();
 		
 		$value->set(50);
-		expect($value->get())->equals(50);
+		$this->assertEquals($value->get(), 50);
 		
 		$value = new PercentEnumValue(51);
-		expect($value->get())->equals(51);
+		$this->tester->assertEquals($value->get(), 51);
 	}
 	
 	public function testIsValid()
@@ -55,13 +55,13 @@ class RangeValueTest extends Unit
 		$value = $this->buildInstance();
 		
 		$isValid = $value->isValid(50);
-		expect($isValid)->true();
+		$this->tester->assertTrue($isValid);
 		
 		$isValid = $value->isValid(150);
-		expect($isValid)->false();
+		$this->tester->assertFalse($isValid);
 		
 		$isValid = $value->isValid('qwerty');
-		expect($isValid)->false();
+		$this->tester->assertFalse($isValid);
 	}
 	
 	private function buildInstance() {

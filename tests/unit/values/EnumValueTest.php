@@ -20,37 +20,37 @@ class EnumValueTest extends Unit
 		$value = $this->buildInstance();
 		try {
 			$value->set(999);
-			expect(false)->true();
+			$this->tester->assertTrue(false);
 		} catch(InvalidArgumentException $e) {
-			expect(true)->true();
+			$this->tester->assertTrue(true);
 		}
 	}
 	
 	public function testDefaultValue()
 	{
 		$value = $this->buildInstance();
-		expect($value->get())->equals(ModeEnumValue::PROD);
-		expect($value->getDefault())->equals(ModeEnumValue::PROD);
+		$this->assertEquals($value->get(), ModeEnumValue::PROD);
+		$this->tester->assertEquals($value->getDefault(), ModeEnumValue::PROD);
 	}
 	
 	public function testSetAndGetValue()
 	{
 		$value = $this->buildInstance();
 		$value->set(ModeEnumValue::DEV);
-		expect($value->get())->equals(ModeEnumValue::DEV);
+		$this->tester->assertEquals($value->get(), ModeEnumValue::DEV);
 	}
 	
 	public function testIsValid()
 	{
 		$value = $this->buildInstance();
 		$isValid = $value->isValid(ModeEnumValue::DEV);
-		expect($isValid)->true();
+		$this->tester->assertTrue($isValid);
 		
 		$isValid = $value->isValid(150);
-		expect($isValid)->false();
+		$this->tester->assertFalse($isValid);
 		
 		$isValid = $value->isValid('qwerty');
-		expect($isValid)->false();
+		$this->tester->assertFalse($isValid);
 	}
 	
 	private function buildInstance() {

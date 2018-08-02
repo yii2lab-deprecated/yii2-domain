@@ -22,11 +22,11 @@ class TimeValueTest extends Unit
 	{
 		$value = $this->buildInstance();
 		$value->set('24 Jun 2012 05:34:56 -0400');
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_TIME_API);
+		$this->tester->assertEquals($value->getInFormat(TimeValue::FORMAT_API), self::DATE_TIME_API);
 		
 		$value = $this->buildInstance();
 		$value->set('6/24/2012 5:34:56 AM');
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_TIME_API);
+		$this->tester->assertEquals($value->getInFormat(TimeValue::FORMAT_API), self::DATE_TIME_API);
 		
 		$value = $this->buildInstance();
 		$value->set('now');
@@ -34,11 +34,11 @@ class TimeValueTest extends Unit
 		
 		$value = $this->buildInstance();
 		$value->set('24 Jun 2012');
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_API);
+		$this->tester->assertEquals($value->getInFormat(TimeValue::FORMAT_API), self::DATE_API);
 		
 		$value = $this->buildInstance();
 		$value->set(self::DATE_TIME_API);
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_TIME_API);
+		$this->tester->assertEquals($value->getInFormat(TimeValue::FORMAT_API), self::DATE_TIME_API);
 	}
 	
 	public function testSetTime()
@@ -46,7 +46,7 @@ class TimeValueTest extends Unit
 		$value = $this->buildInstance();
 		$value->setDate(1970, 1, 1);
 		$value->setTime(5, 34, 56);
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::TIME_API);
+		$this->tester->assertEquals($value->getInFormat(TimeValue::FORMAT_API), self::TIME_API);
 	}
 	
 	public function testSetDate()
@@ -54,32 +54,32 @@ class TimeValueTest extends Unit
 		$value = $this->buildInstance();
 		$value->setDate(2012, 6, 24);
 		$value->setTime(0, 0, 0);
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_API);
+		$this->tester->assertEquals($value->getInFormat(TimeValue::FORMAT_API), self::DATE_API);
 	}
 	
 	public function testSetDateTime()
 	{
 		$value = $this->buildInstance();
 		$value->setDateTime(2012, 6, 24, 5, 34, 56);
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_TIME_API);
+		$this->tester->assertEquals($value->getInFormat(TimeValue::FORMAT_API), self::DATE_TIME_API);
 	}
 	
 	public function testSetArray()
 	{
 		$value = $this->buildInstance();
 		$value->set([2012, 6, 24, 5, 34, 56]);
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_TIME_API);
+		$this->tester->assertEquals($value->getInFormat(TimeValue::FORMAT_API), self::DATE_TIME_API);
 	}
 	
 	public function testSetInteger()
 	{
 		$value = $this->buildInstance();
 		$value->set(1340516096);
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_TIME_API);
+		$this->tester->assertEquals($value->getInFormat(TimeValue::FORMAT_API), self::DATE_TIME_API);
 		
 		$value = $this->buildInstance();
 		$value->set(-12345);
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals('1969-12-31T20:34:15Z');
+		$this->tester->assertEquals($value->getInFormat(TimeValue::FORMAT_API), '1969-12-31T20:34:15Z');
 	}
 	
 	public function testSetObject()
@@ -88,36 +88,36 @@ class TimeValueTest extends Unit
 		$dateTime->setTimestamp(1340516096);
 		$value = $this->buildInstance();
 		$value->set($dateTime);
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_TIME_API);
+		$this->tester->assertEquals($value->getInFormat(TimeValue::FORMAT_API), self::DATE_TIME_API);
 	}
 	
 	public function testSetFromFormat()
 	{
 		$value = $this->buildInstance();
 		$value->setFromFormat('24/06/2012 05:34:56', 'd/m/Y H:i:s');
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_TIME_API);
+		$this->tester->assertEquals($value->getInFormat(TimeValue::FORMAT_API), self::DATE_TIME_API);
 		
 		$value = $this->buildInstance();
 		$value->setFromFormat(self::DATE_TIME_API, TimeValue::FORMAT_API);
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_TIME_API);
+		$this->tester->assertEquals($value->getInFormat(TimeValue::FORMAT_API), self::DATE_TIME_API);
 	}
 	
 	public function testFormat()
 	{
 		$value = $this->buildInstance();
 		$value->setDateTime(2012, 6, 24, 5, 34, 56);
-		expect($value->getInFormat(TimeValue::FORMAT_API))->equals(self::DATE_TIME_API);
-		expect($value->getInFormat())->equals(1340516096);
-		expect($value->getInFormat(TimeValue::FORMAT_WEB))->equals('2012-06-24 05:34:56');
-		expect($value->getInFormat(TimeValue::FORMAT_WEB_DATE))->equals('2012-06-24');
-		expect($value->getInFormat(TimeValue::FORMAT_WEB_TIME))->equals('05:34:56');
+		$this->tester->assertEquals($value->getInFormat(TimeValue::FORMAT_API), self::DATE_TIME_API);
+		$this->tester->assertEquals($value->getInFormat(), 1340516096);
+		$this->tester->assertEquals($value->getInFormat(TimeValue::FORMAT_WEB), '2012-06-24 05:34:56');
+		$this->tester->assertEquals($value->getInFormat(TimeValue::FORMAT_WEB_DATE), '2012-06-24');
+		$this->tester->assertEquals($value->getInFormat(TimeValue::FORMAT_WEB_TIME), '05:34:56');
 	}
 	
 	public function testDefaultValue()
 	{
 		$value = $this->buildInstance();
-		expect($value->get()->getTimestamp())->equals(TIMESTAMP);
-		expect($value->getDefault()->getTimestamp())->equals(TIMESTAMP);
+		$this->tester->assertEquals($value->get()->getTimestamp(), TIMESTAMP);
+		$this->tester->assertEquals($value->getDefault()->getTimestamp(), TIMESTAMP);
 	}
 	
 	public function testSetAndGetValue()
@@ -125,10 +125,10 @@ class TimeValueTest extends Unit
 		$value = $this->buildInstance();
 		
 		$value->set(50);
-		expect($value->get()->getTimestamp())->equals(50);
+		$this->tester->assertEquals($value->get()->getTimestamp(), 50);
 		
 		$value = new TimeValue(51);
-		expect($value->get()->getTimestamp())->equals(51);
+		$this->tester->assertEquals($value->get()->getTimestamp(), 51);
 	}
 	
 	public function testIsValid()
@@ -136,16 +136,16 @@ class TimeValueTest extends Unit
 		$value = $this->buildInstance();
 		
 		$isValid = $value->isValid(50);
-		expect($isValid)->true();
+		$this->tester->assertTrue($isValid);
 		
 		$isValid = $value->isValid(150);
-		expect($isValid)->true();
+		$this->tester->assertTrue($isValid);
 		
 		$isValid = $value->isValid(-150);
-		expect($isValid)->true();
+		$this->tester->assertTrue($isValid);
 		
 		$isValid = $value->isValid('qwerty');
-		expect($isValid)->false();
+		$this->tester->assertFalse($isValid);
 	}
 	
 	private function buildInstance() {

@@ -24,7 +24,7 @@ class EntityCollectionTest extends Unit {
 			$entity,
 		];
 		$collection = new EntityCollection(CityEntity::class, $array);
-		expect($entity)->equals($collection->fetch());
+		$this->tester->assertEquals($entity, $collection->fetch());
 	}
 	
 	public function testArray() {
@@ -51,13 +51,13 @@ class EntityCollectionTest extends Unit {
 			'name' => 'Бендиго111',
 		];
 		
-		expect($entity)->equals($collection->fetch());
-		expect(new CityEntity([
+		$this->tester->assertEquals($entity, $collection->fetch());
+		$this->tester->assertEquals(new CityEntity([
 			'id' => '8',
 			'country_id' => '5',
 			'region_id' => '6',
 			'name' => 'Бендиго111',
-		]))->equals($collection->fetch());
+		]), $collection->fetch());
 	}
 	
 	public function testInvalidInstanceClass() {

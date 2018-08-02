@@ -15,7 +15,7 @@ class RelationWithHelperTest extends Unit
 			'region.cities.region',
 		];
 		$fields = RelationWithHelper::fetch($withArray, $withTrimmedArray);
-		expect($withTrimmedArray)->equals([
+		$this->tester->assertEquals($withTrimmedArray, [
 			'country' => [
 				'currency.country',
 			],
@@ -24,7 +24,7 @@ class RelationWithHelperTest extends Unit
 				'cities.country.currency',
 			],
 		]);
-		expect($fields)->equals([
+		$this->tester->assertEquals($fields, [
 			'region',
 			'country',
 		]);
@@ -32,26 +32,26 @@ class RelationWithHelperTest extends Unit
 		$withArray = $withTrimmedArray['region'];
 		$withTrimmedArray = [];
 		$fields = RelationWithHelper::fetch($withArray, $withTrimmedArray);
-		expect($withTrimmedArray)->equals([
+		$this->tester->assertEquals($withTrimmedArray, [
 			'cities' => [
 				'region',
 				'country.currency',
 			],
 		]);
-		expect($fields)->equals([
+		$this->tester->assertEquals($fields, [
 			'cities',
 		]);
 		
 		$withArray = $withTrimmedArray['cities'];
 		$withTrimmedArray = [];
 		$fields = RelationWithHelper::fetch($withArray, $withTrimmedArray);
-		expect($withTrimmedArray)->equals([
+		$this->tester->assertEquals($withTrimmedArray, [
 			'country' => [
 				'currency',
 			],
 			'region' => [],
 		]);
-		expect($fields)->equals([
+		$this->tester->assertEquals($fields, [
 			'region',
 			'country',
 		]);
@@ -59,10 +59,10 @@ class RelationWithHelperTest extends Unit
 		$withArray = $withTrimmedArray['country'];
 		$withTrimmedArray = [];
 		$fields = RelationWithHelper::fetch($withArray, $withTrimmedArray);
-		expect($withTrimmedArray)->equals([
+		$this->tester->assertEquals($withTrimmedArray, [
 			'currency' => [],
 		]);
-		expect($fields)->equals([
+		$this->tester->assertEquals($fields, [
 			'currency',
 		]);
 	}
@@ -75,7 +75,7 @@ class RelationWithHelperTest extends Unit
 			'region.cities.region',
 		];
 		$map = RelationWithHelper::toMap($withArray);
-		expect($map)->equals([
+		$this->tester->assertEquals($map, [
 			'country' => [
 				'currency' => [
 					'country' => [],

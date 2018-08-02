@@ -19,9 +19,9 @@ class ArrayValueTest extends Unit
 		$value = $this->buildInstance();
 		try {
 			$value->set(999);
-			expect(false)->true();
+			$this->tester->assertTrue(false);
 		} catch(InvalidArgumentException $e) {
-			expect(true)->true();
+			$this->tester->assertTrue(true);
 		}
 	}
 	
@@ -30,16 +30,16 @@ class ArrayValueTest extends Unit
 		$value = $this->buildInstance();
 		
 		$isValid = $value->isValid(['qwerty'=>444]);
-		expect($isValid)->true();
+		$this->tester->assertTrue($isValid);
 		
 		$isValid = $value->isValid([4545]);
-		expect($isValid)->true();
+		$this->tester->assertTrue($isValid);
 		
 		$isValid = $value->isValid(150);
-		expect($isValid)->false();
+		$this->tester->assertFalse($isValid);
 		
 		$isValid = $value->isValid(null);
-		expect($isValid)->false();
+		$this->tester->assertFalse($isValid);
 	}
 	
 	private function buildInstance() {

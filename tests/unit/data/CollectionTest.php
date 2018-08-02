@@ -20,17 +20,17 @@ class CollectionTest extends Unit {
 	
 	public function testArrayItem() {
 		$collection = new Collection($this->array);
-		expect($collection[0])->equals('item1');
-		expect($collection[2])->equals('item3');
+		$this->tester->assertEquals($collection[0], 'item1');
+		$this->tester->assertEquals($collection[2], 'item3');
 	}
 	
 	public function testToArray() {
 		$collection = new Collection($this->array);
-		expect($collection instanceof Collection)->true();
+		$this->tester->assertTrue($collection instanceof Collection);
 		
 		$array = $collection->toArray();
-		expect($array instanceof Collection)->false();
-		expect(is_array($array))->true();
+		$this->tester->assertFalse($array instanceof Collection);
+		$this->tester->assertTrue(is_array($array));
 	}
 	
 	public function testForeach() {
@@ -39,28 +39,28 @@ class CollectionTest extends Unit {
 		foreach($collection as $item) {
 			$result[] = $item;
 		}
-		expect($result)->equals($this->array);
+		$this->tester->assertEquals($this->array, $result);
 	}
 	
 	public function testRewind() {
 		$collection = new Collection($this->array);
-		expect($collection->fetch())->equals('item1');
+		$this->tester->assertEquals($collection->fetch(), 'item1');
 		$collection->rewind();
-		expect($collection->fetch())->equals('item1');
+		$this->tester->assertEquals($collection->fetch(), 'item1');
 	}
 	
 	public function testNext() {
 		$collection = new Collection($this->array);
 		$collection->next();
-		expect($collection->current())->equals('item2');
+		$this->tester->assertEquals($collection->current(), 'item2');
 		$collection->next();
-		expect($collection->current())->equals('item3');
+		$this->tester->assertEquals($collection->current(), 'item3');
 		$collection->next();
 		try {
 			$collection->current();
-			expect(false)->true();
+			$this->tester->assertTrue(false);
 		} catch(ErrorException $e) {
-			expect(true)->true();
+			$this->tester->assertTrue(true);
 		}
 	}
 	
@@ -68,17 +68,17 @@ class CollectionTest extends Unit {
 		$collection = new Collection($this->array);
 		unset($collection[0]);
 		$array = $collection->toArray();
-		expect($array)->equals([
+		$this->tester->assertEquals([
 			1 => 'item2',
 			2 => 'item3',
-		]);
+		], $array);
 	}
 	
 	public function testAssign() {
 		$collection = new Collection($this->array);
 		$collection[0] = 'itemX';
 		$array = $collection->toArray();
-		expect($array)->equals([
+		$this->tester->assertEquals($array, [
 			'itemX',
 			'item2',
 			'item3',
@@ -87,17 +87,17 @@ class CollectionTest extends Unit {
 	
 	public function testCount() {
 		$collection = new Collection($this->array);
-		expect(count($collection))->equals(3);
+		$this->tester->assertEquals(count($collection), 3);
 	}
 	
 	public function testLoadFromArray() {
 		$collection = new Collection();
 		$collection->load($this->array);
 		
-		expect($collection->toArray())->equals($this->array);
+		$this->tester->assertEquals($collection->toArray(), $this->array);
 		
 		$collection->load($this->array);
-		expect($collection->fetch())->equals('item1');
+		$this->tester->assertEquals($collection->fetch(), 'item1');
 	}
 	
 	public function testLoadFromCollectionObject() {
@@ -106,35 +106,35 @@ class CollectionTest extends Unit {
 		
 		$collection2 = new Collection();
 		$collection2->load($collection);
-		expect($collection->toArray())->equals($this->array);
+		$this->tester->assertEquals($collection->toArray(), $this->array);
 	}
 	
 	public function testForge() {
 		$collection = Collection::forge($this->array);
-		expect($collection->toArray())->equals($this->array);
+		$this->tester->assertEquals($collection->toArray(), $this->array);
 	}
 	
 	public function testFirst() {
 		$collection = new Collection($this->array);
-		expect($collection->first())->equals('item1');
+		$this->tester->assertEquals($collection->first(), 'item1');
 	}
 	
 	public function testLast() {
 		$collection = new Collection($this->array);
-		expect($collection->last())->equals('item3');
+		$this->tester->assertEquals($collection->last(), 'item3');
 	}
 	
 	public function testFetch() {
 		$collection = new Collection($this->array);
-		expect($collection->fetch())->equals('item1');
-		expect($collection->fetch())->equals('item2');
-		expect($collection->fetch())->equals('item3');
+		$this->tester->assertEquals($collection->fetch(), 'item1');
+		$this->tester->assertEquals($collection->fetch(), 'item2');
+		$this->tester->assertEquals($collection->fetch(), 'item3');
 	}
 	
 	public function testOneByIndex() {
 		$collection = new Collection($this->array);
-		expect($collection->one(0))->equals('item1');
-		expect($collection->one(2))->equals('item3');
+		$this->tester->assertEquals($collection->one(0), 'item1');
+		$this->tester->assertEquals($collection->one(2), 'item3');
 	}
 	
 }
