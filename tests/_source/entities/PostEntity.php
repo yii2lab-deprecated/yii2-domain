@@ -34,21 +34,21 @@ class PostEntity extends BaseEntity {
 				'class' => BlameableBehavior::class,
 				'attributes' => [
 					self::EVENT_INIT => ['created_by', 'updated_by'],
-					self::EVENT_SET_ATTRIBUTE => ['updated_by'],
+					self::EVENT_BEFORE_SET_ATTRIBUTE => ['updated_by'],
 				],
 			],
 			[
 				'class' => TimestampBehavior::class,
 				'attributes' => [
 					self::EVENT_INIT => ['created_at', 'updated_at'],
-					self::EVENT_SET_ATTRIBUTE => ['updated_at'],
+					self::EVENT_BEFORE_SET_ATTRIBUTE => ['updated_at'],
 				],
 				//'value' => new TimeValue(),
 			],
 			/*[
 				'class' => AttributeBehavior::class,
 				'attributes' => [
-					self::EVENT_SET_ATTRIBUTE => ['text'],
+					self::EVENT_BEFORE_SET_ATTRIBUTE => ['text'],
 				],
 				'value' => function ($event) {
 					return 'some value';
@@ -56,5 +56,12 @@ class PostEntity extends BaseEntity {
 			],*/
 		];
 	}
-	
+
+    public function readOnlyFields() {
+        return [
+            'id',
+            'created_by',
+            'created_at',
+        ];
+    }
 }

@@ -27,9 +27,9 @@ use yii2lab\domain\values\TimeValue;
 
 class BaseEntity extends Component implements Arrayable {
 	
-	const EVENT_INIT = 'init';
-    const EVENT_SET_ATTRIBUTE = 'set_attribute';
-    const EVENT_GET_ATTRIBUTE = 'get_attribute';
+	const EVENT_INIT = 'EVENT_INIT';
+    const EVENT_BEFORE_SET_ATTRIBUTE = 'EVENT_BEFORE_SET_ATTRIBUTE';
+    const EVENT_BEFORE_GET_ATTRIBUTE = 'EVENT_BEFORE_GET_ATTRIBUTE';
 	
 	private $old_attributes = [];
     private $modifiedAttributes = [];
@@ -164,7 +164,7 @@ class BaseEntity extends Component implements Arrayable {
 
     public function __set($name, $value) {
         $this->isReadOnly($name);
-        $this->trigger(self::EVENT_SET_ATTRIBUTE);
+        $this->trigger(self::EVENT_BEFORE_SET_ATTRIBUTE);
         $setter = $this->magicMethodName($name, 'set');
         if(method_exists($this, $setter)) {
             // set property
@@ -346,7 +346,7 @@ class BaseEntity extends Component implements Arrayable {
 	        throw new ReadOnlyException('Field "' . $name . '" is read only');
         }*/
         //$event->data = $value;
-        //$this->trigger(self::EVENT_SET_ATTRIBUTE);
+        //$this->trigger(self::EVENT_BEFORE_SET_ATTRIBUTE);
 
         $fieldType = $this->fieldType();
 
