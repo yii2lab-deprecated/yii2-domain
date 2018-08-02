@@ -3,6 +3,8 @@
 namespace yii2lab\domain\helpers\repository;
 
 use Yii;
+use yii2lab\domain\data\Collection;
+use yii2lab\domain\data\EntityCollection;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\dto\WithDto;
 use yii2lab\domain\exceptions\BadQueryHttpException;
@@ -52,6 +54,10 @@ class RelationHelper {
 	private static function loadRelations($data, WithDto $w) {
 		$isEntity = DomainHelper::isEntity($data);
 		$collection = $isEntity ? [$data] : $data;
+		if($collection instanceof Collection) {
+			$collection = $collection->all();
+		}
+		/** @var EntityCollection $relCollection */
 		$relCollection = JoinHelper::all($collection, $w->relationConfig);
 		if(!empty($relCollection)) {
 			foreach($collection as &$entity) {

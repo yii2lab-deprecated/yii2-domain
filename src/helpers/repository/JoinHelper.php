@@ -24,20 +24,20 @@ class JoinHelper {
 		return null;
 	}
 	
-	private static function allForOne(array $collection, array $relationConfig) {
+	private static function allForOne($collection, array $relationConfig) {
 		$query = self::forgeQuery($collection, $relationConfig);
 		$relCollection = RelationRepositoryHelper::getAll($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $query);
 		$relCollection = ArrayHelper::index($relCollection, $relationConfig['foreign']['field']);
 		return $relCollection;
 	}
 	
-	private static function allForMany(array $collection, array $relationConfig) {
+	private static function allForMany($collection, array $relationConfig) {
 		$query = self::forgeQuery($collection, $relationConfig);
 		$relCollection = RelationRepositoryHelper::getAll($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $query);
 		return $relCollection;
 	}
 	
-	private static function allForManyToMany(array $collection, array $relationConfig) {
+	private static function allForManyToMany($collection, array $relationConfig) {
 		$viaRelations = RelationRepositoryHelper::getRelationsConfig($relationConfig['via']['domain'], $relationConfig['via']['name']);
 		$viaRelationToThis = $viaRelations[$relationConfig['via']['this']];
 		$ids = ArrayHelper::getColumn($collection, $viaRelationToThis['foreign']['field']);
@@ -47,7 +47,7 @@ class JoinHelper {
 		return $relCollection;
 	}
 	
-	private static function forgeQuery(array $collection, array $relationConfig) {
+	private static function forgeQuery($collection, array $relationConfig) {
 		$whereValue = self::getColumn($collection, $relationConfig['field']);
 		$query = Query::forge();
 		$query->where($relationConfig['foreign']['field'], $whereValue);
