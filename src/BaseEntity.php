@@ -10,6 +10,7 @@ use yii\base\ModelEvent;
 use yii2lab\domain\exceptions\ReadOnlyException;
 use yii2lab\domain\helpers\EntityType;
 use yii2lab\domain\helpers\Helper;
+use yii2lab\domain\traits\entity\ValidatorTrait;
 use yii2lab\helpers\ReflectionHelper;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use ReflectionClass;
@@ -23,18 +24,28 @@ use yii\base\Behavior;
 use yii\base\UnknownPropertyException;
 use yii2lab\domain\values\BaseValue;
 use yii2lab\domain\values\TimeValue;
+use ArrayAccess;
+use ArrayIterator;
+use ArrayObject;
+use IteratorAggregate;
+use yii\helpers\Inflector;
+use yii\validators\RequiredValidator;
+use yii\validators\Validator;
 
 // todo: implement Model interfaces
 
 class BaseEntity extends Component implements Arrayable {
-	
+
+    use ValidatorTrait;
+
+    const SCENARIO_DEFAULT = 'default';
 	const EVENT_INIT = 'EVENT_INIT';
     const EVENT_BEFORE_SET_ATTRIBUTE = 'EVENT_BEFORE_SET_ATTRIBUTE';
     const EVENT_BEFORE_GET_ATTRIBUTE = 'EVENT_BEFORE_GET_ATTRIBUTE';
+    const EVENT_BEFORE_VALIDATE = 'beforeValidate';
+    const EVENT_AFTER_VALIDATE = 'afterValidate';
 	
 	private $old_attributes = [];
-    private $modifiedAttributes = [];
-	private $isNew = true;
 
 	public function fieldType() {
 		return [];
@@ -47,11 +58,7 @@ class BaseEntity extends Component implements Arrayable {
 	public function extraFields() {
 		return [];
 	}
-	
-	public function rules() {
-		return [];
-	}
-	
+
 	public static function labels() {
 		return [];
 	}
@@ -68,25 +75,25 @@ class BaseEntity extends Component implements Arrayable {
 		return array_combine($fields, $fields);
 	}
 	
-	public function __construct($config = [], $isNew = true) {
+	public function __construct($config = []) {
 		if(!empty($config)) {
 			if($config instanceof BaseEntity) {
 				$config = $config->toArray();
 			}
 			$this->setAttributes($config);
 		}
-		$this->isNew = $isNew;
 		$this->init();
 	}
 	
-	public function validate() {
+	/*public function validate() {
 		$form = new DynamicModel();
 		$form->loadRules($this->rules());
 		$form->loadData($this->toArray());
+        $form->loadAttributeLabels($this->labels());
 		if(!$form->validate()) {
 			throw new UnprocessableEntityHttpException($form);
 		}
-	}
+	}*/
 
 	public function getConstantEnum($prefix = null) {
 		$enums = ReflectionHelper::getConstantsValuesByPrefix($this, $prefix);
