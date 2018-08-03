@@ -4,6 +4,7 @@ namespace yii2lab\domain;
 
 use yii\base\InvalidCallException;
 use yii\base\Event;
+use yii\base\Component;
 use yii\base\InvalidArgumentException;
 use yii\base\ModelEvent;
 use yii2lab\domain\exceptions\ReadOnlyException;
@@ -51,9 +52,9 @@ class BaseEntity extends Component implements Arrayable {
 		return [];
 	}
 	
-	/*public static function primaryKey() {
+	public static function labels() {
 		return [];
-	}*/
+	}
 	
 	public function init()
 	{
@@ -86,30 +87,12 @@ class BaseEntity extends Component implements Arrayable {
 			throw new UnprocessableEntityHttpException($form);
 		}
 	}
-	
-	/*public function getIsNew() {
-		return $this->isNew;
-	}*/
-	
+
 	public function getConstantEnum($prefix = null) {
 		$enums = ReflectionHelper::getConstantsValuesByPrefix($this, $prefix);
 		return $enums;
 	}
-	
-	/*public function getPrimaryKey($asArray = false) {
-		$keys = $this->primaryKey();
-		$attributes = $this->toArray();
-		if(!$asArray && count($keys) === 1) {
-			return isset($attributes[ $keys[0] ]) ? $attributes[ $keys[0] ] : null;
-		} else {
-			$values = [];
-			foreach($keys as $name) {
-				$values[ $name ] = isset($attributes[ $name ]) ? $attributes[ $name ] : null;
-			}
-			return $values;
-		}
-	}*/
-	
+
 	public function toArrayRaw(array $fields = [], array $expand = [], $recursive = true) {
 		return $this->toArray($fields, $expand, $recursive, true);
 	}
@@ -128,7 +111,6 @@ class BaseEntity extends Component implements Arrayable {
 	}
 
 	public function load($attributes, $only = null) {
-		//$attributes = ArrayHelper::toArray($attributes);
 		$this->setAttributes($attributes, $only);
 	}
 
@@ -209,9 +191,14 @@ class BaseEntity extends Component implements Arrayable {
     }
 
     public function __isset($name) {
-        $getter = $this->magicMethodName($name, 'get');
+	    $getter = $this->magicMethodName($name, 'get');
         if(method_exists($this, $getter)) {
             return $this->$getter() !== null;
+        }
+
+        if(property_exists($this, $name)) {
+            // read property, e.g. getName()
+            return $this->$name !== null;
         }
 
         // behavior property
@@ -230,6 +217,11 @@ class BaseEntity extends Component implements Arrayable {
         if(method_exists($this, $setter)) {
             $this->$setter(null);
             return null;
+        }
+
+        if(property_exists($this, $name)) {
+            // read property, e.g. getName()
+            return $this->$name = null;
         }
 
         // behavior property
@@ -252,7 +244,6 @@ class BaseEntity extends Component implements Arrayable {
         }
 
         if(property_exists($this, $name)) {
-
             // read property, e.g. getName()
             return $this->extractValue($this->$name, $inRaw);
         }
@@ -312,7 +303,6 @@ class BaseEntity extends Component implements Arrayable {
         $this->old_attributes = [];
 		foreach($values as $name => $value) {
 			if(in_array($name, $attributeNames)) {
-				//$this->setFieldValue($name, $value);
                 $this->__set($name, $value);
 			}
 		}
@@ -332,7 +322,6 @@ class BaseEntity extends Component implements Arrayable {
         if(!in_array($name, $readOnly)) {
             return false;
         }
-        //$modifiedFields = $this->modifiedFields();
         if(!empty($this->$name)) {
             throw new InvalidCallException('Setting read-only property: ' . get_class($this) . '::' . $name);
             // ReadOnlyException
@@ -341,18 +330,7 @@ class BaseEntity extends Component implements Arrayable {
     }
 
 	private function evaluteFieldValue($name, $value) {
-	   /*$modifiedFields = $this->modifiedFields();
-	    if($this->isReadOnly($name) && in_array($name, $modifiedFields)) {
-	        throw new ReadOnlyException('Field "' . $name . '" is read only');
-        }*/
-        //$event->data = $value;
-        //$this->trigger(self::EVENT_BEFORE_SET_ATTRIBUTE);
-
         $fieldType = $this->fieldType();
-
-        //$typesFromRules = $this->getTypesFromRules();
-
-        //prr($typesFromRules);
         if (empty($fieldType[$name])) {
             return $value;
         }
