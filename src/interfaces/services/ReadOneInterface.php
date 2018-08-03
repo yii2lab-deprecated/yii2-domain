@@ -3,6 +3,7 @@
 namespace yii2lab\domain\interfaces\services;
 
 use yii2lab\domain\data\Query;
+use yii2woop\service\domain\v3\entities\ServiceEntity;
 
 interface ReadOneInterface {
 	
@@ -23,7 +24,7 @@ interface ReadOneInterface {
 	/**
 	 * @param Query|null $query
 	 *
-	 * @return \yii2lab\domain\BaseEntity
+	 * @return ServiceEntity
 	 * @throws \yii\web\NotFoundHttpException
 	 */
 	public function one(Query $query = null);
@@ -32,7 +33,7 @@ interface ReadOneInterface {
 	 * @param            $id
 	 * @param Query|null $query
 	 *
-	 * @return \yii2lab\domain\BaseEntity
+	 * @return ServiceEntity
 	 * @throws \yii\web\NotFoundHttpException
 	 */
 	public function oneById($id, Query $query = null);
