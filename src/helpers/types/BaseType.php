@@ -3,6 +3,7 @@
 namespace yii2lab\domain\helpers\types;
 
 use yii\base\InvalidArgumentException;
+use yii2lab\helpers\ClassHelper;
 
 abstract class BaseType {
 	
@@ -11,7 +12,7 @@ abstract class BaseType {
 	
 	public function validate($value, $params = null) {
 		if(!$this->isValid($value, $params)) {
-			$class = basename(static::class);
+			$class = ClassHelper::getClassOfClassName(static::class);
 			throw new InvalidArgumentException('Value "' . $value . '" not valid of "' . $class . '"!');
 		}
 	}
