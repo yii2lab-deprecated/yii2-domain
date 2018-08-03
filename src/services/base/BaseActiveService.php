@@ -169,7 +169,7 @@ class BaseActiveService extends BaseService implements CrudInterface {
 		$entity->validate();
 		$this->addUserId($entity);
 		$this->repository->update($entity);
-		return $this->afterAction(self::EVENT_UPDATE);
+		return $this->afterAction(self::EVENT_UPDATE, $entity);
 	}
 	
 	public function deleteById($id) {
