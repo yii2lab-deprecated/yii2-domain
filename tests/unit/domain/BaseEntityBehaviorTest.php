@@ -69,9 +69,6 @@ class BaseEntityBehaviorTest extends Unit {
         TestAuthHelper::authById(381070);
         $entity = new PostEntity();
 
-        $entity->categories_id = null;
-        $this->tester->assertEquals(null, $entity->categories_id);
-
         $expected = [
             'key1' => 'value1',
             'key2' => 'value2',
@@ -89,8 +86,26 @@ class BaseEntityBehaviorTest extends Unit {
         $this->tester->assertEquals($expected['key1'], $entity->categories_id['key1']);
         $this->tester->assertEquals($expected['key4'], $entity->categories_id['key4']);
         $this->tester->assertEquals($expected['key4']['key4-2'], $entity->categories_id['key4']['key4-2']);
-
         $this->tester->assertEquals($expected, $entity->categories_id->toArray());
+    }
+
+    public function testArrayFieldModify()
+    {
+        TestAuthHelper::authById(381070);
+        $entity = new PostEntity();
+
+        $expected = [
+            'key1' => 'value1',
+            'key2' => 'value2',
+            'key3' => 'value3',
+            'key4' => [
+                'key4-1' => 'value4-1',
+                'key4-2' => 'value4-2',
+                'key4-3' => 'value4-3',
+                'key4-4' => 'value4-4',
+            ],
+        ];
+        $entity->categories_id = $expected;
 
         unset($entity->categories_id['key2']);
         $this->tester->assertEquals([
@@ -111,10 +126,20 @@ class BaseEntityBehaviorTest extends Unit {
 
         //$entity->categories_id->setByKey('key4.key4-4', 'value4-4');
         //$entity->categories_id['key4']['key4-4'] = 'value4-4';
-       // $this->tester->assertEquals('value4-4', $entity->categories_id['key4']['key4-4']);
+        // $this->tester->assertEquals('value4-4', $entity->categories_id['key4']['key4-4']);
+    }
+
+    public function testArrayFieldNull()
+    {
+        TestAuthHelper::authById(381070);
+        $entity = new PostEntity();
+
+        $this->tester->assertEquals(null, $entity->categories_id);
+
+        $entity->categories_id = [1,2,3];
+        $this->tester->assertEquals([1,2,3], $entity->categories_id->all());
 
         $entity->categories_id = null;
         $this->tester->assertEquals(null, $entity->categories_id);
-
     }
 }
