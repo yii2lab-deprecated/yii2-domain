@@ -158,7 +158,6 @@ class BaseEntity extends Component implements Arrayable {
         if(method_exists($this, $setter)) {
             // set property
             $this->$setter($value);
-
             return null;
         } elseif(strncmp($name, 'on ', 3) === 0) {
             // on event: attach event handler
@@ -244,6 +243,7 @@ class BaseEntity extends Component implements Arrayable {
     }
 
     public function getAttribute($name, $inRaw = false) {
+        $this->trigger(self::EVENT_BEFORE_GET_ATTRIBUTE);
         $getter = $this->magicMethodName($name, 'get');
         if(method_exists($this, $getter)) {
             // read property, e.g. getName()
