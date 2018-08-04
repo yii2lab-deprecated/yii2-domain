@@ -2,25 +2,45 @@
 
 namespace yii2lab\domain\values;
 
+use yii2lab\domain\data\Collection;
+use yii2lab\extension\arrayTools\base\BaseCollection;
 use yii2lab\helpers\ClassHelper;
 use yii2mod\helpers\ArrayHelper;
 
 class ArrayValue extends BaseValue {
-	
-	public function isValid($value) {
+
+    protected function _encode($value) {
+        if($value === null) {
+            return null;
+        }
+        return new Collection($value);
+    }
+
+    protected function _decode($value) {
+        return $value;
+    }
+
+     public function getDefault() {
+        return null;
+     }
+
+    public function isValid($value) {
+        if($value === null) {
+            return true;
+        }
 		return is_array($value);
 	}
-	
+
 	public function updateByKey($key, $value) {
 		$arrayValue = $this->get([]);
 		ArrayHelper::setValue($arrayValue, $key, $value);
 	}
-	
+
 	public function getByKey($key, $default = null) {
 		$arrayValue = $this->get([]);
 		ArrayHelper::getValue($arrayValue, $key, $default);
 	}
-	
+
 	/**
 	 * @param $key
 	 *
@@ -36,5 +56,5 @@ class ArrayValue extends BaseValue {
 		}
 		return true;
 	}
-	
+
 }

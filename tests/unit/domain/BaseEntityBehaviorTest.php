@@ -3,6 +3,8 @@
 namespace tests\unit\domain;
 
 use tests\_source\entities\PostEntity;
+use yii2lab\domain\values\ArrayValue;
+use yii2lab\extension\arrayTools\base\BaseCollection;
 use yii2lab\test\Test\Unit;
 use yii2module\account\domain\v2\helpers\TestAuthHelper;
 
@@ -67,8 +69,23 @@ class BaseEntityBehaviorTest extends Unit {
         TestAuthHelper::authById(381070);
         $entity = new PostEntity();
 
+        $entity->categories_id = null;
+        $this->tester->assertEquals(null, $entity->categories_id);
+
         $entity->categories_id = [1,2,3];
-        $this->tester->assertEquals([1,2,3], $entity->categories_id);
+        $expected = [1,2,3];
+
+        $this->tester->assertInstanceOf(BaseCollection::class, $entity->categories_id);
+        $this->tester->assertEquals($expected[1], $entity->categories_id[1]);
+        $this->tester->assertEquals($expected, $entity->categories_id->all());
+
+        //$entity->categories_id->updateByKey('key1', 'qwerty');
+        $entity->categories_id['key1'] = 'qwerty';
+        $this->tester->assertEquals('qwerty', $entity->categories_id['key1']);
+
+        $entity->categories_id = null;
+        $this->tester->assertEquals(null, $entity->categories_id);
+        
         /*unset($entity->categories_id[1]);
         $this->tester->assertEquals([1,3], $entity->categories_id);*/
     }

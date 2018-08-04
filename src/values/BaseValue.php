@@ -3,8 +3,9 @@
 namespace yii2lab\domain\values;
 
 use yii\base\InvalidArgumentException;
+use yii2lab\domain\interfaces\ValueObjectInterface;
 
-class BaseValue {
+class BaseValue implements ValueObjectInterface {
 	
 	private $value;
 	
@@ -38,7 +39,7 @@ class BaseValue {
 	}
 	
 	public function has() {
-		return isset($this->value);
+		return $this->value !== null;
 	}
 	
 	final public function encode($value) {

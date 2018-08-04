@@ -16,7 +16,8 @@ class ArrayValueTest extends Unit
 	
 	public function testSetNotValid()
 	{
-		$value = $this->buildInstance();
+	    $value = $this->buildInstance();
+        $value->set([999]);
 		try {
 			$value->set(999);
 			$this->tester->assertTrue(false);
@@ -34,12 +35,9 @@ class ArrayValueTest extends Unit
 		
 		$isValid = $value->isValid([4545]);
 		$this->tester->assertTrue($isValid);
-		
-		$isValid = $value->isValid(150);
-		$this->tester->assertFalse($isValid);
-		
+
 		$isValid = $value->isValid(null);
-		$this->tester->assertFalse($isValid);
+		$this->tester->assertTrue($isValid);
 	}
 	
 	private function buildInstance() {

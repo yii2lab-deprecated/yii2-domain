@@ -10,6 +10,7 @@ use yii\base\ModelEvent;
 use yii2lab\domain\exceptions\ReadOnlyException;
 use yii2lab\domain\helpers\EntityType;
 use yii2lab\domain\helpers\Helper;
+use yii2lab\domain\interfaces\ValueObjectInterface;
 use yii2lab\domain\traits\entity\ValidatorTrait;
 use yii2lab\helpers\ReflectionHelper;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
@@ -22,7 +23,6 @@ use DateTime;
 use Yii;
 use yii\base\Behavior;
 use yii\base\UnknownPropertyException;
-use yii2lab\domain\values\BaseValue;
 use yii2lab\domain\values\TimeValue;
 use ArrayAccess;
 use ArrayIterator;
@@ -39,9 +39,9 @@ class BaseEntity extends Component implements Arrayable {
     use ValidatorTrait;
 
     const SCENARIO_DEFAULT = 'default';
-	const EVENT_INIT = 'EVENT_INIT';
-    const EVENT_BEFORE_SET_ATTRIBUTE = 'EVENT_BEFORE_SET_ATTRIBUTE';
-    const EVENT_BEFORE_GET_ATTRIBUTE = 'EVENT_BEFORE_GET_ATTRIBUTE';
+	const EVENT_INIT = 'init';
+    const EVENT_BEFORE_SET_ATTRIBUTE = 'beforeSetAttribute';
+    const EVENT_BEFORE_GET_ATTRIBUTE = 'beforeGetAttribute';
     const EVENT_BEFORE_VALIDATE = 'beforeValidate';
     const EVENT_AFTER_VALIDATE = 'afterValidate';
 	
@@ -278,7 +278,7 @@ class BaseEntity extends Component implements Arrayable {
         if($inRaw) {
             return $value;
         }
-        if($value instanceof BaseValue) {
+        if($value instanceof ValueObjectInterface) {
             $value = $value->get();
         }
         if($value instanceof DateTime) {
