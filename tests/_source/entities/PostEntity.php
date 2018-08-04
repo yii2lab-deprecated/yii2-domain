@@ -16,7 +16,7 @@ use yii2lab\domain\values\TimeValue;
  *
  * @property $id
  * @property $text
- * @property $categories_id
+ * @property Collection $categories_id
  * @property $created_at
  * @property $updated_at
  * @property $created_by

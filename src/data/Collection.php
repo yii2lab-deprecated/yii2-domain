@@ -57,10 +57,5 @@ class Collection extends BaseCollection {
 	public function load($items) {
 		$this->loadItems($items);
 	}
-	
-	protected function itemsToArray($items) {
-		$items = parent::itemsToArray($items);
-		return array_values($items);
-	}
-	
+
 }

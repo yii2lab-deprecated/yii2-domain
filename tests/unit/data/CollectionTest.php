@@ -136,5 +136,14 @@ class CollectionTest extends Unit {
 		$this->tester->assertEquals($collection->offsetGet(0), 'item1');
 		$this->tester->assertEquals($collection->offsetGet(2), 'item3');
 	}
-	
+
+    public function testSerialize() {
+        $collection = new Collection($this->array);
+        $serialized = $collection->serialize();
+
+        $collection2 = new Collection();
+        $unserialized = $collection2->unserialize($serialized);
+
+        $this->tester->assertEquals($collection->all(), $collection2->all());
+    }
 }

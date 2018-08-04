@@ -72,21 +72,49 @@ class BaseEntityBehaviorTest extends Unit {
         $entity->categories_id = null;
         $this->tester->assertEquals(null, $entity->categories_id);
 
-        $entity->categories_id = [1,2,3];
-        $expected = [1,2,3];
+        $expected = [
+            'key1' => 'value1',
+            'key2' => 'value2',
+            'key3' => 'value3',
+            'key4' => [
+                'key4-1' => 'value4-1',
+                'key4-2' => 'value4-2',
+                'key4-3' => 'value4-3',
+                'key4-4' => 'value4-4',
+            ],
+        ];
+        $entity->categories_id = $expected;
 
         $this->tester->assertInstanceOf(BaseCollection::class, $entity->categories_id);
-        $this->tester->assertEquals($expected[1], $entity->categories_id[1]);
-        $this->tester->assertEquals($expected, $entity->categories_id->all());
+        $this->tester->assertEquals($expected['key1'], $entity->categories_id['key1']);
+        $this->tester->assertEquals($expected['key4'], $entity->categories_id['key4']);
+        $this->tester->assertEquals($expected['key4']['key4-2'], $entity->categories_id['key4']['key4-2']);
 
-        //$entity->categories_id->updateByKey('key1', 'qwerty');
-        $entity->categories_id['key1'] = 'qwerty';
-        $this->tester->assertEquals('qwerty', $entity->categories_id['key1']);
+        $this->tester->assertEquals($expected, $entity->categories_id->toArray());
+
+        unset($entity->categories_id['key2']);
+        $this->tester->assertEquals([
+            'key1' => 'value1',
+            //'key2' => 'value2',
+            'key3' => 'value3',
+            'key4' => [
+                'key4-1' => 'value4-1',
+                'key4-2' => 'value4-2',
+                'key4-3' => 'value4-3',
+                'key4-4' => 'value4-4',
+            ],
+        ], $entity->categories_id->toArray());
+
+        //$entity->categories_id->updateByKey('key'value1'', 'qwerty');
+        $entity->categories_id['key5'] = 'qwerty';
+        $this->tester->assertEquals('qwerty', $entity->categories_id['key5']);
+
+        //$entity->categories_id->setByKey('key4.key4-4', 'value4-4');
+        //$entity->categories_id['key4']['key4-4'] = 'value4-4';
+       // $this->tester->assertEquals('value4-4', $entity->categories_id['key4']['key4-4']);
 
         $entity->categories_id = null;
         $this->tester->assertEquals(null, $entity->categories_id);
-        
-        /*unset($entity->categories_id[1]);
-        $this->tester->assertEquals([1,3], $entity->categories_id);*/
+
     }
 }
