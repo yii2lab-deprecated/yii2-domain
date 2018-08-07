@@ -184,7 +184,7 @@ abstract class BaseRepository extends Component {
      * @throws InvalidConfigException
      * @throws \yii\web\ServerErrorHttpException
      */
-    public function getSchemaInstance() {
+    private function getSchemaInstance() {
         if(!isset($this->schemaInstance)) {
             $schemaClass = $this->getSchemaClassName();
             if(empty($schemaClass)) {
@@ -195,7 +195,7 @@ abstract class BaseRepository extends Component {
         return $this->schemaInstance;
     }
 
-    public function getSchemaClassName() {
+    private function getSchemaClassName() {
         $schemaClass = false;
 	    if(is_string($this->schemaClass)) {
             $schemaClass = $this->schemaClass;
