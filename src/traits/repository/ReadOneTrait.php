@@ -70,7 +70,7 @@ trait ReadOneTrait {
 		$query->limit(1);
 		$collection = $this->all($query);
 		if(empty($collection)) {
-			throw new NotFoundHttpException(__METHOD__ . ': ' . __LINE__);
+			throw new NotFoundHttpException(get_called_class());
 		}
 		$entity = ArrayHelper::first($collection);
 		return $entity;
