@@ -35,6 +35,9 @@ class Alias {
 	}
 	
 	private function aggregate($name, $aliases) {
+		if(is_object($name)) {
+			return $name;
+		}
 		if(is_array($name)) {
 			$isIndexed = ArrayHelper::isIndexed($name);
 			$result = [];
