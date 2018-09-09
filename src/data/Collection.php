@@ -4,7 +4,7 @@ namespace yii2lab\domain\data;
 
 use Yii;
 use yii2lab\extension\arrayTools\base\BaseCollection;
-use yii2lab\helpers\yii\ArrayHelper;
+use yii2lab\extension\yii\helpers\ArrayHelper;
 
 class Collection extends BaseCollection {
 	
