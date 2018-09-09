@@ -5,8 +5,8 @@ namespace yii2lab\domain\filters;
 use common\locators\DomainLocator;
 use Dii;
 use Yii;
-use yii2lab\designPattern\scenario\base\BaseScenario;
-use yii2lab\designPattern\scenario\helpers\ScenarioHelper;
+use yii2lab\extension\scenario\base\BaseScenario;
+use yii2lab\extension\scenario\helpers\ScenarioHelper;
 use yii2lab\domain\base\BaseDomainLocator;
 use yii2lab\domain\helpers\DomainLangHelper;
 

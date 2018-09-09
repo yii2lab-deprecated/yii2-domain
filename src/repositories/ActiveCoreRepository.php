@@ -11,7 +11,7 @@ use yii\web\NotFoundHttpException;
  * Class ActiveCoreRepository
  *
  * @package yii2lab\domain\repositories
- * @deprecated use \yii2lab\core\domain\repositories\base\BaseActiveCoreRepository
+ * @deprecated use \yii2lab\extension\core\domain\repositories\base\BaseActiveCoreRepository
  */
 abstract class ActiveCoreRepository extends CoreRepository implements CrudInterface {
 	

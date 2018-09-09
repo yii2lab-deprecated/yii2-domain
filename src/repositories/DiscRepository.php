@@ -3,7 +3,7 @@
 namespace yii2lab\domain\repositories;
 
 use Yii;
-use yii2lab\store\Store;
+use yii2lab\extension\store\Store;
 
 /**
  * Class DiscRepository

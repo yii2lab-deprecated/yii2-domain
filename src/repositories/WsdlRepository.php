@@ -8,10 +8,10 @@ use api\v4\modules\payment\components\CoreLoginRequest;
 use api\v4\modules\payment\components\UnsuccessfulResponseException;
 use api\v4\modules\payment\components\WooppaySoapClient;
 use yii\web\ServerErrorHttpException;
-use yii2lab\console\helpers\Output;
+use yii2lab\extension\console\helpers\Output;
 use yii2lab\extension\arrayTools\helpers\ArrayIterator;
 use yii2lab\domain\data\Query;
-use yii2lab\misc\exceptions\InvalidMethodParameterException;
+use yii2lab\extension\common\exceptions\InvalidMethodParameterException;
 
 /**
  * Class WsdlRepository

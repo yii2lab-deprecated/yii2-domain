@@ -5,7 +5,7 @@ namespace yii2lab\domain\factories;
 use Yii;
 use yii\helpers\Inflector;
 use yii2lab\extension\filedb\base\FiledbActiveRecord;
-use yii2lab\helpers\generator\ClassGeneratorHelper;
+use yii2lab\extension\code\helpers\generator\ClassGeneratorHelper;
 
 class ModelFactory extends BaseFactory {
 	
