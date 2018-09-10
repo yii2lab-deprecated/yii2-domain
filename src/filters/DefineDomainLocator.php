@@ -5,6 +5,7 @@ namespace yii2lab\domain\filters;
 use common\locators\DomainLocator;
 use Dii;
 use Yii;
+use yii2lab\app\domain\helpers\CacheHelper;
 use yii2lab\extension\scenario\base\BaseScenario;
 use yii2lab\extension\scenario\helpers\ScenarioHelper;
 use yii2lab\domain\base\BaseDomainLocator;
@@ -26,9 +27,13 @@ class DefineDomainLocator extends BaseScenario {
 	}
 	
 	private function loadConfig() {
-		$loaders = ScenarioHelper::forgeCollection($this->filters);
-		$domains = ScenarioHelper::runAll($loaders, []);
-		return $domains;
+        $callback = function () use ($definition) {
+            $loaders = ScenarioHelper::forgeCollection($this->filters);
+            $domains = ScenarioHelper::runAll($loaders, []);
+            return $domains;
+        };
+        $config = CacheHelper::forge(APP . '_domain_config', $callback);
+        return $config;
 	}
 	
 	private function loadDomainContainerClass() {
