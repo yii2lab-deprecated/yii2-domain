@@ -51,13 +51,14 @@ class DefineDomainLocator extends BaseScenario
 	{
 		$this->loadDomainContainerClass();
 		if(class_exists(DomainLocator::class)) {
-			Dii::$domain = new DomainLocator;
+			$domain = new DomainLocator;
 		} else {
-			Dii::$domain = new BaseDomainLocator;
+			$domain = new BaseDomainLocator;
 		}
-		Dii::$domain->setComponents($domains);
-		Yii::$domain = Dii::$domain;
-        App::$domain = Dii::$domain;
+        $domain->setComponents($domains);
+        App::$domain = $domain;
+		Dii::$domain = $domain;
+		Yii::$domain = $domain;
 	}
 	
 }

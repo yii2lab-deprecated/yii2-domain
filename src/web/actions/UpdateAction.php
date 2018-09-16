@@ -21,7 +21,7 @@ class UpdateAction extends Action {
 			try{
 				$method = $this->serviceMethod;
 				$this->service->$method($id, $model->toArray());
-				Yii::$domain->navigation->alert->create(['main', 'update_success'], Alert::TYPE_SUCCESS);
+				\App::$domain->navigation->alert->create(['main', 'update_success'], Alert::TYPE_SUCCESS);
 				return $this->redirect(['/' . $this->baseUrl . 'view', 'id' => $id]);
 			} catch (UnprocessableEntityHttpException $e){
 				$model->addErrorsFromException($e);

@@ -43,7 +43,7 @@ class RelationRepositoryHelper {
 	
 	private static function getInstance($domain, $id) {
 		$key = $domain . '.repositories.' . $id;
-		$repository = ArrayHelper::getValue(Yii::$domain, $key);
+		$repository = ArrayHelper::getValue(\App::$domain, $key);
 		return $repository;
 	}
 	

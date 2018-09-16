@@ -13,7 +13,7 @@ class DeleteAction extends Action {
 	public function run($id) {
 		$method = $this->serviceMethod;
 		$this->service->$method($id);
-		Yii::$domain->navigation->alert->create(['main', 'delete_success'], Alert::TYPE_SUCCESS);
+		\App::$domain->navigation->alert->create(['main', 'delete_success'], Alert::TYPE_SUCCESS);
 		return $this->redirect($this->baseUrl);
 	}
 }

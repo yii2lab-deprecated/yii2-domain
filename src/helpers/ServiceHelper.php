@@ -23,7 +23,7 @@ class ServiceHelper {
 			throw new InvalidArgumentException('Service name can not be empty!');
 		}
 		try {
-			Yii::$domain->{$domain}->{$service};
+			\App::$domain->{$domain}->{$service};
 			return true;
 		} catch(UnknownPropertyException $e) {
 		}
@@ -34,7 +34,7 @@ class ServiceHelper {
 		if(!self::isExists($domain, $service)) {
 			throw new InvalidArgumentException('Service "' . $domain . '->' . $service . '" not defined!');
 		}
-		return Yii::$domain->{$domain}->{$service};
+		return \App::$domain->{$domain}->{$service};
 	}
 	
 	public static function run(ServiceExecutorEntity $entity) {
@@ -45,7 +45,7 @@ class ServiceHelper {
 	
 	public static function has($serviceName) {
 		try {
-			$serviceInstance = ArrayHelper::getValue(Yii::$domain, $serviceName);
+			$serviceInstance = ArrayHelper::getValue(\App::$domain, $serviceName);
 			return is_object($serviceInstance);
 		} catch(UnknownPropertyException $e) {
 			return false;
@@ -63,7 +63,7 @@ class ServiceHelper {
 		if($service instanceof BaseService) {
 			return $service;
 		}
-		$serviceInstance = ArrayHelper::getValue(Yii::$domain, $service, $default);
+		$serviceInstance = ArrayHelper::getValue(\App::$domain, $service, $default);
 		if(!is_object($serviceInstance)) {
 			throw new InvalidConfigException("Service \"$service\" not found");
 		}

@@ -35,8 +35,8 @@ class DomainHelper {
 	 */
 	public static function define($domainId, $definition) {
 		$definition = ConfigHelper::normalizeItemConfig($domainId, $definition);
-		if(!Yii::$domain->has($domainId)) {
-			Yii::$domain->set($domainId, $definition);
+		if(!\App::$domain->has($domainId)) {
+			\App::$domain->set($domainId, $definition);
 		}
 	}
 	
@@ -91,10 +91,10 @@ class DomainHelper {
 		if(empty($name)) {
 			throw new InvalidArgumentException('Domain name can not be empty!');
 		}
-		if(!Yii::$domain->has($name)) {
+		if(!\App::$domain->has($name)) {
 			return false;
 		}
-		$domain = Yii::$domain->get($name);
+		$domain = \App::$domain->get($name);
 		if(!$domain instanceof Domain) {
 			return false;
 		}
@@ -102,10 +102,10 @@ class DomainHelper {
 	}
 	
 	public static function messagesAlias($bundleName) {
-		if(!Yii::$domain->has($bundleName)) {
+		if(!\App::$domain->has($bundleName)) {
 			return false;
 		}
-		$domain = ArrayHelper::getValue(Yii::$domain, $bundleName);
+		$domain = ArrayHelper::getValue(\App::$domain, $bundleName);
 		if(empty($domain) || empty($domain->path)) {
 			return null;
 		}

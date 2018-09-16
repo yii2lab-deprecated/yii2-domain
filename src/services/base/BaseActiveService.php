@@ -64,14 +64,14 @@ class BaseActiveService extends BaseService implements CrudInterface {
 	
 	private function userAccessOnly(Query $query) {
 		if($this->userAccessOnly) {
-			$userId = Yii::$domain->account->auth->identity->id;
+			$userId = \App::$domain->account->auth->identity->id;
 			$query->where($this->userIdField, "$userId");
 		}
 	}
 	
 	protected function addUserId(BaseEntity $entity) {
 		if($this->userAccessOnly) {
-			$userId = Yii::$domain->account->auth->identity->id;
+			$userId = \App::$domain->account->auth->identity->id;
 			$entity->{$this->userIdField} = $userId;
 		}
 	}
@@ -217,7 +217,7 @@ class BaseActiveService extends BaseService implements CrudInterface {
 			}
 			if(!empty($data[ $fieldName ])) {
 				try {
-					$serviceInstance = ArrayHelper::getValue(Yii::$domain, $serviceKey);
+					$serviceInstance = ArrayHelper::getValue(\App::$domain, $serviceKey);
 					$serviceInstance->oneById($data[ $fieldName ]);
 				} catch(NotFoundHttpException $e) {
 					$notFoundMessage = $serviceConfig['notFoundMessage'];
@@ -259,7 +259,7 @@ class BaseActiveService extends BaseService implements CrudInterface {
 		$access['only'] = !empty($access['only']) ? ArrayHelper::toArray($access['only']) : null;
 		$isIntersectAction = empty($access['only']) || in_array($action, $access['only']);
 		if($isIntersectAction) {
-			Yii::$domain->rbac->manager->can($access['roles'], $param);
+			\App::$domain->rbac->manager->can($access['roles'], $param);
 		}
 	}
 

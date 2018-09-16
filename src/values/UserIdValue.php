@@ -16,7 +16,7 @@ class UserIdValue extends BaseValue {
 	}
 	
 	public function get($default = null) {
-		return Yii::$domain->account->auth->identity->id;
+		return \App::$domain->account->auth->identity->id;
 	}
 	
 	public function isValid($value) {
