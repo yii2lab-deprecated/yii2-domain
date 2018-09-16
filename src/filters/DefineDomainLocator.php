@@ -58,7 +58,9 @@ class DefineDomainLocator extends BaseScenario
         $domain->setComponents($domains);
         App::$domain = $domain;
 		Dii::$domain = $domain;
-		Yii::$domain = $domain;
+		if(property_exists(Yii::class, 'domain')) {
+            Yii::$domain = $domain;
+        }
 	}
 	
 }
