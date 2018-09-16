@@ -5,6 +5,7 @@ namespace yii2lab\domain\filters;
 use common\locators\DomainLocator;
 use Dii;
 use Yii;
+use App;
 use yii2lab\app\domain\helpers\CacheHelper;
 use yii2lab\domain\base\BaseDomainLocator;
 use yii2lab\extension\scenario\base\BaseScenario;
@@ -56,6 +57,7 @@ class DefineDomainLocator extends BaseScenario
 		}
 		Dii::$domain->setComponents($domains);
 		Yii::$domain = Dii::$domain;
+        App::$domain = Dii::$domain;
 	}
 	
 }
