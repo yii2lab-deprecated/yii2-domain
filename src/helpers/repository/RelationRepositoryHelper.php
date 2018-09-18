@@ -2,35 +2,17 @@
 
 namespace yii2lab\domain\helpers\repository;
 
-use Yii;
 use yii\helpers\ArrayHelper;
-use yii\web\NotFoundHttpException;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\enums\RelationEnum;
 
 class RelationRepositoryHelper {
 	
-	public static function getRelationNameByField(array $relations, $field) {
-		foreach($relations as $relationName => $relation) {
-			if($relation['field'] == $field) {
-				return $relationName;
-			}
-		}
-	}
-	
-	public static function getOne($domain, $id, Query $query = null) {
+	public static function getAll($relationConfig, Query $query = null) {
 		$query = Query::forge($query);
-		$repository = RelationRepositoryHelper::getInstance($domain, $id);
-		try {
-			return $repository->one($query);
-		} catch(NotFoundHttpException $e) {
-			return null;
-		}
-	}
-	
-	public static function getAll($domain, $id, Query $query = null) {
-		$query = Query::forge($query);
-		$repository = RelationRepositoryHelper::getInstance($domain, $id);
+		$relationConfig = self::normalizeConfigItemBase($relationConfig);
+		//prr($relationConfig);
+		$repository = RelationRepositoryHelper::getInstance2($relationConfig);
 		return $repository->all($query);
 	}
 	
@@ -41,23 +23,57 @@ class RelationRepositoryHelper {
 		return $relations;
 	}
 	
-	private static function getInstance($domain, $id) {
-		$key = $domain . '.repositories.' . $id;
+	private static function getInstance($domain, $id, $type = 'repository') {
+		if($type == 'service') {
+			$key = $domain . '.' . $id;
+		} else {
+			$key = $domain . '.repositories.' . $id;
+		}
 		$repository = ArrayHelper::getValue(\App::$domain, $key);
 		return $repository;
 	}
 	
+	private static function getInstance2($relationConfigForeign) {
+		if($relationConfigForeign['classType'] == 'service') {
+			$key = $relationConfigForeign['domain'] . '.' . $relationConfigForeign['name'];
+		} else {
+			$key = $relationConfigForeign['domain'] . '.repositories.' . $relationConfigForeign['name'];
+		}
+		$repository = ArrayHelper::getValue(\App::$domain, $key);
+		return $repository;
+	}
+	
+	private static function normalizeConfigItemBase($relation) {
+		if(empty($relation['field'])) {
+			$relation['field'] = 'id';
+		}
+		if(empty($relation['classType'])) {
+			$relation['classType'] = 'repository';
+		}
+		return $relation;
+	}
+	
+	private static function normalizeConfigItemForeign($relation) {
+		if(!empty($relation['foreign']['id'])) {
+			$relation = self::prepare($relation, 'foreign');
+		}
+		if(!empty($relation['foreign'])) {
+			$relation['foreign'] = self::normalizeConfigItemBase($relation['foreign']);
+		}
+		return $relation;
+	}
+	
+	private static function normalizeConfigItem(array $relation) {
+		if($relation['type'] == RelationEnum::MANY_TO_MANY && !empty($relation['via']['id'])) {
+			$relation = self::prepare($relation, 'via');
+		}
+		$relation = self::normalizeConfigItemForeign($relation);
+		return $relation;
+	}
+	
 	private static function normalizeConfig(array $relations) {
 		foreach($relations as &$relation) {
-			if($relation['type'] == RelationEnum::MANY_TO_MANY && !empty($relation['via']['id'])) {
-				$relation = self::prepare($relation, 'via');
-			}
-			if(!empty($relation['foreign']['id'])) {
-				$relation = self::prepare($relation, 'foreign');
-			}
-			if(empty($relation['foreign']['field'])) {
-				$relation['foreign']['field'] = 'id';
-			}
+			$relation = self::normalizeConfigItem($relation);
 		}
 		return $relations;
 	}
@@ -68,4 +84,5 @@ class RelationRepositoryHelper {
 		$relation['type'] = RelationEnum::value($type);
 		return $relation;
 	}
+	
 }

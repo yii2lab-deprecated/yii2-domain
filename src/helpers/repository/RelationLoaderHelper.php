@@ -56,7 +56,7 @@ class RelationLoaderHelper {
 		$foreignIds = ArrayHelper::getColumn($viaData, $viaRelationToForeign['field']);
 		$query = Query::forge();
 		$query->where($viaRelationToForeign['foreign']['field'], $foreignIds);
-		$entity->{$w->relationName} = RelationRepositoryHelper::getAll($viaRelationToForeign['foreign']['domain'], $viaRelationToForeign['foreign']['name'], $query);
+		$entity->{$w->relationName} = RelationRepositoryHelper::getAll($viaRelationToForeign['foreign'], $query);
 		return $viaRelationToForeign;
 	}
 	

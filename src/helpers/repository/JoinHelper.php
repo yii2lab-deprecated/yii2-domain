@@ -26,14 +26,14 @@ class JoinHelper {
 	
 	private static function allForOne($collection, array $relationConfig) {
 		$query = self::forgeQuery($collection, $relationConfig);
-		$relCollection = RelationRepositoryHelper::getAll($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $query);
+		$relCollection = RelationRepositoryHelper::getAll($relationConfig['foreign'], $query);
 		$relCollection = ArrayHelper::index($relCollection, $relationConfig['foreign']['field']);
 		return $relCollection;
 	}
 	
 	private static function allForMany($collection, array $relationConfig) {
 		$query = self::forgeQuery($collection, $relationConfig);
-		$relCollection = RelationRepositoryHelper::getAll($relationConfig['foreign']['domain'], $relationConfig['foreign']['name'], $query);
+		$relCollection = RelationRepositoryHelper::getAll($relationConfig['foreign'], $query);
 		return $relCollection;
 	}
 	
@@ -43,7 +43,7 @@ class JoinHelper {
 		$ids = ArrayHelper::getColumn($collection, $viaRelationToThis['foreign']['field']);
 		$query = Query::forge();
 		$query->where($viaRelationToThis['field'], $ids);
-		$relCollection = RelationRepositoryHelper::getAll($relationConfig['via']['domain'], $relationConfig['via']['name'], $query);
+		$relCollection = RelationRepositoryHelper::getAll($relationConfig['via'], $query);
 		return $relCollection;
 	}
 	
