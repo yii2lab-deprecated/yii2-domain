@@ -4,6 +4,7 @@ namespace yii2lab\domain\services\base;
 
 use yii2lab\domain\data\Query;
 use yii2lab\domain\Domain;
+use yii2lab\domain\events\QueryEvent;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use Yii;
 use yii\base\Component as YiiComponent;
@@ -21,6 +22,7 @@ class BaseService extends YiiComponent {
 	
 	const EVENT_BEFORE_ACTION = 'beforeAction';
 	const EVENT_AFTER_ACTION = 'afterAction';
+	const EVENT_PREPARE_QUERY = 'EVENT_PREPARE_QUERY';
 	
 	public $id;
 	
@@ -51,6 +53,9 @@ class BaseService extends YiiComponent {
 	
 	protected function prepareQuery(Query $query = null) {
 		$query = Query::forge($query);
+		$event = new QueryEvent();
+		$event->query = $query;
+        $this->trigger(self::EVENT_PREPARE_QUERY, $event);
 		return $query;
 	}
 	

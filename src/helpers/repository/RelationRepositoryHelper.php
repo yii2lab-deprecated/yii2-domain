@@ -5,36 +5,32 @@ namespace yii2lab\domain\helpers\repository;
 use yii\helpers\ArrayHelper;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\enums\RelationEnum;
+use yii2woop\service\domain\v3\enums\RelationClassTypeEnum;
 
 class RelationRepositoryHelper {
 	
 	public static function getAll($relationConfig, Query $query = null) {
 		$query = Query::forge($query);
 		$relationConfig = self::normalizeConfigItemBase($relationConfig);
-		//prr($relationConfig);
-		$repository = RelationRepositoryHelper::getInstance2($relationConfig);
+		$repository = RelationRepositoryHelper::getInstance($relationConfig);
 		return $repository->all($query);
 	}
 	
 	public static function getRelationsConfig($domain, $id) {
-		$repository = RelationRepositoryHelper::getInstance($domain, $id);
+		$repository = RelationRepositoryHelper::getRepositoryInstance($domain, $id);
 		$relations =  $repository->relations();
 		$relations = self::normalizeConfig($relations);
 		return $relations;
 	}
 	
-	private static function getInstance($domain, $id, $type = 'repository') {
-		if($type == 'service') {
-			$key = $domain . '.' . $id;
-		} else {
-			$key = $domain . '.repositories.' . $id;
-		}
+	private static function getRepositoryInstance($domain, $id) {
+		$key = $domain . '.repositories.' . $id;
 		$repository = ArrayHelper::getValue(\App::$domain, $key);
 		return $repository;
 	}
 	
-	private static function getInstance2($relationConfigForeign) {
-		if($relationConfigForeign['classType'] == 'service') {
+	private static function getInstance($relationConfigForeign) {
+		if($relationConfigForeign['classType'] == RelationClassTypeEnum::SERVICE) {
 			$key = $relationConfigForeign['domain'] . '.' . $relationConfigForeign['name'];
 		} else {
 			$key = $relationConfigForeign['domain'] . '.repositories.' . $relationConfigForeign['name'];
@@ -48,7 +44,7 @@ class RelationRepositoryHelper {
 			$relation['field'] = 'id';
 		}
 		if(empty($relation['classType'])) {
-			$relation['classType'] = 'repository';
+			$relation['classType'] = RelationClassTypeEnum::REPOSITORY;
 		}
 		return $relation;
 	}
@@ -57,9 +53,7 @@ class RelationRepositoryHelper {
 		if(!empty($relation['foreign']['id'])) {
 			$relation = self::prepare($relation, 'foreign');
 		}
-		if(!empty($relation['foreign'])) {
-			$relation['foreign'] = self::normalizeConfigItemBase($relation['foreign']);
-		}
+		$relation['foreign'] = self::normalizeConfigItemBase($relation['foreign']);
 		return $relation;
 	}
 	
@@ -67,7 +61,9 @@ class RelationRepositoryHelper {
 		if($relation['type'] == RelationEnum::MANY_TO_MANY && !empty($relation['via']['id'])) {
 			$relation = self::prepare($relation, 'via');
 		}
-		$relation = self::normalizeConfigItemForeign($relation);
+		if(!empty($relation['foreign'])) {
+			$relation = self::normalizeConfigItemForeign($relation);
+		}
 		return $relation;
 	}
 	
