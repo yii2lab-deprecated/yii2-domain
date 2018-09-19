@@ -4,10 +4,10 @@ namespace yii2lab\domain\behaviors\query;
 
 use yii\base\Behavior;
 use yii2lab\domain\data\Query;
+use yii2lab\domain\enums\EventEnum;
 use yii2lab\domain\events\QueryEvent;
-use yii2lab\domain\services\base\BaseService;
 
-abstract class PrepareQueryFilter extends Behavior
+abstract class BaseQueryFilter extends Behavior
 {
 	
 	abstract public function prepareQuery(Query $query);
@@ -15,7 +15,7 @@ abstract class PrepareQueryFilter extends Behavior
 	public function events()
 	{
 		return [
-			BaseService::EVENT_PREPARE_QUERY => 'prepareQueryEvent'
+			EventEnum::EVENT_PREPARE_QUERY => 'prepareQueryEvent'
 		];
 	}
 	

@@ -4,7 +4,7 @@ namespace yii2lab\domain\behaviors\query;
 
 use yii2lab\domain\data\Query;
 
-class CurrentUserOnlyFilter extends PrepareQueryFilter {
+class CurrentUserOnlyFilter extends BaseQueryFilter {
 	
 	public $attribute = 'user_id';
 	

@@ -9,7 +9,7 @@ use yii2lab\db\domain\enums\DbDriverEnum;
 use yii2lab\db\domain\helpers\ConnectionHelper;
 use yii2lab\domain\data\Query;
 
-class NullsLastOrderFilter extends PrepareQueryFilter {
+class NullsLastOrderFilter extends BaseQueryFilter {
 	
 	public $attribute;
 	

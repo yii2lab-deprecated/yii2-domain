@@ -47,18 +47,21 @@ class BaseActiveService extends BaseService implements CrudInterface {
 		$query = $this->prepareQuery($query);
 		$searchText = SearchHelper::extractSearchTextFromQuery($query);
 		if(!empty($searchText)) {
-			if($this->repository instanceof SearchInterface) {
-				return $this->repository->searchByText($searchText, $query);
+			if(! $this->repository instanceof SearchInterface) {
+				throw new ServerErrorHttpException(static::class . ' not implement "SearchInterface" functional');
 			}
-			throw new ServerErrorHttpException(static::class . ' not implement "SearchInterface" functional');
+			$dataProvider = $this->repository->searchByText($searchText, $query);
 		}
 		if($this->repository instanceof ReadInterface) {
-			return $this->repository->getDataProvider($query);
+			$dataProvider = $this->repository->getDataProvider($query);
 		}
-		$dataProvider = new ActiveDataProvider([
-			'query' => $query,
-			'service' => $this,
-		]);
+		if(empty($dataProvider)) {
+			$dataProvider = new ActiveDataProvider([
+				'query' => $query,
+				'service' => $this,
+			]);
+		}
+		$dataProvider->models = $this->afterReadTrigger($dataProvider->models);
 		return $dataProvider;
 	}
 	
@@ -92,6 +95,7 @@ class BaseActiveService extends BaseService implements CrudInterface {
 		if(empty($result)) {
 			throw new NotFoundHttpException(__METHOD__ . ':' . __LINE__);
 		}
+		$result = $this->afterReadTrigger($result);
 		return $this->afterAction(self::EVENT_VIEW, $result);
 	}
 	
@@ -114,6 +118,7 @@ class BaseActiveService extends BaseService implements CrudInterface {
 		if(empty($result)) {
 			throw new NotFoundHttpException(__METHOD__ . ':' . __LINE__);
 		}
+		$result = $this->afterReadTrigger($result);
 		return $this->afterAction(self::EVENT_VIEW, $result);
 	}
 	
@@ -130,6 +135,7 @@ class BaseActiveService extends BaseService implements CrudInterface {
 		$query = $this->prepareQuery($query);
 		$this->userAccessOnly($query);
 		$result = $this->repository->all($query);
+		$result = $this->afterReadTrigger($result);
 		return $this->afterAction(self::EVENT_INDEX, $result);
 	}
 	

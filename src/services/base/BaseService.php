@@ -4,7 +4,9 @@ namespace yii2lab\domain\services\base;
 
 use yii2lab\domain\data\Query;
 use yii2lab\domain\Domain;
+use yii2lab\domain\enums\EventEnum;
 use yii2lab\domain\events\QueryEvent;
+use yii2lab\domain\events\ReadEvent;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use Yii;
 use yii\base\Component as YiiComponent;
@@ -20,9 +22,15 @@ use yii2lab\domain\repositories\BaseRepository;
  */
 class BaseService extends YiiComponent {
 	
+	/**
+	 * @deprecated
+	 */
 	const EVENT_BEFORE_ACTION = 'beforeAction';
+	
+	/**
+	 * @deprecated
+	 */
 	const EVENT_AFTER_ACTION = 'afterAction';
-	const EVENT_PREPARE_QUERY = 'EVENT_PREPARE_QUERY';
 	
 	public $id;
 	
@@ -55,8 +63,15 @@ class BaseService extends YiiComponent {
 		$query = Query::forge($query);
 		$event = new QueryEvent();
 		$event->query = $query;
-        $this->trigger(self::EVENT_PREPARE_QUERY, $event);
+        $this->trigger(EventEnum::EVENT_PREPARE_QUERY, $event);
 		return $query;
+	}
+	
+	protected function afterReadTrigger($content) {
+		$event = new ReadEvent();
+		$event->content = $content;
+		$this->trigger(EventEnum::EVENT_AFTER_READ, $event);
+		return $event->content;
 	}
 	
 	/**
