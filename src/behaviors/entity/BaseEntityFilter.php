@@ -10,7 +10,7 @@ use yii2lab\domain\events\ReadEvent;
 abstract class BaseEntityFilter extends Behavior
 {
 	
-	abstract public function prepareContent(BaseEntity $entity);
+	abstract public function prepareContent(BaseEntity $entity, ReadEvent $event);
 	
 	public function events()
 	{
@@ -21,10 +21,10 @@ abstract class BaseEntityFilter extends Behavior
 	
 	public function afterReadEvent(ReadEvent $event) {
 		if($event->content instanceof BaseEntity) {
-			$this->prepareContent($event->content);
+			$this->prepareContent($event->content, $event);
 		} else {
 			foreach($event->content as $entity) {
-				$this->prepareContent($entity);
+				$this->prepareContent($entity, $event);
 			}
 		}
 	}

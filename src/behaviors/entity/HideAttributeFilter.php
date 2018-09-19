@@ -5,13 +5,14 @@ namespace yii2lab\domain\behaviors\entity;
 use yii\web\ForbiddenHttpException;
 use yii\web\UnauthorizedHttpException;
 use yii2lab\domain\BaseEntity;
+use yii2lab\domain\events\ReadEvent;
 
 class HideAttributeFilter extends BaseEntityFilter {
 	
 	public $secureAttributes = [];
 	public $allowOnly = [];
 	
-	public function prepareContent(BaseEntity $entity) {
+	public function prepareContent(BaseEntity $entity, ReadEvent $event) {
 		if($this->isCan()) {
 			return;
 		}

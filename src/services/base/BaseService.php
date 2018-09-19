@@ -2,6 +2,7 @@
 
 namespace yii2lab\domain\services\base;
 
+use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\Domain;
 use yii2lab\domain\enums\EventEnum;
@@ -70,6 +71,7 @@ class BaseService extends YiiComponent {
 	protected function afterReadTrigger($content) {
 		$event = new ReadEvent();
 		$event->content = $content;
+		$event->type = $content instanceof BaseEntity ? ReadEvent::TYPE_ENTITY : ReadEvent::TYPE_COLLECTION;
 		$this->trigger(EventEnum::EVENT_AFTER_READ, $event);
 		return $event->content;
 	}
