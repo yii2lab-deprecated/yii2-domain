@@ -10,7 +10,6 @@ use yii2lab\domain\interfaces\repositories\ReadExistsInterface;
 use yii2lab\domain\interfaces\repositories\SearchInterface;
 use yii2lab\domain\interfaces\services\CrudInterface;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
-use Yii;
 use yii\base\ActionEvent;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
