@@ -5,7 +5,7 @@ namespace yii2lab\domain\helpers\repository;
 use yii\helpers\ArrayHelper;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\enums\RelationEnum;
-use yii2woop\service\domain\v3\enums\RelationClassTypeEnum;
+use yii2lab\domain\enums\RelationClassTypeEnum;
 
 class RelationRepositoryHelper {
 	
