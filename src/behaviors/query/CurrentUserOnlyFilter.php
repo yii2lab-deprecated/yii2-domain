@@ -10,7 +10,8 @@ class CurrentUserOnlyFilter extends BaseQueryFilter {
 	
 	public function prepareQuery(Query $query) {
 		$query->removeWhere($this->attribute);
-		$query->andWhere([$this->attribute => \App::$domain->account->auth->identity->id]);
+		$currentUserId = \App::$domain->account->auth->identity->id;
+		$query->andWhere([$this->attribute => $currentUserId]);
 	}
 	
 }
