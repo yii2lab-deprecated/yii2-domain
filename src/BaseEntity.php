@@ -3,36 +3,21 @@
 namespace yii2lab\domain;
 
 use yii\base\InvalidCallException;
-use yii\base\Event;
 use yii\base\Component;
-use yii\base\InvalidArgumentException;
-use yii\base\ModelEvent;
-use yii2lab\domain\exceptions\ReadOnlyException;
+use yii\helpers\ArrayHelper;
 use yii2lab\domain\helpers\EntityType;
 use yii2lab\domain\helpers\Helper;
 use yii2lab\domain\interfaces\ValueObjectInterface;
 use yii2lab\domain\traits\entity\ValidatorTrait;
 use yii2lab\helpers\ReflectionHelper;
-use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use ReflectionClass;
 use ReflectionProperty;
 use yii\base\Arrayable;
-use yii\helpers\ArrayHelper;
-use yii2lab\validator\DynamicModel;
 use DateTime;
 use Yii;
 use yii\base\Behavior;
 use yii\base\UnknownPropertyException;
 use yii2lab\domain\values\TimeValue;
-use ArrayAccess;
-use ArrayIterator;
-use ArrayObject;
-use IteratorAggregate;
-use yii\helpers\Inflector;
-use yii\validators\RequiredValidator;
-use yii\validators\Validator;
-
-// todo: implement Model interfaces
 
 class BaseEntity extends Component implements Arrayable {
 
@@ -46,6 +31,7 @@ class BaseEntity extends Component implements Arrayable {
     const EVENT_AFTER_VALIDATE = 'afterValidate';
 	
 	private $old_attributes = [];
+	private $hidden_attributes = [];
 
 	public function fieldType() {
 		return [];
@@ -85,16 +71,6 @@ class BaseEntity extends Component implements Arrayable {
 		$this->init();
 	}
 	
-	/*public function validate() {
-		$form = new DynamicModel();
-		$form->loadRules($this->rules());
-		$form->loadData($this->toArray());
-        $form->loadAttributeLabels($this->labels());
-		if(!$form->validate()) {
-			throw new UnprocessableEntityHttpException($form);
-		}
-	}*/
-
 	public function getConstantEnum($prefix = null) {
 		$enums = ReflectionHelper::getConstantsValuesByPrefix($this, $prefix);
 		return $enums;
@@ -135,8 +111,13 @@ class BaseEntity extends Component implements Arrayable {
         }
         return $result;
     }
-
-    public static function attributes() {
+	
+	public function hideAttributes($attributes) {
+		$attributes = ArrayHelper::toArray($attributes);
+		$this->hidden_attributes = ArrayHelper::merge($attributes, $this->hidden_attributes);
+	}
+    
+    public function attributes() {
         $class = new ReflectionClass(static::class);
         $propertyTypes = ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED;
         $properties = $class->getProperties($propertyTypes);
@@ -144,6 +125,8 @@ class BaseEntity extends Component implements Arrayable {
         foreach($properties as $property) {
             $names[] = $property->getName();
         }
+	    $names = array_diff($names, $this->hidden_attributes);
+	    $names = array_values($names);
         return $names;
     }
 

@@ -3,11 +3,7 @@
 namespace tests\unit\domain;
 
 use tests\_source\entities\CityEntity;
-use yii\base\InvalidArgumentException;
-use yii2lab\domain\data\Collection;
-use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
-use tests\_source\entities\CountryEntity;
-use tests\_source\entities\CurrencyEntity;
+use yii\base\InvalidCallException;
 use yii2lab\test\Test\Unit;
 
 class BaseEntityAttributesTest extends Unit {
@@ -157,7 +153,7 @@ class BaseEntityAttributesTest extends Unit {
         try {
             $entity->id = 88;
             $this->tester->assertTrue(false);
-        } catch (\yii\base\InvalidCallException $e) {
+        } catch (InvalidCallException $e) {
             $this->tester->assertExceptionMessage('Setting read-only property: tests\_source\entities\CityEntity::id', $e);
         }
 
@@ -166,8 +162,47 @@ class BaseEntityAttributesTest extends Unit {
                 'id' => '7',
             ]);
             $this->tester->assertTrue(false);
-        } catch (\yii\base\InvalidCallException $e) {
+        } catch (InvalidCallException $e) {
             $this->tester->assertExceptionMessage('Setting read-only property: tests\_source\entities\CityEntity::id', $e);
         }
     }
+	
+	public function testHideAttributes() {
+		$entity = new CityEntity();
+		$entity->load([
+			'id' => '7',
+			'country_id' => '4',
+			'region_id' => '5',
+			'name' => 'Бендиго',
+		]);
+		
+		$entity->hideAttributes(['name']);
+		$actual = $entity->toArray();
+		$expected = [
+			'id' => 7,
+			'type' => null,
+			'country_id' => 4,
+			'region_id' => 5,
+			'country' => null,
+			'region' => null,
+			'streets' => null,
+			'created_at' => null,
+		];
+		$this->tester->assertEquals($expected, $actual);
+		$this->tester->assertEquals('Бендиго', $entity->name);
+		
+		$actual = $entity->attributes();
+		$expected = [
+			'id',
+			'type',
+			'country_id',
+			'region_id',
+			'country',
+			'region',
+			'streets',
+			'created_at',
+			'hash',
+		];
+		$this->tester->assertEquals($expected, $actual);
+	}
 }
