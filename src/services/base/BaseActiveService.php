@@ -17,6 +17,7 @@ use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
 use yii2lab\domain\data\ActiveDataProvider;
 use yii2lab\domain\interfaces\repositories\ReadInterface;
+use yii2lab\domain\interfaces\services\ReadPaginationInterface;
 use yii2lab\extension\activeRecord\helpers\SearchHelper;
 
 /**
@@ -51,7 +52,7 @@ class BaseActiveService extends BaseService implements CrudInterface {
 			}
 			$dataProvider = $this->repository->searchByText($searchText, $query);
 		}
-		if($this->repository instanceof ReadInterface) {
+		if($this->repository instanceof ReadPaginationInterface) {
 			$dataProvider = $this->repository->getDataProvider($query);
 		}
 		if(empty($dataProvider)) {
