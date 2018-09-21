@@ -2,19 +2,21 @@
 
 namespace yii2lab\domain\behaviors\entity;
 
-use yii\web\ForbiddenHttpException;
-use yii\web\UnauthorizedHttpException;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\events\ReadEvent;
-use yii2lab\extension\yii\helpers\ArrayHelper;
 
 class HideAttributeFilter extends BaseEntityFilter {
 	
+	const ACTION_HIDE = 'ACTION_HIDE';
+	const ACTION_SET_NULL = 'ACTION_SET_NULL';
+	
 	public $secureAttributes = [];
 	public $allowOnly = [];
+	public $action = self::ACTION_HIDE;
 	
 	public function prepareContent(BaseEntity $entity, ReadEvent $event) {
-		if(!$this->isAllow()) {
+		$isAllow = \App::$domain->rbac->manager->isAllow($this->allowOnly);
+		if(!$isAllow) {
 			$this->hideAttributes($entity);
 		}
 	}
@@ -23,37 +25,13 @@ class HideAttributeFilter extends BaseEntityFilter {
 		if(empty($this->secureAttributes)) {
 			return;
 		}
-		foreach($this->secureAttributes as $attribute) {
-			$entity->{$attribute} = null;
-		}
-	}
-	
-	private function isAllow() {
-		if(empty($this->allowOnly)) {
-			return false;
-		}
-		$allowOnlyPermissions = ArrayHelper::toArray($this->allowOnly);
-		foreach($allowOnlyPermissions as $allowOnlyPermission) {
-			try {
-				$isAllow = \App::$domain->rbac->manager->checkAccess(\App::$domain->account->auth->identity->id, $allowOnlyPermission);
-			} catch(ForbiddenHttpException $e) {
-				$isAllow = false;
-			} catch(UnauthorizedHttpException $e) {
-				$isAllow = false;
-			}
-			if($isAllow) {
-				return true;
+		if($this->action == self::ACTION_HIDE) {
+			$entity->hideAttributes($this->secureAttributes);
+		} else {
+			foreach($this->secureAttributes as $attribute) {
+				$entity->{$attribute} = null;
 			}
 		}
-		return false;
-		/*try {
-			\App::$domain->rbac->manager->can($this->allowOnly);
-			return true;
-		} catch(ForbiddenHttpException $e) {
-			return false;
-		} catch(UnauthorizedHttpException $e) {
-			return false;
-		}*/
 	}
 	
 }
