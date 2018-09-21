@@ -2,7 +2,6 @@
 
 namespace yii2lab\domain\helpers;
 
-use Yii;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
 use yii\base\UnknownPropertyException;
@@ -10,7 +9,7 @@ use yii\web\NotFoundHttpException;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\entities\ServiceExecutorEntity;
 use yii2lab\domain\interfaces\services\ReadOneInterface;
-use yii2lab\domain\services\BaseService;
+use yii2lab\domain\services\base\BaseService;
 use yii2mod\helpers\ArrayHelper;
 
 class ServiceHelper {

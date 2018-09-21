@@ -8,6 +8,13 @@ use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\enums\RelationEnum;
 
+/**
+ * Class RelationHelper
+ *
+ * @package yii2lab\domain\helpers
+ *
+ * @deprecated
+ */
 class RelationHelper {
 	
 	private static function extractName($w) {
