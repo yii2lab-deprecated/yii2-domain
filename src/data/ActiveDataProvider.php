@@ -104,7 +104,10 @@ class ActiveDataProvider extends BaseDataProvider {
 	private function prepareQueryFromPagination(Pagination $pagination) : Query {
 		$query = $this->cloneQueryClass();
 		$offset = $query->getParam('offset', 'integer');
-		$pagination->setPageSize($query->getParam('per-page', 'integer'), true);
+		$perPage = $query->getParam('per-page', 'integer');
+		if($perPage) {
+			$pagination->setPageSize($perPage, true);
+		}
 		$offset = $this->normalizeOffset($offset, $pagination);
 		$query->limit($pagination->getLimit())->offset($offset);
 		return $query;
