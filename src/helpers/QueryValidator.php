@@ -3,6 +3,7 @@
 namespace yii2lab\domain\helpers;
 
 use Yii;
+use yii\db\Expression;
 use yii2lab\domain\data\Query;
 use yii\base\BaseObject;
 use yii\web\BadRequestHttpException;
@@ -49,8 +50,13 @@ class QueryValidator extends BaseObject {
 			throw new BadQueryHttpException(Yii::t('domain/exception', 'not_allowed_to_use_parameter_in_' . $type));
 		}
 		foreach($data as $name => $value) {
-			if(!in_array($name, $fields)) {
-				throw new BadQueryHttpException(Yii::t('domain/exception', 'not_allowed_to_use_parameter_in_' . $type . ' {parameter}', ['parameter' => $name]));
+			if($value instanceof Expression) {
+			
+			} else {
+				if(!in_array($name, $fields)) {
+					prr(($value),1,1);
+					throw new BadQueryHttpException(Yii::t('domain/exception', 'not_allowed_to_use_parameter_in_' . $type . ' {parameter}', ['parameter' => $name]));
+				}
 			}
 		}
 		return $data;
