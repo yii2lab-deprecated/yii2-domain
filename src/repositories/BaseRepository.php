@@ -6,6 +6,8 @@ use yii2lab\domain\Alias;
 use yii2lab\domain\data\ActiveDataProvider;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\Domain;
+use yii2lab\domain\enums\EventEnum;
+use yii2lab\domain\events\QueryEvent;
 use yii2lab\domain\helpers\QueryValidator;
 use yii2lab\domain\helpers\repository\QueryFilter;
 use yii2lab\domain\interfaces\repositories\ReadInterface;
@@ -131,6 +133,9 @@ abstract class BaseRepository extends Component {
 	
 	protected function prepareQuery(Query $query = null) {
 		$query = Query::forge($query);
+		$event = new QueryEvent();
+		$event->query = $query;
+		$this->trigger(EventEnum::EVENT_PREPARE_QUERY, $event);
 		return $query;
 	}
 	
