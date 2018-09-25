@@ -12,6 +12,12 @@ use yii2mod\helpers\ArrayHelper;
 
 class DomainHelper {
 	
+	public static function defineDomains($config) {
+		foreach($config as $id => $definition) {
+			self::defineDomain($id, $definition);
+		}
+	}
+	
 	public static function defineDomain($id, $class) {
 		$domainDefinition = DomainHelper::getClassConfig($id, $class);
 		self::define($id, $domainDefinition);
@@ -33,7 +39,7 @@ class DomainHelper {
 	 *
 	 * @throws \yii\base\InvalidConfigException
 	 */
-	public static function define($domainId, $definition) {
+	private static function define($domainId, $definition) {
 		$definition = ConfigHelper::normalizeItemConfig($domainId, $definition);
 		if(!\App::$domain->has($domainId)) {
 			\App::$domain->set($domainId, $definition);
