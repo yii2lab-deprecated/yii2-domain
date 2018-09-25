@@ -16,9 +16,9 @@ use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
 use yii2lab\domain\data\ActiveDataProvider;
-use yii2lab\domain\interfaces\repositories\ReadInterface;
 use yii2lab\domain\interfaces\services\ReadPaginationInterface;
 use yii2lab\extension\activeRecord\helpers\SearchHelper;
+use yii2lab\extension\common\exceptions\DeprecatedException;
 
 /**
  * Class ActiveBaseService
@@ -38,10 +38,6 @@ class BaseActiveService extends BaseService implements CrudInterface {
 	/** @var \yii2lab\domain\BaseEntity */
 	public $foreignServices;
 	public $forbiddenChangeFields;
-	
-	/** @var bool private data for user */
-	public $userAccessOnly = false;
-	public $userIdField = 'user_id';
 	
 	public function getDataProvider(Query $query = null) {
 		$query = $this->prepareQuery($query);
@@ -65,18 +61,8 @@ class BaseActiveService extends BaseService implements CrudInterface {
 		return $dataProvider;
 	}
 	
-	private function userAccessOnly(Query $query) {
-		if($this->userAccessOnly) {
-			$userId = \App::$domain->account->auth->identity->id;
-			$query->where($this->userIdField, "$userId");
-		}
-	}
-	
 	protected function addUserId(BaseEntity $entity) {
-		if($this->userAccessOnly) {
-			$userId = \App::$domain->account->auth->identity->id;
-			$entity->{$this->userIdField} = $userId;
-		}
+		throw new DeprecatedException(__METHOD__);
 	}
 	
 	public function isExistsById($id) {
@@ -90,7 +76,6 @@ class BaseActiveService extends BaseService implements CrudInterface {
 	public function one(Query $query = null) {
 		$this->beforeAction(self::EVENT_VIEW);
 		$query = $this->prepareQuery($query);
-		$this->userAccessOnly($query);
 		$result = $this->repository->one($query);
 		if(empty($result)) {
 			throw new NotFoundHttpException(__METHOD__ . ':' . __LINE__);
@@ -113,7 +98,6 @@ class BaseActiveService extends BaseService implements CrudInterface {
 		}
 		$this->beforeAction(self::EVENT_VIEW);
 		$query = $this->prepareQuery($query);
-		$this->userAccessOnly($query);
 		$result = $this->repository->oneById($id, $query);
 		if(empty($result)) {
 			throw new NotFoundHttpException(__METHOD__ . ':' . __LINE__);
@@ -125,7 +109,6 @@ class BaseActiveService extends BaseService implements CrudInterface {
 	public function count(Query $query = null) {
 		$this->beforeAction(self::EVENT_INDEX);
 		$query = $this->prepareQuery($query);
-		$this->userAccessOnly($query);
 		$result = $this->repository->count($query);
 		return $this->afterAction(self::EVENT_INDEX, $result);
 	}
@@ -133,7 +116,6 @@ class BaseActiveService extends BaseService implements CrudInterface {
 	public function all(Query $query = null) {
 		$this->beforeAction(self::EVENT_INDEX);
 		$query = $this->prepareQuery($query);
-		$this->userAccessOnly($query);
 		$result = $this->repository->all($query);
 		$result = $this->afterReadTrigger($result);
 		return $this->afterAction(self::EVENT_INDEX, $result);
@@ -148,7 +130,6 @@ class BaseActiveService extends BaseService implements CrudInterface {
 		$entity = $this->domain->factory->entity->create($this->id, $data);
 		
 		$entity->validate();
-		$this->addUserId($entity);
 		$entity = $this->repository->insert($entity);
 		return $this->afterAction(self::EVENT_CREATE, $entity);
 	}
@@ -160,7 +141,6 @@ class BaseActiveService extends BaseService implements CrudInterface {
 		$this->validateForeign($data);
 		$this->validateForbiddenChangeFields($data);
 		$entity->validate();
-		$this->addUserId($entity);
 		$this->repository->update($entity);
 		return $this->afterAction(self::EVENT_UPDATE);
 	}
@@ -173,7 +153,6 @@ class BaseActiveService extends BaseService implements CrudInterface {
 		$entity = $this->oneById($id);
 		$entity->load($data);
 		$entity->validate();
-		$this->addUserId($entity);
 		$this->repository->update($entity);
 		return $this->afterAction(self::EVENT_UPDATE, $entity);
 	}
@@ -181,7 +160,6 @@ class BaseActiveService extends BaseService implements CrudInterface {
 	public function deleteById($id) {
 		$this->beforeAction(self::EVENT_DELETE);
 		$entity = $this->oneById($id);
-		$this->addUserId($entity);
 		$this->repository->delete($entity);
 		return $this->afterAction(self::EVENT_DELETE);
 	}
