@@ -96,34 +96,35 @@ trait ActiveRepositoryTrait {
 	}
 	
 	protected function findUniqueItem(BaseEntity $entity, $uniqueItem, $isUpdate = false) {
-		$condition = [];
-		if(!empty($uniqueItem) && is_array($uniqueItem)) {
-			foreach($uniqueItem as $name) {
-				$entityValue = $entity->{$name};
-				if(!empty($entityValue)) {
-					$condition[ $name ] = $entityValue;
-				}
-			}
-		}
-		if(empty($condition)) {
-			return;
-		}
-		try {
-			$first = $this->oneModelByCondition($condition);
-			$encodedPkName = $this->getAlias()->encode($this->primaryKey);
-			if($isUpdate && $entity->{$this->primaryKey} == $first[$encodedPkName]) {
-
-			} else {
-				$error = new ErrorCollection();
-				foreach($uniqueItem as $name) {
-					$error->add($name, 'db', 'already_exists {value}', ['value' => $entity->{$name}]);
-				}
-				throw new UnprocessableEntityHttpException($error);
-			}
-
-		} catch(NotFoundHttpException $e) {
-			
-		}
+	    $condition = [];
+	    if(!empty($uniqueItem) && is_array($uniqueItem)) {
+	        foreach($uniqueItem as $name) {
+	            $entityValue = $entity->{$name};
+	            if(!empty($entityValue)) {
+	                $condition[ $name ] = $entityValue;
+	            }
+	        }
+	    }
+	    if(empty($condition)) {
+	        return;
+	    }
+	    try {
+	        $first = $this->oneModelByCondition($condition);
+	        if(!empty($this->primaryKey)) {
+	            $encodedPkName = $this->getAlias()->encode($this->primaryKey);
+	            if($isUpdate && $entity->{$this->primaryKey} == $first[$encodedPkName]) {
+	                
+	            } else {
+	                $error = new ErrorCollection();
+	                foreach($uniqueItem as $name) {
+	                    $error->add($name, 'domain/db', 'already_exists {value}', ['value' => $entity->{$name}]);
+	                }
+	                throw new UnprocessableEntityHttpException($error);
+	            }
+	        }
+	    } catch(NotFoundHttpException $e) {
+	        
+	    }
 	}
 	
 }

@@ -69,12 +69,20 @@ class ActiveArRepository extends ArRepository implements ReadInterface, ModifyIn
 	}
 	
 	public function update(BaseEntity $entity) {
-		$entity->validate();
-		$this->findUnique($entity, true);
-		$entityPk = $entity->{$this->primaryKey};
-		$model = $this->findOne([$this->primaryKey => $entityPk]);
-		$this->massAssignment($model, $entity, self::SCENARIO_UPDATE);
-		$this->saveModel($model);
+	    $entity->validate();
+	    $this->findUnique($entity, true);
+	    
+	    if(!empty($this->primaryKey)) {
+	        $entityPk = $entity->{$this->primaryKey};
+	        $condition = [$this->primaryKey => $entityPk];
+	    } else {
+	        $condition = $entity->toArray();
+	        $uniqueFields = ArrayHelper::getValue($this->uniqueFields(), '0', []);
+	        $condition = \yii2lab\extension\yii\helpers\ArrayHelper::extractByKeys($condition, $uniqueFields);
+	    }
+	    $model = $this->findOne($condition);
+	    $this->massAssignment($model, $entity, self::SCENARIO_UPDATE);
+	    $this->saveModel($model);
 	}
 	
 	public function delete(BaseEntity $entity) {
