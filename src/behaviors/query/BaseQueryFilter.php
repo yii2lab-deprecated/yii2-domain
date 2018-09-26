@@ -22,11 +22,18 @@ abstract class BaseQueryFilter extends Behavior
 	}
 	
 	public function prepareQueryEvent(QueryEvent $event) {
-		if($this->callback && is_callable($this->callback)) {
-			call_user_func($this->callback, $event->query);
-		} else {
+		if(!$this->runCallback($event)) {
 			$this->prepareQuery($event->query);
 		}
+	}
+	
+	protected function runCallback($event) {
+		$isCallback = $this->callback && is_callable($this->callback);
+		if(!$isCallback) {
+			return false;
+		}
+		call_user_func($this->callback, $event);
+		return true;
 	}
 	
 }

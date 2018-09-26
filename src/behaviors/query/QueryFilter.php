@@ -29,8 +29,7 @@ class QueryFilter extends BaseQueryFilter {
 	public $params;
 	
 	public function prepareQuery(Query $query) {
-		$method = $this->method;
-		$query->$method($this->params);
+		call_user_func([$query, $this->method], $this->params);
 	}
 	
 }
