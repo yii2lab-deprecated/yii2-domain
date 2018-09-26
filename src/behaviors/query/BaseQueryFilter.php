@@ -10,6 +10,8 @@ use yii2lab\domain\events\QueryEvent;
 abstract class BaseQueryFilter extends Behavior
 {
 	
+	public $callback;
+	
 	abstract public function prepareQuery(Query $query);
 	
 	public function events()
@@ -20,7 +22,11 @@ abstract class BaseQueryFilter extends Behavior
 	}
 	
 	public function prepareQueryEvent(QueryEvent $event) {
-		$this->prepareQuery($event->query);
+		if($this->callback && is_callable($this->callback)) {
+			call_user_func($this->callback, $event->query);
+		} else {
+			$this->prepareQuery($event->query);
+		}
 	}
 	
 }

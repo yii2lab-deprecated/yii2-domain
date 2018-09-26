@@ -16,6 +16,9 @@ use yii2lab\domain\data\Query;
  * 'class' => QueryFilter::class,
  * 'method' => 'addOrderBy',
  * 'value' => ['priority' => SORT_DESC],
+ * 'callback' => function(Query $query) {
+ * $query->addOrderBy(['sort' => SORT_ASC]);
+ * }
  * ],
  *
  * @package yii2lab\domain\behaviors\query
