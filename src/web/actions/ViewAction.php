@@ -7,10 +7,11 @@ use yii2lab\domain\base\Action;
 class ViewAction extends Action {
 	
 	public $serviceMethod = 'oneById';
+	public $query;
 	
 	public function run($id) {
 		$method = $this->serviceMethod;
-		$entity = $this->service->$method($id);
+		$entity = $this->service->$method($id, $this->query);
 		$titleName = $this->titleName;
 		if(!isset($entity->{$titleName})) {
 			$this->view->title = $entity->{$titleName};

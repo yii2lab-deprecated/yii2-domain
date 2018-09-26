@@ -10,6 +10,7 @@ use yii2lab\domain\data\Query;
 class IndexAction extends Action {
 	
 	public $serviceMethod = 'getDataProvider';
+	public $query;
 	
 	public function run() {
 		$this->view->title = Yii::t('main', 'list_title');
