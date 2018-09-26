@@ -66,10 +66,12 @@ class BaseActiveService extends BaseService implements CrudInterface {
 	}
 	
 	public function isExistsById($id) {
+		$this->beforeAction(self::EVENT_VIEW);
 		return $this->repository->isExistsById($id);
 	}
 	
 	public function isExists($condition) {
+		$this->beforeAction(self::EVENT_VIEW);
 		return $this->repository->isExists($condition);
 	}
 	

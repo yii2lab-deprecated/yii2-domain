@@ -55,9 +55,9 @@ trait ReadOneTrait {
 	
 	public function oneById($id, Query $query = null) {
 		/** @var Query $query */
-		$query = $this->prepareQuery($query);
-		$query->removeParam('where');
-		$query->where($this->primaryKey, $id);
+		$query = Query::forge($query);
+		//$query->removeParam('where');
+		$query->andWhere([$this->primaryKey => $id]);
 		return $this->one($query);
 	}
 	
