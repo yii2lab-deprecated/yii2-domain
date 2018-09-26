@@ -103,18 +103,26 @@ class ActiveDataProvider extends BaseDataProvider {
 	
 	private function prepareQueryFromPagination(Pagination $pagination) : Query {
 		$query = $this->cloneQueryClass();
-		$offset = $query->getParam('offset', 'integer');
+		$offset = $query->getParam('offset');
+		$page = $query->getParam('page');
 		$perPage = $query->getParam('per-page', 'integer');
 		if($perPage) {
 			$pagination->setPageSize($perPage, true);
 		}
+		/*if($page !== null) {
+			$offset = $pagination->getLimit() * ($page + 1);
+		} elseif($offset !== null) {
+			$offset = $this->normalizeOffset($offset, $pagination);
+		}*/
 		$offset = $this->normalizeOffset($offset, $pagination);
-		$query->limit($pagination->getLimit())->offset($offset);
+		
+		$query->limit($pagination->getLimit());
+		$query->offset($offset);
 		return $query;
 	}
 	
 	private function normalizeOffset($offset, Pagination $pagination) : int {
-		if($offset == 0) {
+		if($offset === null) {
 			$offset = $pagination->getOffset();
 		} else {
 			$offset = $offset < $pagination->totalCount ? $offset : $pagination->totalCount;
