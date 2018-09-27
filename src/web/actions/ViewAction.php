@@ -7,7 +7,6 @@ use yii2lab\domain\base\Action;
 class ViewAction extends Action {
 	
 	public $serviceMethod = 'oneById';
-	public $query;
 	
 	public function run($id) {
 		$method = $this->serviceMethod;

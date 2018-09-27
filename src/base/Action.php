@@ -7,6 +7,7 @@ use yii\base\Action as YiiAction;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\web\ActiveController;
 use yii2lab\extension\web\helpers\ControllerHelper;
+use yii2lab\helpers\ClientHelper;
 
 /**
  * Class Action
@@ -38,6 +39,7 @@ class Action extends YiiAction {
 		$this->initControllerProp('service');
 		$this->initControllerProp('view');
 		$this->baseUrl = $this->controller->getBaseUrl();
+		$this->query = ClientHelper::getQueryFromRequest(Yii::$app->request->getQueryParams());
 	}
 	
 	protected function createForm($defaultValue = null) {

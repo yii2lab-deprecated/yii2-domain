@@ -10,14 +10,13 @@ use yii2lab\domain\data\Query;
 class IndexAction extends Action {
 	
 	public $serviceMethod = 'getDataProvider';
-	public $query;
 	
 	public function run() {
 		$this->view->title = Yii::t('main', 'list_title');
 		$method = $this->serviceMethod;
 		/** @var ActiveDataProvider $dataProvider */
-		$dataProvider = $this->service->$method();
-		$dataProvider->query = Query::forge($this->query);
+		$dataProvider = $this->service->$method($this->query);
+		//$dataProvider->query = Query::forge($this->query);
 		return $this->render($this->render, compact('dataProvider'));
 	}
 }
