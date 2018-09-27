@@ -39,7 +39,9 @@ class Action extends YiiAction {
 		$this->initControllerProp('service');
 		$this->initControllerProp('view');
 		$this->baseUrl = $this->controller->getBaseUrl();
-		$this->query = ClientHelper::getQueryFromRequest(Yii::$app->request->getQueryParams());
+		if(!isset($this->query)) {
+			$this->query = ClientHelper::getQueryFromRequest(Yii::$app->request->getQueryParams());
+		}
 	}
 	
 	protected function createForm($defaultValue = null) {
