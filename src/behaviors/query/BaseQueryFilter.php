@@ -6,18 +6,17 @@ use yii\base\Behavior;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\enums\EventEnum;
 use yii2lab\domain\events\QueryEvent;
+use yii2lab\domain\traits\behavior\CallbackTrait;
 
-abstract class BaseQueryFilter extends Behavior
-{
+abstract class BaseQueryFilter extends Behavior {
 	
-	public $callback;
+	use CallbackTrait;
 	
 	abstract public function prepareQuery(Query $query);
 	
-	public function events()
-	{
+	public function events() {
 		return [
-			EventEnum::EVENT_PREPARE_QUERY => 'prepareQueryEvent'
+			EventEnum::EVENT_PREPARE_QUERY => 'prepareQueryEvent',
 		];
 	}
 	
@@ -25,15 +24,6 @@ abstract class BaseQueryFilter extends Behavior
 		if(!$this->runCallback($event)) {
 			$this->prepareQuery($event->query);
 		}
-	}
-	
-	protected function runCallback($event) {
-		$isCallback = $this->callback && is_callable($this->callback);
-		if(!$isCallback) {
-			return false;
-		}
-		call_user_func($this->callback, $event);
-		return true;
 	}
 	
 }

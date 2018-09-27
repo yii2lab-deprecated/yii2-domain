@@ -7,26 +7,28 @@ use yii2lab\domain\BaseEntity;
 use yii2lab\domain\enums\EventEnum;
 use yii2lab\domain\events\ReadEvent;
 
-abstract class BaseEntityFilter extends Behavior
-{
+abstract class BaseEntityFilter extends Behavior {
 	
 	abstract public function prepareContent(BaseEntity $entity, ReadEvent $event);
 	
-	public function events()
-	{
+	public function events() {
 		return [
-			EventEnum::EVENT_AFTER_READ => 'afterReadEvent'
+			EventEnum::EVENT_AFTER_READ => 'prepare',
 		];
 	}
 	
-	public function afterReadEvent(ReadEvent $event) {
-		if($event->content instanceof BaseEntity) {
+	public function prepare(ReadEvent $event) {
+		if($this->isEntity($event->content)) {
 			$this->prepareContent($event->content, $event);
 		} else {
 			foreach($event->content as $entity) {
 				$this->prepareContent($entity, $event);
 			}
 		}
+	}
+	
+	protected function isEntity($content) {
+		return $content instanceof BaseEntity;
 	}
 	
 }
