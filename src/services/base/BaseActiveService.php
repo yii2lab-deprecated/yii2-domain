@@ -39,6 +39,10 @@ class BaseActiveService extends BaseService implements CrudInterface {
 	public $foreignServices;
 	public $forbiddenChangeFields;
 	
+	public function sort() {
+		return [];
+	}
+	
 	public function getDataProvider(Query $query = null) {
 		$query = $this->prepareQuery($query);
 		$searchText = SearchHelper::extractSearchTextFromQuery($query);
@@ -58,6 +62,7 @@ class BaseActiveService extends BaseService implements CrudInterface {
 			]);
 		}
 		$dataProvider->models = $this->afterReadTrigger($dataProvider->models);
+		$dataProvider->sort = $this->sort();
 		return $dataProvider;
 	}
 	
