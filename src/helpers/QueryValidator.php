@@ -54,7 +54,6 @@ class QueryValidator extends BaseObject {
 			
 			} else {
 				if(!in_array($name, $fields)) {
-					prr(($value),1,1);
 					throw new BadQueryHttpException(Yii::t('domain/exception', 'not_allowed_to_use_parameter_in_' . $type . ' {parameter}', ['parameter' => $name]));
 				}
 			}
