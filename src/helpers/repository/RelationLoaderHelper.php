@@ -5,6 +5,7 @@ namespace yii2lab\domain\helpers\repository;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\dto\WithDto;
 use yii2lab\domain\enums\RelationEnum;
+use yii2lab\helpers\PhpHelper;
 use yii2mod\helpers\ArrayHelper;
 use yii2lab\extension\arrayTools\helpers\ArrayIterator;
 use yii2lab\domain\data\Query;
@@ -23,13 +24,34 @@ class RelationLoaderHelper {
 		return null;
 	}
 	
+	private static function prepareValue($data, WithDto $w) {
+		if(ArrayHelper::isIndexed($data)) {
+			foreach($data as &$item) {
+				$item = self::prepareValue($item, $w);
+			}
+			return $data;
+		}
+		$value = ArrayHelper::getValue($w->relationConfig, 'foreign.value');
+		if($value) {
+			/*if(is_callable($value)) {
+				$data = call_user_func_array($value, [$data]);
+			} else {
+				$data = $value;
+			}*/
+			$data = PhpHelper::runValue($value, [$data]);
+		}
+		return $data;
+	}
+	
 	private static function one(BaseEntity $entity, WithDto $w, $relCollection) {
 		$fieldValue = $entity->{$w->relationConfig['field']};
 		if(empty($fieldValue)) {
 			return $w->relationConfig;
 		}
 		if(array_key_exists($fieldValue, $relCollection)) {
-			$entity->{$w->relationName} = $relCollection[$fieldValue];
+			$data = $relCollection[$fieldValue];
+			$data = self::prepareValue($data, $w);
+			$entity->{$w->relationName} = $data;
 		}
 		return $w->relationConfig;
 	}
@@ -41,7 +63,9 @@ class RelationLoaderHelper {
 		}
 		$query = Query::forge();
 		$query->where($w->relationConfig['foreign']['field'], $fieldValue);
-		$entity->{$w->relationName} = ArrayIterator::allFromArray($query, $relCollection);
+		$data = ArrayIterator::allFromArray($query, $relCollection);
+		$data = self::prepareValue($data, $w);
+		$entity->{$w->relationName} = $data;
 		return $w->relationConfig;
 	}
 	
@@ -56,7 +80,9 @@ class RelationLoaderHelper {
 		$foreignIds = ArrayHelper::getColumn($viaData, $viaRelationToForeign['field']);
 		$query = Query::forge();
 		$query->where($viaRelationToForeign['foreign']['field'], $foreignIds);
-		$entity->{$w->relationName} = RelationRepositoryHelper::getAll($viaRelationToForeign['foreign'], $query);
+		$data = RelationRepositoryHelper::getAll($viaRelationToForeign['foreign'], $query);
+		$data = self::prepareValue($data, $w);
+		$entity->{$w->relationName} = $data;
 		return $viaRelationToForeign;
 	}
 	
