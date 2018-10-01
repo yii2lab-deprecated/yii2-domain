@@ -31,12 +31,16 @@ class IndexAction extends Action {
 			$params = Yii::$app->getRequest()->getQueryParams();
 			if(!empty($params[$formName])) {
 				$this->query->removeWhere($formName);
-				foreach($params[$formName] as $name => $value) {
-					if($value !== '') {
-						$this->query->andWhere([$name => $value]);
+				$searchModel->load($params);
+				if(method_exists($searchModel, 'prepareQuery')) {
+					$searchModel->prepareQuery($this->query);
+				} else {
+					foreach($params[$formName] as $name => $value) {
+						if($value !== '') {
+							$this->query->andWhere([$name => $value]);
+						}
 					}
 				}
-				$searchModel->load($params);
 			}
 		}
 		return $searchModel;
