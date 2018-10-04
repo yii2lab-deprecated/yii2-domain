@@ -5,7 +5,7 @@ namespace yii2lab\domain\helpers;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii2lab\helpers\ClassHelper;
-use yii2lab\helpers\Helper;
+use yii2lab\extension\common\helpers\Helper;
 
 class ConfigHelper {
 	
