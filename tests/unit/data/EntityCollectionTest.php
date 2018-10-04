@@ -8,7 +8,7 @@ use yii\base\InvalidArgumentException;
 use yii2lab\domain\data\EntityCollection;
 use yii2lab\test\Test\Unit;
 use yii\base\ErrorException;
-use yii2lab\domain\data\Collection;
+use yii2lab\extension\arrayTools\helpers\Collection;
 
 class EntityCollectionTest extends Unit {
 	

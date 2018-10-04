@@ -4,7 +4,7 @@ namespace yii2lab\domain\events;
 
 use yii\base\Event;
 use yii2lab\domain\BaseEntity;
-use yii2lab\domain\data\Collection;
+use yii2lab\extension\arrayTools\helpers\Collection;
 
 class ReadEvent extends Event {
 	

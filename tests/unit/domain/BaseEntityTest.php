@@ -4,7 +4,7 @@ namespace tests\unit\domain;
 
 use tests\_source\entities\CityEntity;
 use yii\base\InvalidArgumentException;
-use yii2lab\domain\data\Collection;
+use yii2lab\extension\arrayTools\helpers\Collection;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use tests\_source\entities\CountryEntity;
 use tests\_source\entities\CurrencyEntity;

@@ -3,7 +3,7 @@
 namespace yii2lab\domain\helpers\repository;
 
 use Yii;
-use yii2lab\domain\data\Collection;
+use yii2lab\extension\arrayTools\helpers\Collection;
 use yii2lab\domain\data\EntityCollection;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\dto\WithDto;
