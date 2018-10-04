@@ -2,7 +2,7 @@
 
 namespace yii2lab\domain\factories;
 
-use yii2lab\helpers\ClassHelper;
+use yii2lab\extension\common\helpers\ClassHelper;
 
 abstract class BaseLocatorFactory extends BaseFactory {
 

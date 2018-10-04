@@ -4,7 +4,7 @@ namespace yii2lab\domain\values;
 
 use yii2lab\extension\arrayTools\helpers\Collection;
 use yii2lab\extension\arrayTools\base\BaseCollection;
-use yii2lab\helpers\ClassHelper;
+use yii2lab\extension\common\helpers\ClassHelper;
 use yii2mod\helpers\ArrayHelper;
 
 class ArrayValue extends BaseValue {

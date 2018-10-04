@@ -3,7 +3,7 @@
 namespace yii2lab\domain\helpers\types;
 
 use yii\base\InvalidArgumentException;
-use yii2lab\helpers\ClassHelper;
+use yii2lab\extension\common\helpers\ClassHelper;
 
 abstract class BaseType {
 	

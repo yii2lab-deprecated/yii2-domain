@@ -6,7 +6,7 @@ use Yii;
 use yii\base\InvalidArgumentException;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\Domain;
-use yii2lab\helpers\ClassHelper;
+use yii2lab\extension\common\helpers\ClassHelper;
 use yii2lab\extension\common\helpers\Helper;
 use yii2mod\helpers\ArrayHelper;
 
