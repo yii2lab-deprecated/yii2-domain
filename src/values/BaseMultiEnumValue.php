@@ -3,7 +3,7 @@
 namespace yii2lab\domain\values;
 
 use yii\base\InvalidConfigException;
-use yii2lab\helpers\ReflectionHelper;
+use yii2lab\extension\common\helpers\ReflectionHelper;
 use yii2mod\helpers\ArrayHelper;
 
 abstract class BaseMultiEnumValue extends BaseValue {

@@ -2,6 +2,7 @@
 
 namespace yii2lab\domain\enums;
 
+use yii2lab\app\domain\helpers\EnvService;
 use yii2lab\extension\enum\base\BaseEnum;
 
 class Driver extends BaseEnum {
@@ -29,7 +30,7 @@ class Driver extends BaseEnum {
     const ENV = 'env';
 	
 	public static function primary($withTest = false) {
-		$driver = env('domain.driver.primary');
+		$driver = EnvService::get('domain.driver.primary');
 		if($driver == self::CORE) {
 			return $driver;
 		}
@@ -37,7 +38,7 @@ class Driver extends BaseEnum {
 	}
 	
 	public static function slave($withTest = false) {
-		$driver = env('domain.driver.slave');
+		$driver = EnvService::get('domain.driver.slave');
 		return self::test($driver, $withTest);
 	}
 	
@@ -49,9 +50,9 @@ class Driver extends BaseEnum {
 	 * @deprecated moved to self::primary()
 	 */
 	public static function remote($withTest = false) {
-		$driver = env('domain.driver.primary');
+		$driver = EnvService::get('domain.driver.primary');
 		if(empty($driver)) {
-			$driver = env('remote.driver');
+			$driver = EnvService::get('remote.driver');
 		}
 		if($driver == self::CORE) {
 			return $driver;

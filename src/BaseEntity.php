@@ -9,7 +9,7 @@ use yii2lab\domain\helpers\EntityType;
 use yii2lab\domain\helpers\Helper;
 use yii2lab\domain\interfaces\ValueObjectInterface;
 use yii2lab\domain\traits\entity\ValidatorTrait;
-use yii2lab\helpers\ReflectionHelper;
+use yii2lab\extension\common\helpers\ReflectionHelper;
 use ReflectionClass;
 use ReflectionProperty;
 use yii\base\Arrayable;
