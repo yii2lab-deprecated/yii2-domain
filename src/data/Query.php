@@ -44,6 +44,11 @@ class Query extends Component {
 		return hash('crc32b', $serialized);
 	}
 	
+	public static function forgeClone($query = null) {
+		$query = self::forge($query);
+		return clone $query;
+	}
+	
 	/**
 	 * @param null $query
 	 *
@@ -188,7 +193,7 @@ class Query extends Component {
 			unset($this->query[self::PAGE]);
 			return $this;
 		}
-		$this->query[self::PAGE] = $value;
+		$this->query[self::PAGE] = intval($value);
 		return $this;
 	}
 	
@@ -197,7 +202,7 @@ class Query extends Component {
 			unset($this->query['per-page']);
 			return $this;
 		}
-		$this->query['per-page'] = $value;
+		$this->query['per-page'] = intval($value);
 		return $this;
 	}
 	
@@ -206,7 +211,7 @@ class Query extends Component {
 			unset($this->query[self::LIMIT]);
 			return $this;
 		}
-		$this->query[self::LIMIT] = $value;
+		$this->query[self::LIMIT] = intval($value);
 		return $this;
 	}
 	
@@ -215,7 +220,7 @@ class Query extends Component {
 			unset($this->query[self::OFFSET]);
 			return $this;
 		}
-		$this->query[self::OFFSET] = $value;
+		$this->query[self::OFFSET] = intval($value);
 		return $this;
 	}
 	
