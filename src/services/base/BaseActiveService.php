@@ -52,7 +52,8 @@ class BaseActiveService extends BaseService implements CrudInterface {
 			}
 			$dataProvider = $this->repository->searchByText($searchText, $query);
 		}
-		if($this->repository instanceof ReadPaginationInterface) {
+		//if($this->repository instanceof ReadPaginationInterface) {
+		if(method_exists($this->repository, 'getDataProvider')) {
 			$dataProvider = $this->repository->getDataProvider($query);
 		}
 		if(empty($dataProvider)) {
