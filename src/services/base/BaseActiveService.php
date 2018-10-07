@@ -62,7 +62,7 @@ class BaseActiveService extends BaseService implements CrudInterface {
 				'service' => $this,
 			]);
 		}
-		$dataProvider->models = $this->afterReadTrigger($dataProvider->models);
+		$dataProvider->models = $this->afterReadTrigger($dataProvider->models, $query);
 		$dataProvider->sort = $this->sort();
 		return $dataProvider;
 	}
@@ -88,7 +88,7 @@ class BaseActiveService extends BaseService implements CrudInterface {
 		if(empty($result)) {
 			throw new NotFoundHttpException(__METHOD__ . ':' . __LINE__);
 		}
-		$result = $this->afterReadTrigger($result);
+		$result = $this->afterReadTrigger($result, $query);
 		return $this->afterAction(self::EVENT_VIEW, $result);
 	}
 	
@@ -110,7 +110,7 @@ class BaseActiveService extends BaseService implements CrudInterface {
 		if(empty($result)) {
 			throw new NotFoundHttpException(__METHOD__ . ':' . __LINE__);
 		}
-		$result = $this->afterReadTrigger($result);
+		$result = $this->afterReadTrigger($result, $query);
 		return $this->afterAction(self::EVENT_VIEW, $result);
 	}
 	
@@ -125,7 +125,7 @@ class BaseActiveService extends BaseService implements CrudInterface {
 		$this->beforeAction(self::EVENT_INDEX);
 		$query = $this->prepareQuery($query);
 		$result = $this->repository->all($query);
-		$result = $this->afterReadTrigger($result);
+		$result = $this->afterReadTrigger($result, $query);
 		return $this->afterAction(self::EVENT_INDEX, $result);
 	}
 	

@@ -2,16 +2,12 @@
 
 namespace yii2lab\domain\services\base;
 
-use yii2lab\domain\BaseEntity;
-use yii2lab\domain\data\Query;
 use yii2lab\domain\Domain;
-use yii2lab\domain\enums\EventEnum;
-use yii2lab\domain\events\QueryEvent;
-use yii2lab\domain\events\ReadEvent;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use Yii;
 use yii\base\Component as YiiComponent;
 use yii2lab\domain\repositories\BaseRepository;
+use yii2lab\domain\traits\ReadEventTrait;
 
 /**
  * Class BaseService
@@ -22,6 +18,8 @@ use yii2lab\domain\repositories\BaseRepository;
  * @property Domain $domain
  */
 class BaseService extends YiiComponent {
+	
+	use ReadEventTrait;
 	
 	/**
 	 * @deprecated
@@ -45,35 +43,6 @@ class BaseService extends YiiComponent {
 	public function getRepository($name = null) {
 		$name = !empty($name) ? $name : $this->id;
 		return $this->domain->repositories->{$name};
-	}
-	
-	// todo: move method in helper
-	
-	/**
-	 * @param null $query
-	 *
-	 * @return null|Query
-	 *
-	 * @deprecated move to Query::forge()
-	 */
-	public function forgeQuery($query = null) {
-		return Query::forge($query);
-	}
-	
-	protected function prepareQuery(Query $query = null) {
-		$query = Query::forge($query);
-		$event = new QueryEvent();
-		$event->query = $query;
-        $this->trigger(EventEnum::EVENT_PREPARE_QUERY, $event);
-		return $query;
-	}
-	
-	protected function afterReadTrigger($content) {
-		$event = new ReadEvent();
-		$event->content = $content;
-		$event->type = $content instanceof BaseEntity ? ReadEvent::TYPE_ENTITY : ReadEvent::TYPE_COLLECTION;
-		$this->trigger(EventEnum::EVENT_AFTER_READ, $event);
-		return $event->content;
 	}
 	
 	/**

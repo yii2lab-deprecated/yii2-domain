@@ -6,8 +6,6 @@ use yii2lab\domain\Alias;
 use yii2lab\domain\data\ActiveDataProvider;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\Domain;
-use yii2lab\domain\enums\EventEnum;
-use yii2lab\domain\events\QueryEvent;
 use yii2lab\domain\helpers\QueryValidator;
 use yii2lab\domain\helpers\repository\QueryFilter;
 use yii2lab\domain\interfaces\repositories\ReadInterface;
@@ -16,6 +14,7 @@ use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii2lab\domain\repositories\relations\BaseSchema;
+use yii2lab\domain\traits\ReadEventTrait;
 use yii2lab\extension\common\helpers\ClassHelper;
 
 /**
@@ -29,6 +28,8 @@ use yii2lab\extension\common\helpers\ClassHelper;
  *
  */
 abstract class BaseRepository extends Component {
+	
+	use ReadEventTrait;
 	
 	const SCENARIO_INSERT = 'insert';
 	const SCENARIO_UPDATE = 'update';
@@ -129,14 +130,6 @@ abstract class BaseRepository extends Component {
 	
 	public function selectFields() {
 		return $this->allFields();
-	}
-	
-	protected function prepareQuery(Query $query = null) {
-		$query = Query::forge($query);
-		$event = new QueryEvent();
-		$event->query = $query;
-		$this->trigger(EventEnum::EVENT_PREPARE_QUERY, $event);
-		return $query;
 	}
 	
 	public function fieldAlias() {
