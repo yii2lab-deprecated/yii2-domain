@@ -25,7 +25,8 @@ trait ReadEventTrait {
 		return Query::forge($query);
 	}
 	
-	protected function prepareQuery(Query $query = null, $action = ActiveMethodEnum::READ_ALL) {
+	protected function prepareQuery(Query $query = null) {
+		$action = ActiveMethodEnum::READ_ALL;
 		$query = Query::forge($query);
 		$event = new QueryEvent();
 		$event->query = $query;
