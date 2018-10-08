@@ -2,15 +2,12 @@
 
 namespace yii2lab\domain\events;
 
-use yii\base\Event;
-use yii2lab\domain\data\Query;
+/**
+ * Class QueryEvent
+ *
+ * @package yii2lab\domain\events
+ * @deprecated
+ */
+class QueryEvent extends MethodEvent {
 
-class QueryEvent extends Event {
-	
-	/**
-	 * @var Query
-	 */
-	public $query;
-	public $activeMethod;
-	
 }

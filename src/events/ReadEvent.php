@@ -2,26 +2,12 @@
 
 namespace yii2lab\domain\events;
 
-use yii\base\Event;
-use yii2lab\domain\BaseEntity;
-use yii2lab\domain\data\Query;
-use yii2lab\extension\arrayTools\helpers\Collection;
+/**
+ * Class ReadEvent
+ *
+ * @package yii2lab\domain\events
+ * @deprecated
+ */
+class ReadEvent extends MethodEvent {
 
-class ReadEvent extends Event {
-	
-	const TYPE_ENTITY = 'TYPE_ENTITY';
-	const TYPE_COLLECTION = 'TYPE_COLLECTION';
-	
-	/**
-	 * @var BaseEntity|Collection|array
-	 */
-	public $content;
-	
-	/**
-	 * @var Query
-	 */
-	public $query;
-	public $type;
-	public $activeMethod;
-	
 }

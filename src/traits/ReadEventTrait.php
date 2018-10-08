@@ -41,7 +41,6 @@ trait ReadEventTrait {
 		$event->content = $content;
 		$event->query = $query;
 		$event->activeMethod = $content instanceof BaseEntity ? ActiveMethodEnum::READ_ONE : ActiveMethodEnum::READ_ALL;
-		$event->type = $content instanceof BaseEntity ? ReadEvent::TYPE_ENTITY : ReadEvent::TYPE_COLLECTION;
 		$this->trigger(EventEnum::EVENT_AFTER_READ, $event);
 		return $event->content;
 	}
