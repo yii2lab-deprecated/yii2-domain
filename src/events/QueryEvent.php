@@ -11,5 +11,6 @@ class QueryEvent extends Event {
 	 * @var Query
 	 */
 	public $query;
+	public $activeMethod;
 	
 }

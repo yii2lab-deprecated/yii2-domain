@@ -84,6 +84,7 @@ abstract class BaseRepository extends Component {
 			'query' => $query,
 			'service' => $this,
 		]);
+		$dataProvider->models = $this->afterReadTrigger($dataProvider->models, $query);
 		return $dataProvider;
 	}
 	

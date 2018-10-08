@@ -5,6 +5,7 @@ namespace yii2lab\domain\services\base;
 use yii\base\InvalidArgumentException;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\Query;
+use yii2lab\domain\enums\ActiveMethodEnum;
 use yii2lab\domain\helpers\ErrorCollection;
 use yii2lab\domain\interfaces\repositories\ReadExistsInterface;
 use yii2lab\domain\interfaces\repositories\SearchInterface;
@@ -44,7 +45,7 @@ class BaseActiveService extends BaseService implements CrudInterface {
 	}
 	
 	public function getDataProvider(Query $query = null) {
-		$query = $this->prepareQuery($query);
+		$query = $this->prepareQuery($query, ActiveMethodEnum::READ_ALL);
 		$searchText = SearchHelper::extractSearchTextFromQuery($query);
 		if(!empty($searchText)) {
 			if(! $this->repository instanceof SearchInterface) {
@@ -83,7 +84,7 @@ class BaseActiveService extends BaseService implements CrudInterface {
 	
 	public function one(Query $query = null) {
 		$this->beforeAction(self::EVENT_VIEW);
-		$query = $this->prepareQuery($query);
+		$query = $this->prepareQuery($query, ActiveMethodEnum::READ_ONE);
 		$result = $this->repository->one($query);
 		if(empty($result)) {
 			throw new NotFoundHttpException(__METHOD__ . ':' . __LINE__);
@@ -105,7 +106,7 @@ class BaseActiveService extends BaseService implements CrudInterface {
 			throw new InvalidArgumentException('ID can not be empty in ' . __METHOD__ . ' ' . static::class);
 		}
 		$this->beforeAction(self::EVENT_VIEW);
-		$query = $this->prepareQuery($query);
+		$query = $this->prepareQuery($query, ActiveMethodEnum::READ_ONE);
 		$result = $this->repository->oneById($id, $query);
 		if(empty($result)) {
 			throw new NotFoundHttpException(__METHOD__ . ':' . __LINE__);
@@ -116,14 +117,14 @@ class BaseActiveService extends BaseService implements CrudInterface {
 	
 	public function count(Query $query = null) {
 		$this->beforeAction(self::EVENT_INDEX);
-		$query = $this->prepareQuery($query);
+		$query = $this->prepareQuery($query, ActiveMethodEnum::READ_COUNT);
 		$result = $this->repository->count($query);
 		return $this->afterAction(self::EVENT_INDEX, $result);
 	}
 	
 	public function all(Query $query = null) {
 		$this->beforeAction(self::EVENT_INDEX);
-		$query = $this->prepareQuery($query);
+		$query = $this->prepareQuery($query, ActiveMethodEnum::READ_ALL);
 		$result = $this->repository->all($query);
 		$result = $this->afterReadTrigger($result, $query);
 		return $this->afterAction(self::EVENT_INDEX, $result);

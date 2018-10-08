@@ -4,6 +4,7 @@ namespace yii2lab\domain\traits;
 
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\Query;
+use yii2lab\domain\enums\ActiveMethodEnum;
 use yii2lab\domain\enums\EventEnum;
 use yii2lab\domain\events\QueryEvent;
 use yii2lab\domain\events\ReadEvent;
@@ -24,10 +25,11 @@ trait ReadEventTrait {
 		return Query::forge($query);
 	}
 	
-	protected function prepareQuery(Query $query = null) {
+	protected function prepareQuery(Query $query = null, $action = ActiveMethodEnum::READ_ALL) {
 		$query = Query::forge($query);
 		$event = new QueryEvent();
 		$event->query = $query;
+		$event->activeMethod = $action;
 		$this->trigger(EventEnum::EVENT_PREPARE_QUERY, $event);
 		return $query;
 	}
@@ -37,6 +39,7 @@ trait ReadEventTrait {
 		$event = new ReadEvent();
 		$event->content = $content;
 		$event->query = $query;
+		$event->activeMethod = $content instanceof BaseEntity ? ActiveMethodEnum::READ_ONE : ActiveMethodEnum::READ_ALL;
 		$event->type = $content instanceof BaseEntity ? ReadEvent::TYPE_ENTITY : ReadEvent::TYPE_COLLECTION;
 		$this->trigger(EventEnum::EVENT_AFTER_READ, $event);
 		return $event->content;

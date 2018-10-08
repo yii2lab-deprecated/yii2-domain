@@ -22,5 +22,6 @@ class ReadEvent extends Event {
 	 */
 	public $query;
 	public $type;
+	public $activeMethod;
 	
 }
