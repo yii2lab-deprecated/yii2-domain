@@ -3,7 +3,7 @@
 namespace yii2lab\domain\web;
 
 use Yii;
-use yii2lab\helpers\Behavior;
+use yii2lab\extension\web\helpers\Behavior;
 
 class ActiveController extends Controller {
 
