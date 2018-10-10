@@ -4,12 +4,13 @@ namespace yii2lab\domain\traits;
 
 use yii2lab\domain\enums\EventEnum;
 use yii2lab\domain\events\MethodEvent;
+use yii2lab\extension\common\helpers\ClassHelper;
 
 trait MethodEventTrait {
 	
 	private function afterMethodTrigger($method, $request = null, $response = null) {
 		$event = new MethodEvent();
-		list($className, $methodName) = explode('::', $method);
+		$methodName = ClassHelper::extractMethod($method);
 		$event->activeMethod = $methodName;
 		$event->query = $request;
 		$event->content = $response;
