@@ -22,7 +22,7 @@ class BaseEntityTest extends Unit {
 		];
 		try {
 			$entity->load($data);
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad();
 		} catch(InvalidArgumentException $e) {
 			$this->tester->assertExceptionMessage('Value "rrrrrrrr" not valid of "IntegerType"!', $e);
 		}

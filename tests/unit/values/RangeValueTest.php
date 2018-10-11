@@ -20,13 +20,13 @@ class RangeValueTest extends Unit
 		$value = $this->buildInstance();
 		try {
 			$value->set(101);
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad();
 		} catch(InvalidArgumentException $e) {
 			$this->tester->assertTrue(true);
 		}
 		try {
 			$value->set(-1);
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad();
 		} catch(InvalidArgumentException $e) {
 			$this->tester->assertTrue(true);
 		}

@@ -22,7 +22,7 @@ class BaseEntityRelationTest extends Unit {
 				'name' => 'Бендиго',
 				'country' => 123,
 			]);
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad();
 		} catch(InvalidArgumentException $e) {
 			$this->tester->assertExceptionMessage('Entity data not array or object!', $e);
 		}
@@ -128,7 +128,7 @@ class BaseEntityRelationTest extends Unit {
 				'name' => 'Бендиго',
 				'country' => $countryEntity,
 			]);
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad();
 		} catch(InvalidArgumentException $e) {
 			$this->tester->assertExceptionMessage('Object not instance of class', $e);
 		}
@@ -150,7 +150,7 @@ class BaseEntityRelationTest extends Unit {
 				'name' => 'Бендиго',
 				'country' => [$countryEntity],
 			]);
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad();
 		} catch(InvalidArgumentException $e) {
 			$this->tester->assertExceptionMessage('Need array of item for entity', $e);
 		}
@@ -166,7 +166,7 @@ class BaseEntityRelationTest extends Unit {
 				'name' => 'Бендиго',
 				'country' => $collection,
 			]);
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad();
 		} catch(InvalidArgumentException $e) {
 			$this->tester->assertExceptionMessage('Value can not be collection', $e);
 		}
@@ -187,7 +187,7 @@ class BaseEntityRelationTest extends Unit {
 				'name' => 'Бендиго',
 				'streets' => [$streetEntity],
 			]);
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad();
 		} catch(InvalidArgumentException $e) {
 			$this->tester->assertExceptionMessage('Object not instance of class', $e);
 		}
@@ -208,7 +208,7 @@ class BaseEntityRelationTest extends Unit {
 				'name' => 'Бендиго',
 				'streets' => $streetEntity,
 			]);
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad();
 		} catch(InvalidArgumentException $e) {
 			$this->tester->assertExceptionMessage('Need collection', $e);
 		}

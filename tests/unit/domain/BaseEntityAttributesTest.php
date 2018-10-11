@@ -152,7 +152,7 @@ class BaseEntityAttributesTest extends Unit {
         $entity->name = 'Бендиго111';
         try {
             $entity->id = 88;
-            $this->tester->assertTrue(false);
+            $this->tester->assertBad();
         } catch (InvalidCallException $e) {
             $this->tester->assertExceptionMessage('Setting read-only property: tests\_source\entities\CityEntity::id', $e);
         }
@@ -161,7 +161,7 @@ class BaseEntityAttributesTest extends Unit {
             $entity->load([
                 'id' => '7',
             ]);
-            $this->tester->assertTrue(false);
+            $this->tester->assertBad();
         } catch (InvalidCallException $e) {
             $this->tester->assertExceptionMessage('Setting read-only property: tests\_source\entities\CityEntity::id', $e);
         }

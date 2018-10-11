@@ -76,12 +76,12 @@ class BaseEntityValidationTest extends Unit {
 				$entity->validate();
 				$this->tester->assertTrue(true);
 			} catch(\Exception $e) {
-				$this->tester->assertTrue(false);
+				$this->tester->assertBad();
 			}
 		} else {
 			try {
 				$entity->validate();
-				$this->tester->assertTrue(false);
+				$this->tester->assertBad();
 			} catch(UnprocessableEntityHttpException $e) {
 				$this->tester->assertUnprocessableEntityExceptionMessage($message, $e);
 			}

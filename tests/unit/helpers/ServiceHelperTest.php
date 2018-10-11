@@ -48,8 +48,8 @@ class ServiceHelperTest extends Unit
 		$executor->params = 381949;
 		try {
 			$entity = ServiceHelper::run($executor);
-			$this->tester->assertTrue(false);
-		} catch(\yii\base\InvalidArgumentException $e) {
+			$this->tester->assertBad($entity);
+		} catch(InvalidArgumentException $e) {
 			$this->tester->assertTrue(true);
 			$this->tester->assertExceptionMessage('Service "account->login1" not defined!', $e);
 		}
@@ -64,8 +64,8 @@ class ServiceHelperTest extends Unit
 		$executor->params = 381949;
 		try {
 			$entity = ServiceHelper::run($executor);
-			$this->tester->assertTrue(false);
-		} catch(\yii\base\InvalidArgumentException $e) {
+			$this->tester->assertBad($entity);
+		} catch(InvalidArgumentException $e) {
 			$this->tester->assertTrue(true);
 			$this->tester->assertExceptionMessage('Service "account1->login" not defined!', $e);
 		}
@@ -86,7 +86,7 @@ class ServiceHelperTest extends Unit
 		
 		try {
 			$isDefined = ServiceHelper::isExists('', 'login1');
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad($isDefined);
 		} catch(InvalidArgumentException $e) {
 			$this->tester->assertTrue(true);
 			$this->tester->assertExceptionMessage('Domain name can not be empty!', $e);
@@ -94,7 +94,7 @@ class ServiceHelperTest extends Unit
 		
 		try {
 			$isDefined = ServiceHelper::isExists('account', '');
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad($isDefined);
 		} catch(InvalidArgumentException $e) {
 			$this->tester->assertTrue(true);
 			$this->tester->assertExceptionMessage('Service name can not be empty!', $e);
@@ -116,7 +116,7 @@ class ServiceHelperTest extends Unit
 		
 		try {
 			$isDefined = ServiceHelper::isExists('', 'login1');
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad($isDefined);
 		} catch(InvalidArgumentException $e) {
 			$this->tester->assertTrue(true);
 			$this->tester->assertExceptionMessage('Domain name can not be empty!', $e);
@@ -124,7 +124,7 @@ class ServiceHelperTest extends Unit
 		
 		try {
 			$isDefined = ServiceHelper::isExists('account', '');
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad($isDefined);
 		} catch(InvalidArgumentException $e) {
 			$this->tester->assertTrue(true);
 			$this->tester->assertExceptionMessage('Service name can not be empty!', $e);

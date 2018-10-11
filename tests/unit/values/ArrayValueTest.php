@@ -20,7 +20,7 @@ class ArrayValueTest extends Unit
         $value->set([999]);
 		try {
 			$value->set(999);
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad();
 		} catch(InvalidArgumentException $e) {
 			$this->tester->assertTrue(true);
 		}

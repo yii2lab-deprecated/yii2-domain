@@ -73,7 +73,7 @@ class EntityCollectionTest extends Unit {
 		
 		try {
 			new EntityCollection(StreetEntity::class, $array);
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad();
 		} catch(InvalidArgumentException $e) {
 			$this->tester->assertExceptionMessage('Object not instance of class', $e);
 		}
@@ -82,7 +82,7 @@ class EntityCollectionTest extends Unit {
 	public function testNotFoundClass() {
 		try {
 			new EntityCollection('path\helpers\StreetEntity', []);
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad();
 		} catch(InvalidArgumentException $e) {
 			$this->tester->assertExceptionMessage('Class not exists', $e);
 		}
@@ -91,7 +91,7 @@ class EntityCollectionTest extends Unit {
 	public function testEmptyClass() {
 		try {
 			new EntityCollection( '', []);
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad();
 		} catch(InvalidArgumentException $e) {
 			$this->tester->assertExceptionMessage('Class is empty', $e);
 		}

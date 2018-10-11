@@ -20,7 +20,7 @@ class EnumValueTest extends Unit
 		$value = $this->buildInstance();
 		try {
 			$value->set(999);
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad();
 		} catch(InvalidArgumentException $e) {
 			$this->tester->assertTrue(true);
 		}

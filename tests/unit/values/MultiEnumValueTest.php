@@ -20,7 +20,7 @@ class MultiEnumValueTest extends Unit
 		$value = $this->buildInstance();
 		try {
 			$value->set([999]);
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad();
 		} catch(InvalidArgumentException $e) {
 			$this->tester->assertTrue(true);
 		}
@@ -74,7 +74,7 @@ class MultiEnumValueTest extends Unit
 		$value = $this->buildInstance();
 		try {
 			$value->add(999);
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad();
 		} catch(InvalidArgumentException $e) {
 			$this->tester->assertTrue(true);
 		}
@@ -97,7 +97,7 @@ class MultiEnumValueTest extends Unit
 		$value = $this->buildInstance();
 		try {
 			$value->remove(999);
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad();
 		} catch(InvalidArgumentException $e) {
 			$this->tester->assertTrue(true);
 		}

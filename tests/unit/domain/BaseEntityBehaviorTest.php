@@ -39,7 +39,7 @@ class BaseEntityBehaviorTest extends Unit {
         $entity = new PostEntity();
         try {
             $entity->updated_at = 'wertyu';
-            $this->tester->assertTrue(false);
+            $this->tester->assertBad();
         } catch (\yii\base\InvalidArgumentException $e) {
             $this->tester->assertExceptionMessage('Invalid value in "ValueObject"', $e);
         }
@@ -51,14 +51,14 @@ class BaseEntityBehaviorTest extends Unit {
 
         try {
             $entity->created_by = 777;
-            $this->tester->assertTrue(false);
+            $this->tester->assertBad();
         } catch (\yii\base\InvalidCallException $e) {
             $this->tester->assertExceptionMessage('Setting read-only property: tests\_source\entities\PostEntity::created_by', $e);
         }
 
         try {
             $entity->created_at = TIMESTAMP;
-            $this->tester->assertTrue(false);
+            $this->tester->assertBad();
         } catch (\yii\base\InvalidCallException $e) {
             $this->tester->assertExceptionMessage('Setting read-only property: tests\_source\entities\PostEntity::created_at', $e);
         }

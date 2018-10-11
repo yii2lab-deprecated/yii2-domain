@@ -58,7 +58,7 @@ class CollectionTest extends Unit {
 		$collection->next();
 		try {
 			$collection->current();
-			$this->tester->assertTrue(false);
+			$this->tester->assertBad();
 		} catch(ErrorException $e) {
 			$this->tester->assertTrue(true);
 		}
