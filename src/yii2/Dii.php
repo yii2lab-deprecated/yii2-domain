@@ -11,7 +11,7 @@ class Dii
 {
 	
 	/**
-	 * @var DomainLocator the domain container
+	 * @var DomainLocator|\yii2lab\domain\locators\DomainLocator the domain container
      * @deprecated use \App::$domain
      */
 	public static $domain;
