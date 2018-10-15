@@ -6,8 +6,9 @@ trait AllowOnlyTrait {
 	
 	public $allowOnly = [];
 	
-	protected function isAllow() {
-		$isAllow = \App::$domain->rbac->manager->isAllow($this->allowOnly);
+	protected function isAllow($allowOnly = null) {
+		$allowOnly = $allowOnly ? $allowOnly : $this->allowOnly;
+		$isAllow = \App::$domain->rbac->manager->isAllow($allowOnly);
 		return $isAllow;
 	}
 	
