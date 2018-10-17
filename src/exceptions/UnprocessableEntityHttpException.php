@@ -2,7 +2,6 @@
 
 namespace yii2lab\domain\exceptions;
 
-use yii\base\Model;
 use yii2lab\domain\helpers\ErrorCollection;
 use Exception;
 use yii\helpers\ArrayHelper;

@@ -22,13 +22,13 @@ class RangeValueTest extends Unit
 			$value->set(101);
 			$this->tester->assertBad();
 		} catch(InvalidArgumentException $e) {
-			$this->tester->assertTrue(true);
+			$this->tester->assertNice();
 		}
 		try {
 			$value->set(-1);
 			$this->tester->assertBad();
 		} catch(InvalidArgumentException $e) {
-			$this->tester->assertTrue(true);
+			$this->tester->assertNice();
 		}
 	}
 	

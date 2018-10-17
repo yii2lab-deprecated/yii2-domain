@@ -74,7 +74,7 @@ class BaseEntityValidationTest extends Unit {
 		if(empty($message)) {
 			try {
 				$entity->validate();
-				$this->tester->assertTrue(true);
+				$this->tester->assertNice();
 			} catch(\Exception $e) {
 				$this->tester->assertBad();
 			}

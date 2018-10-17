@@ -21,7 +21,7 @@ class StringValueTest extends Unit
 			$value->set(999);
 			$this->tester->assertBad();
 		} catch(InvalidArgumentException $e) {
-			$this->tester->assertTrue(true);
+			$this->tester->assertNice();
 		}
 	}
 	

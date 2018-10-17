@@ -50,7 +50,7 @@ class ServiceHelperTest extends Unit
 			$entity = ServiceHelper::run($executor);
 			$this->tester->assertBad($entity);
 		} catch(InvalidArgumentException $e) {
-			$this->tester->assertTrue(true);
+			$this->tester->assertNice();
 			$this->tester->assertExceptionMessage('Service "account->login1" not defined!', $e);
 		}
 	}
@@ -66,7 +66,7 @@ class ServiceHelperTest extends Unit
 			$entity = ServiceHelper::run($executor);
 			$this->tester->assertBad($entity);
 		} catch(InvalidArgumentException $e) {
-			$this->tester->assertTrue(true);
+			$this->tester->assertNice();
 			$this->tester->assertExceptionMessage('Service "account1->login" not defined!', $e);
 		}
 	}
@@ -88,7 +88,7 @@ class ServiceHelperTest extends Unit
 			$isDefined = ServiceHelper::isExists('', 'login1');
 			$this->tester->assertBad($isDefined);
 		} catch(InvalidArgumentException $e) {
-			$this->tester->assertTrue(true);
+			$this->tester->assertNice();
 			$this->tester->assertExceptionMessage('Domain name can not be empty!', $e);
 		}
 		
@@ -96,7 +96,7 @@ class ServiceHelperTest extends Unit
 			$isDefined = ServiceHelper::isExists('account', '');
 			$this->tester->assertBad($isDefined);
 		} catch(InvalidArgumentException $e) {
-			$this->tester->assertTrue(true);
+			$this->tester->assertNice();
 			$this->tester->assertExceptionMessage('Service name can not be empty!', $e);
 		}
 	}
@@ -118,7 +118,7 @@ class ServiceHelperTest extends Unit
 			$isDefined = ServiceHelper::isExists('', 'login1');
 			$this->tester->assertBad($isDefined);
 		} catch(InvalidArgumentException $e) {
-			$this->tester->assertTrue(true);
+			$this->tester->assertNice();
 			$this->tester->assertExceptionMessage('Domain name can not be empty!', $e);
 		}
 		
@@ -126,7 +126,7 @@ class ServiceHelperTest extends Unit
 			$isDefined = ServiceHelper::isExists('account', '');
 			$this->tester->assertBad($isDefined);
 		} catch(InvalidArgumentException $e) {
-			$this->tester->assertTrue(true);
+			$this->tester->assertNice();
 			$this->tester->assertExceptionMessage('Service name can not be empty!', $e);
 		}
 	}
