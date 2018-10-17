@@ -3,6 +3,7 @@
 namespace yii2lab\domain\helpers;
 
 use Yii;
+use yii\base\Model;
 use yii\helpers\ArrayHelper;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
@@ -37,17 +38,22 @@ class Helper {
 		return $result;
 	}
 	
-	public static function validateForm($form, $data = null, $scenario = null) {
+	public static function createForm($form, $data = null, $scenario = null) : Model {
 		if(is_string($form) || is_array($form)) {
 			$form = Yii::createObject($form);
 		}
-		/** @var \yii\base\Model $form */
+		/** @var Model $form */
 		if(!empty($data)) {
 			Yii::configure($form, $data);
 		}
 		if(!empty($scenario)) {
 			$form->scenario = $scenario;
 		}
+		return $form;
+	}
+	
+	public static function validateForm($form, $data = null, $scenario = null) {
+		$form = self::createForm($form, $data, $scenario);
 		if(!$form->validate()) {
 			throw new UnprocessableEntityHttpException($form);
 		}
