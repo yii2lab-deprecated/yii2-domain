@@ -19,6 +19,14 @@ class DomainHelper {
 		return $domain;
 	}
 	
+	public static function forgeDomains($config) {
+		foreach($config as $id => $definition) {
+			if(!\App::$domain->has($id)) {
+				self::defineDomain($id, $definition);
+			}
+		}
+	}
+	
 	public static function defineDomains($config) {
 		foreach($config as $id => $definition) {
 			self::defineDomain($id, $definition);
