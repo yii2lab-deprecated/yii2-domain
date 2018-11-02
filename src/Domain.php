@@ -8,7 +8,8 @@ use yii2lab\domain\factories\Factory;
 use Yii;
 use yii\base\BaseObject;
 use yii\base\UnknownPropertyException;
-use yii2lab\domain\locators\Base;
+use yii2lab\domain\locators\RepositoryLocator;
+use yii2lab\domain\locators\ServiceLocator;
 use yii2lab\extension\common\helpers\ClassHelper;
 
 /**
@@ -20,8 +21,8 @@ use yii2lab\extension\common\helpers\ClassHelper;
  * @property string $path
  * @property string $defaultDriver
  * @property array $container
- * @property Base $services
- * @property Base $repositories
+ * @property ServiceLocator $services
+ * @property RepositoryLocator $repositories
  * @property Factory $factory
  */
 class Domain extends BaseObject {

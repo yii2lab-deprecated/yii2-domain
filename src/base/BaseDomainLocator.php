@@ -26,7 +26,7 @@ use yii\di\ServiceLocator;
  * @property-read \yii2module\tool\domain\Domain $tool
  * @property-read \yii2module\vendor\domain\Domain $vendor
  *
- * @method Domain get($callable)
+ * @method Domain get($id)
  *
  */
 class BaseDomainLocator extends ServiceLocator {
