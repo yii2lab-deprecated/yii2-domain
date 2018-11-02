@@ -9,7 +9,7 @@ use yii2lab\extension\common\helpers\PhpHelper;
 
 class Base {
 	
-	protected static function getColumn($data, $field) {
+	protected static function getColumn($data, string $field) {
 		if(DomainHelper::isEntity($data)) {
 			return $data->{$field};
 		} else {

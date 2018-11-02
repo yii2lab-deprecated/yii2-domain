@@ -29,12 +29,6 @@ class JoinStrategy extends BaseStrategyContextHandlers {
 		];
 	}
 	
-	public static function all(array $collection, RelationEntity $relationEntity) {
-		$joinStrategy = new JoinStrategy();
-		$joinStrategy->setStrategyName($relationEntity->type);
-		return $joinStrategy->join($collection, $relationEntity);
-	}
-	
 	public function load(BaseEntity $entity, WithDto $w, $relCollection) : RelationEntity {
 		return $this->strategyInstance->load($entity, $w, $relCollection);
 	}

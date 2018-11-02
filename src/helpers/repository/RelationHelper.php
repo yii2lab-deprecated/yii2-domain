@@ -15,6 +15,7 @@ class RelationHelper {
 	
 	public static function load(string $domain, string $id, Query $query, $data, WithDto $withDto = null) {
 		$relations = RelationConfigHelper::getRelationsConfig($domain, $id);
+		$remainOfWith = [];
 		$withParams = RelationWithHelper::fetch($query, $remainOfWith);
 		foreach($withParams as $relationName) {
 			$newWithDto = self::forgeNewWithDto($relationName, $relations);
@@ -27,7 +28,7 @@ class RelationHelper {
 		return $data;
 	}
 	
-	private static function hh($withDto, $newWithDto) {
+	private static function hh($withDto, WithDto $newWithDto) : void {
 		if($withDto instanceof WithDto) {
 			$newWithDto->passed = trim($withDto->passed . DOT . $newWithDto->relationName, DOT);
 		} else {
@@ -50,7 +51,7 @@ class RelationHelper {
 		}*/
 	}
 	
-	private static function prepareWithDto(Query $query, WithDto $withDto) {
+	private static function prepareWithDto(Query $query, WithDto $withDto) : void {
 		if($query->getNestedQuery($withDto->passed) instanceof Query) {
 			$withDto->query = $query->getNestedQuery($withDto->passed);
 			$withDto->query->with($withDto->remain[$withDto->relationName]);
