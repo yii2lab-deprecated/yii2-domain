@@ -54,6 +54,11 @@ class RelationHelper {
 	private static function loadRelations($data, WithDto $w) {
 		$isEntity = DomainHelper::isEntity($data);
 		$collection = $isEntity ? [$data] : $data;
+		$collection = self::loadRelationsForCollection($collection, $w);
+		return $isEntity ? $collection[0] : $collection;
+	}
+	
+	private static function loadRelationsForCollection($collection, WithDto $w) : array {
 		if($collection instanceof Collection) {
 			$collection = $collection->all();
 		}
@@ -61,13 +66,13 @@ class RelationHelper {
 		$relCollection = JoinHelper::all($collection, $w->relationConfig);
 		if(!empty($relCollection)) {
 			foreach($collection as &$entity) {
-				$foreignRelation = RelationLoaderHelper::loadRelationItem($entity, $w, $relCollection);
+				$relationEntity = RelationLoaderHelper::loadRelationItem($entity, $w, $relCollection);
 				if(!empty($w->remain[$w->relationName])) {
-					self::load($foreignRelation->foreign->domain, $foreignRelation->foreign->name, $w->query, $entity->{$w->relationName}, $w);
+					self::load($relationEntity->foreign->domain, $relationEntity->foreign->name, $w->query, $entity->{$w->relationName}, $w);
 				}
 			}
 		}
-		return $isEntity ? $collection[0] : $collection;
+		return $collection;
 	}
 	
 }

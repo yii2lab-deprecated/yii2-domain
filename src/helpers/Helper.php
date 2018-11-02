@@ -10,7 +10,7 @@ use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 
 class Helper {
 	
-	public static function forgeEntity($value, string $className, bool $isCollection = null) {
+	public static function forgeEntity($value, string $className, bool $isCollection = null, $isSaveKey = false) {
 		if(empty($value)) {
 			return null;
 		}
@@ -20,10 +20,14 @@ class Helper {
 		if(!is_array($value)) {
 			return null;
 		}
-		if(ArrayHelper::isIndexed($value)) {
+		if(ArrayHelper::isIndexed($value) || $isCollection) {
 			$result = [];
-			foreach($value as &$item) {
-				$result[] = self::forgeEntity($item, $className);
+			foreach($value as $key => &$item) {
+				if($isSaveKey) {
+					$result[$key] = self::forgeEntity($item, $className);
+				} else {
+					$result[] = self::forgeEntity($item, $className);
+				}
 			}
 		} else {
 			/** @var BaseEntity $result */

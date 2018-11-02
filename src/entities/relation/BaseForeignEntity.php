@@ -27,4 +27,13 @@ class BaseForeignEntity extends BaseEntity {
 			[['classType'], 'in', 'range' => RelationClassTypeEnum::values()],
 		];
 	}
+	
+	public function setId($id) {
+		list($this->domain, $this->name) = explode(DOT, $id);
+	}
+	
+	public function getId() {
+	
+	}
+	
 }

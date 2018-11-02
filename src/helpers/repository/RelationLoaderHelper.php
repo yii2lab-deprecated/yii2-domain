@@ -13,7 +13,7 @@ use yii2lab\domain\data\Query;
 
 class RelationLoaderHelper {
 	
-	public static function loadRelationItem(BaseEntity $entity, WithDto $w, $relCollection) {
+	public static function loadRelationItem(BaseEntity $entity, WithDto $w, $relCollection) : RelationEntity {
 		$type = $w->relationConfig->type;
 		if($type == RelationEnum::ONE) {
 			return self::one($entity, $w, $relCollection);
@@ -44,7 +44,7 @@ class RelationLoaderHelper {
 		return $data;
 	}
 	
-	private static function one(BaseEntity $entity, WithDto $w, $relCollection) {
+	private static function one(BaseEntity $entity, WithDto $w, $relCollection) : RelationEntity {
 		$fieldValue = $entity->{$w->relationConfig->field};
 		if(empty($fieldValue)) {
 			return $w->relationConfig;
@@ -57,7 +57,7 @@ class RelationLoaderHelper {
 		return $w->relationConfig;
 	}
 	
-	private static function many(BaseEntity $entity, WithDto $w, $relCollection) {
+	private static function many(BaseEntity $entity, WithDto $w, $relCollection) : RelationEntity {
 		$fieldValue = $entity->{$w->relationConfig->field};
 		if(empty($fieldValue)) {
 			return $w->relationConfig;
@@ -70,7 +70,7 @@ class RelationLoaderHelper {
 		return $w->relationConfig;
 	}
 	
-	private static function manyToMany(BaseEntity $entity, WithDto $w, $relCollection) {
+	private static function manyToMany(BaseEntity $entity, WithDto $w, $relCollection) : RelationEntity {
 		$viaRelations = RelationConfigHelper::getRelationsConfig($w->relationConfig->via->domain, $w->relationConfig->via->name);
 		/** @var RelationEntity $viaRelationToThis */
 		$viaRelationToThis = $viaRelations[$w->relationConfig->via->self];
