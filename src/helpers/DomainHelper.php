@@ -12,7 +12,7 @@ use yii2mod\helpers\ArrayHelper;
 
 class DomainHelper {
 	
-	public static function createDomain($id, $class) {
+	private static function createDomain($id, $class) {
 		$definition = ConfigHelper::normalizeItemConfig($id, $class);
 		/** @var \yii2lab\rbac\domain\Domain $domain */
 		$domain = Yii::createObject($definition);
