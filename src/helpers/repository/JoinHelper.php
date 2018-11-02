@@ -2,6 +2,7 @@
 
 namespace yii2lab\domain\helpers\repository;
 
+use yii2lab\domain\entities\relation\RelationEntity;
 use yii2lab\domain\enums\RelationEnum;
 use yii2lab\domain\helpers\DomainHelper;
 use yii2mod\helpers\ArrayHelper;
@@ -9,8 +10,8 @@ use yii2lab\domain\data\Query;
 
 class JoinHelper {
 	
-	public static function all($collection, $relationConfig) {
-		$type = $relationConfig['type'];
+	public static function all($collection, RelationEntity $relationConfig) {
+		$type = $relationConfig->type;
 		if(empty($collection)) {
 			return null;
 		}
@@ -24,33 +25,36 @@ class JoinHelper {
 		return null;
 	}
 	
-	private static function allForOne($collection, array $relationConfig) {
+	private static function allForOne($collection, RelationEntity $relationConfig) {
 		$query = self::forgeQuery($collection, $relationConfig);
-		$relCollection = RelationRepositoryHelper::getAll($relationConfig['foreign'], $query);
-		$relCollection = ArrayHelper::index($relCollection, $relationConfig['foreign']['field']);
+		$relCollection = RelationRepositoryHelper::getAll($relationConfig->foreign, $query);
+		$relCollection = ArrayHelper::index($relCollection, $relationConfig->foreign->field);
 		return $relCollection;
 	}
 	
-	private static function allForMany($collection, array $relationConfig) {
+	private static function allForMany($collection, RelationEntity $relationConfig) {
 		$query = self::forgeQuery($collection, $relationConfig);
-		$relCollection = RelationRepositoryHelper::getAll($relationConfig['foreign'], $query);
+		$relCollection = RelationRepositoryHelper::getAll($relationConfig->foreign, $query);
 		return $relCollection;
 	}
 	
-	private static function allForManyToMany($collection, array $relationConfig) {
-		$viaRelations = RelationRepositoryHelper::getRelationsConfig($relationConfig['via']['domain'], $relationConfig['via']['name']);
-		$viaRelationToThis = $viaRelations[$relationConfig['via']['this']];
-		$ids = ArrayHelper::getColumn($collection, $viaRelationToThis['foreign']['field']);
+	private static function allForManyToMany($collection, RelationEntity $relationConfig) {
+		/** @var RelationEntity[] $viaRelations */
+		$viaRelations = RelationConfigHelper::getRelationsConfig($relationConfig->via->domain, $relationConfig->via->name);
+		$name = $relationConfig->via->self;
+		/** @var RelationEntity $viaRelationToThis */
+		$viaRelationToThis = $viaRelations[$name];
+		$ids = ArrayHelper::getColumn($collection, $viaRelationToThis->foreign->field);
 		$query = Query::forge();
-		$query->where($viaRelationToThis['field'], $ids);
-		$relCollection = RelationRepositoryHelper::getAll($relationConfig['via'], $query);
+		$query->where($viaRelationToThis->field, $ids);
+		$relCollection = RelationRepositoryHelper::getAll($relationConfig->via, $query);
 		return $relCollection;
 	}
 	
-	private static function forgeQuery($collection, array $relationConfig) {
-		$whereValue = self::getColumn($collection, $relationConfig['field']);
+	private static function forgeQuery($collection, RelationEntity $relationConfig) {
+		$whereValue = self::getColumn($collection, $relationConfig->field);
 		$query = Query::forge();
-		$query->where($relationConfig['foreign']['field'], $whereValue);
+		$query->where($relationConfig->foreign->field, $whereValue);
 		return $query;
 	}
 	

@@ -4,8 +4,9 @@ namespace yii2lab\domain\helpers\repository;
 
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\dto\WithDto;
+use yii2lab\domain\entities\relation\RelationEntity;
 use yii2lab\domain\enums\RelationEnum;
-use yii2lab\helpers\PhpHelper;
+use yii2lab\extension\common\helpers\PhpHelper;
 use yii2mod\helpers\ArrayHelper;
 use yii2lab\extension\arrayTools\helpers\ArrayIterator;
 use yii2lab\domain\data\Query;
@@ -13,7 +14,7 @@ use yii2lab\domain\data\Query;
 class RelationLoaderHelper {
 	
 	public static function loadRelationItem(BaseEntity $entity, WithDto $w, $relCollection) {
-		$type = $w->relationConfig['type'];
+		$type = $w->relationConfig->type;
 		if($type == RelationEnum::ONE) {
 			return self::one($entity, $w, $relCollection);
 		} elseif($type == RelationEnum::MANY) {
@@ -44,7 +45,7 @@ class RelationLoaderHelper {
 	}
 	
 	private static function one(BaseEntity $entity, WithDto $w, $relCollection) {
-		$fieldValue = $entity->{$w->relationConfig['field']};
+		$fieldValue = $entity->{$w->relationConfig->field};
 		if(empty($fieldValue)) {
 			return $w->relationConfig;
 		}
@@ -57,12 +58,12 @@ class RelationLoaderHelper {
 	}
 	
 	private static function many(BaseEntity $entity, WithDto $w, $relCollection) {
-		$fieldValue = $entity->{$w->relationConfig['field']};
+		$fieldValue = $entity->{$w->relationConfig->field};
 		if(empty($fieldValue)) {
 			return $w->relationConfig;
 		}
 		$query = Query::forge();
-		$query->where($w->relationConfig['foreign']['field'], $fieldValue);
+		$query->where($w->relationConfig->foreign->field, $fieldValue);
 		$data = ArrayIterator::allFromArray($query, $relCollection);
 		$data = self::prepareValue($data, $w);
 		$entity->{$w->relationName} = $data;
@@ -70,17 +71,19 @@ class RelationLoaderHelper {
 	}
 	
 	private static function manyToMany(BaseEntity $entity, WithDto $w, $relCollection) {
-		$viaRelations = RelationRepositoryHelper::getRelationsConfig($w->relationConfig['via']['domain'], $w->relationConfig['via']['name']);
-		$viaRelationToThis = $viaRelations[$w->relationConfig['via']['this']];
-		$viaRelationToForeign = $viaRelations[$w->relationConfig['via']['foreign']];
-		$itemValue = $entity->{$viaRelationToForeign['foreign']['field']};
+		$viaRelations = RelationConfigHelper::getRelationsConfig($w->relationConfig->via->domain, $w->relationConfig->via->name);
+		/** @var RelationEntity $viaRelationToThis */
+		$viaRelationToThis = $viaRelations[$w->relationConfig->via->self];
+		/** @var RelationEntity $viaRelationToForeign */
+		$viaRelationToForeign = $viaRelations[$w->relationConfig->via->foreign];
+		$itemValue = $entity->{$viaRelationToForeign->foreign->field};
 		$viaQuery = Query::forge();
-		$viaQuery->where($viaRelationToThis['field'], $itemValue);
+		$viaQuery->where($viaRelationToThis->field, $itemValue);
 		$viaData = ArrayIterator::allFromArray($viaQuery, $relCollection);
-		$foreignIds = ArrayHelper::getColumn($viaData, $viaRelationToForeign['field']);
+		$foreignIds = ArrayHelper::getColumn($viaData, $viaRelationToForeign->field);
 		$query = Query::forge();
-		$query->where($viaRelationToForeign['foreign']['field'], $foreignIds);
-		$data = RelationRepositoryHelper::getAll($viaRelationToForeign['foreign'], $query);
+		$query->where($viaRelationToForeign->foreign->field, $foreignIds);
+		$data = RelationRepositoryHelper::getAll($viaRelationToForeign->foreign, $query);
 		$data = self::prepareValue($data, $w);
 		$entity->{$w->relationName} = $data;
 		return $viaRelationToForeign;

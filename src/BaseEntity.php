@@ -80,7 +80,7 @@ class BaseEntity extends Component implements Arrayable {
 		return $this->toArray($fields, $expand, $recursive, true);
 	}
 	
-	public function toArray(array $fields = [], array $expand = [], $recursive = true, $isRaw = false) {
+	public function toArray(array $fields = [], array $expand = [], $recursive = true, $isRaw = false) : array {
 		if(empty($fields)) {
 			$fields = $this->fields();
 		}

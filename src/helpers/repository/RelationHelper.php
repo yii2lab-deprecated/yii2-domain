@@ -13,7 +13,7 @@ use yii2lab\domain\helpers\DomainHelper;
 class RelationHelper {
 	
 	public static function load($domain, $id, $query, $data, WithDto $ww = null) {
-		$relations = RelationRepositoryHelper::getRelationsConfig($domain, $id);
+		$relations = RelationConfigHelper::getRelationsConfig($domain, $id);
 		$withParams = RelationWithHelper::fetch($query, $remainOfWith);
 		foreach($withParams as $relationName) {
 			if(!array_key_exists($relationName, $relations)) {
@@ -63,7 +63,7 @@ class RelationHelper {
 			foreach($collection as &$entity) {
 				$foreignRelation = RelationLoaderHelper::loadRelationItem($entity, $w, $relCollection);
 				if(!empty($w->remain[$w->relationName])) {
-					self::load($foreignRelation['foreign']['domain'], $foreignRelation['foreign']['name'], $w->query, $entity->{$w->relationName}, $w);
+					self::load($foreignRelation->foreign->domain, $foreignRelation->foreign->name, $w->query, $entity->{$w->relationName}, $w);
 				}
 			}
 		}

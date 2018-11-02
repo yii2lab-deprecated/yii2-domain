@@ -3,6 +3,7 @@
 namespace yii2lab\domain\dto;
 
 use yii2lab\domain\base\BaseDto;
+use yii2lab\domain\entities\relation\RelationEntity;
 
 class WithDto extends BaseDto {
 
@@ -10,6 +11,10 @@ class WithDto extends BaseDto {
 	public $remain;
 	public $remainOfRelation;
 	public $relationName;
+	
+	/**
+	 * @var RelationEntity
+	 */
 	public $relationConfig;
 	public $passed;
 	public $withParams;
