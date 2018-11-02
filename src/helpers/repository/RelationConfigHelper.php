@@ -13,7 +13,7 @@ class RelationConfigHelper {
 	 *
 	 * @return RelationEntity[]
 	 */
-	public static function getRelationsConfig($domain, $id) : array {
+	public static function getRelationsConfig(string $domain, string $id) : array {
 		$repositoryEntity = \App::$domain->get($domain)->repositories->get($id);
 		$relations =  $repositoryEntity->relations();
 		$relations = self::normalizeConfig($relations);
@@ -23,7 +23,6 @@ class RelationConfigHelper {
 	
 	private static function normalizeConfig(array $relations) : array {
 		foreach($relations as &$relation) {
-			/** @var RelationEntity $relation */
 			if(!empty($relation['via']['this'])) {
 				$relation['via']['self'] = $relation['via']['this'];
 				unset($relation['via']['this']);

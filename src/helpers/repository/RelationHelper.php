@@ -13,11 +13,11 @@ use yii2lab\domain\helpers\DomainHelper;
 
 class RelationHelper {
 	
-	public static function load($domain, $id, $query, $data, WithDto $withDto = null) {
+	public static function load(string $domain, string $id, Query $query, $data, WithDto $withDto = null) {
 		$relations = RelationConfigHelper::getRelationsConfig($domain, $id);
 		$withParams = RelationWithHelper::fetch($query, $remainOfWith);
 		foreach($withParams as $relationName) {
-			$newWithDto = self::prepareItem($relationName, $relations);
+			$newWithDto = self::forgeNewWithDto($relationName, $relations);
 			$newWithDto->withParams = $withParams;
 			$newWithDto->remain = $remainOfWith;
 			self::hh($withDto, $newWithDto);
@@ -35,7 +35,7 @@ class RelationHelper {
 		}
 	}
 	
-	private static function prepareItem($relationName, $relations) {
+	private static function forgeNewWithDto(string $relationName, array $relations) : WithDto {
 		if(!array_key_exists($relationName, $relations)) {
 			throw new BadQueryHttpException(Yii::t('domain/db', 'relation_not_defined {field}', ['field' => $relationName]));
 		}

@@ -26,7 +26,7 @@ class RelationWithHelper {
 		return $with;
 	}
 	
-	public static function fetch($query, &$withTrimmedArray = []) {
+	public static function fetch($query, &$withTrimmedArray = []) : array {
 		if($query instanceof Query) {
 			$withArray = $query->getParam('with');
 		} elseif(is_array($query)) {
@@ -63,14 +63,14 @@ class RelationWithHelper {
 		return $fields;
 	}
 	
-	private static function sortWithParam($withArray) {
+	private static function sortWithParam(array $withArray) : array {
 		$withArray = array_unique($withArray);
 		usort($withArray, 'sortByLen');
 		$withArray = array_reverse($withArray);
 		return $withArray;
 	}
 	
-	private static function extractName($w) {
+	private static function extractName(string $w) : string {
 		$dotPos = strpos($w, DOT);
 		if($dotPos !== false) {
 			$w1 = substr($w, 0, $dotPos);

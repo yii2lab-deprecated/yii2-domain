@@ -22,7 +22,7 @@ class QueryFilter extends BaseObject {
 	private $query;
 	private $with;
 	
-	public function getQueryWithoutRelations() {
+	public function getQueryWithoutRelations() : Query {
 		$query = clone $this->query;
 		$this->with = RelationWithHelper::cleanWith($this->repository->relations(), $query);
 		return $query;
@@ -35,11 +35,14 @@ class QueryFilter extends BaseObject {
 		return RelationHelper::load($this->repository->domain->id, $this->repository->id, $this->query, $data);
 	}
 	
-	public function getQuery() {
+	public function getQuery() : Query {
+		if(!isset($this->query)) {
+			$this->query = Query::forge();
+		}
 		return $this->query;
 	}
 	
-	public function setQuery($query) {
+	public function setQuery(Query $query) {
 		$this->query = clone $query;
 	}
 	

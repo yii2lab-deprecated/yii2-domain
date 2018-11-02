@@ -11,6 +11,7 @@ use yii\base\UnknownPropertyException;
 use yii2lab\domain\locators\RepositoryLocator;
 use yii2lab\domain\locators\ServiceLocator;
 use yii2lab\extension\common\helpers\ClassHelper;
+use yii2lab\domain\services\base\BaseService;
 
 /**
  * Class Domain
@@ -24,6 +25,8 @@ use yii2lab\extension\common\helpers\ClassHelper;
  * @property ServiceLocator $services
  * @property RepositoryLocator $repositories
  * @property Factory $factory
+ *
+ * @method BaseService get($id)
  */
 class Domain extends BaseObject {
 	
@@ -104,6 +107,7 @@ class Domain extends BaseObject {
 			getFactory()->
 			serviceLocator->
 			create($this->id, $components);
+		$this->services = $this->serviceLocator;
 	}
 	
 	private function initContainer() {
