@@ -10,7 +10,5 @@ use yii2lab\domain\services\base\BaseService;
  *
  */
 class ServiceLocator extends Base {
-	
-	public $domain;
 
 }
