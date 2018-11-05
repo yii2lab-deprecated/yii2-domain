@@ -9,7 +9,7 @@ use yii2lab\extension\common\helpers\ClassHelper;
 abstract class BaseFactoryHelper {
 	
 	public static function createObject($id, $definition, Domain $domain) {
-		$definition = RepositoryFactoryHelper::genConfig($id, $definition, $domain);
+		$definition = static::genConfig($id, $definition, $domain);
 		$instance = Yii::createObject($definition);
 		return $instance;
 	}
@@ -17,7 +17,8 @@ abstract class BaseFactoryHelper {
 	public static function genConfigs($definitions, Domain $domain) {
 		$definitionNew = [];
 		foreach($definitions as $id => $definition) {
-			$definitionNew[$id] = static::genConfig($id, $definition, $domain);
+			$resultDefinition = static::genConfig($id, $definition, $domain);
+			$definitionNew[$id] = $resultDefinition;
 		}
 		return $definitionNew;
 	}

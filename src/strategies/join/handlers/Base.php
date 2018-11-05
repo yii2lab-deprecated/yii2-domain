@@ -7,7 +7,7 @@ use yii2lab\domain\dto\WithDto;
 use yii2lab\domain\helpers\DomainHelper;
 use yii2lab\extension\common\helpers\PhpHelper;
 
-class Base {
+abstract class Base {
 	
 	protected static function getColumn($data, string $field) {
 		if(DomainHelper::isEntity($data)) {
