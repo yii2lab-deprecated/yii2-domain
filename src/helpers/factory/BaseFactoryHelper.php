@@ -8,37 +8,44 @@ use yii2lab\extension\common\helpers\ClassHelper;
 
 abstract class BaseFactoryHelper {
 	
-	public static function createObject($id, $config, Domain $domain) {
-		$config = RepositoryFactoryHelper::genConfig($id, $config, $domain);
-		$instance = Yii::createObject($config);
+	public static function createObject($id, $definition, Domain $domain) {
+		$definition = RepositoryFactoryHelper::genConfig($id, $definition, $domain);
+		$instance = Yii::createObject($definition);
 		return $instance;
 	}
 	
-	protected static function genConfigs($components, Domain $domain) {
-		$configNew = [];
-		foreach($components as $id => $config) {
-			$configNew[$id] = static::genConfig($id, $config, $domain);
+	public static function genConfigs($definitions, Domain $domain) {
+		$definitionNew = [];
+		foreach($definitions as $id => $definition) {
+			$definitionNew[$id] = static::genConfig($id, $definition, $domain);
 		}
-		return $configNew;
+		return $definitionNew;
 	}
 	
-	public static function genConfig($id, $config, Domain $domain) {
-		$resultConfig = [];
-		if(is_array($config)) {
-			$resultConfig = $config;
-		} else {
-			if(ClassHelper::isClass($config)) {
-				$resultConfig['class'] = $config;
+	protected static function genConfig($id, $definition, Domain $domain) {
+		$resultDefinition = self::normalizeDefinition($definition);
+		if(empty($resultDefinition['class'])) {
+			$path = $domain->path ? $domain->path : ClassHelper::getNamespace(get_class($domain));
+			$resultDefinition['class'] = $path . BSL . static::genClassName($id, $definition, $domain);
+		}
+		$resultDefinition['id'] = $id;
+		$resultDefinition['domain'] = $domain;
+		return $resultDefinition;
+	}
+	
+	protected static function normalizeDefinition($definition) {
+		if(!is_array($definition)) {
+			if(ClassHelper::isClass($definition)) {
+				$definition = [
+					'class' => $definition,
+				];
+			} else {
+				$definition = [];
 			}
 		}
-		if(empty($resultConfig['class'])) {
-			$resultConfig['class'] = $domain->path . BSL . static::genClassName1($id, $config, $domain);
-		}
-		$resultConfig['id'] = $id;
-		$resultConfig['domain'] = $domain;
-		return $resultConfig;
+		return $definition;
 	}
 	
-	abstract protected static function genClassName1($id, $config, Domain $domain);
+	abstract protected static function genClassName($id, $definition, Domain $domain);
 	
 }
