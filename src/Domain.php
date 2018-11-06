@@ -8,8 +8,12 @@ use yii2lab\domain\factories\Factory;
 use Yii;
 use yii\base\BaseObject;
 use yii\base\UnknownPropertyException;
-use yii2lab\domain\locators\Base;
+use yii2lab\domain\helpers\factory\RepositoryFactoryHelper;
+use yii2lab\domain\helpers\factory\ServiceFactoryHelper;
+use yii2lab\domain\locators\RepositoryLocator;
+use yii2lab\domain\locators\ServiceLocator;
 use yii2lab\extension\common\helpers\ClassHelper;
+use yii2lab\domain\services\base\BaseService;
 
 /**
  * Class Domain
@@ -20,9 +24,11 @@ use yii2lab\extension\common\helpers\ClassHelper;
  * @property string $path
  * @property string $defaultDriver
  * @property array $container
- * @property Base $services
- * @property Base $repositories
+ * @property ServiceLocator $services
+ * @property RepositoryLocator $repositories
  * @property Factory $factory
+ *
+ * @method BaseService get($id)
  */
 class Domain extends BaseObject {
 	
@@ -75,11 +81,9 @@ class Domain extends BaseObject {
 		if(empty($components)) {
 			$components = ArrayHelper::getValue($this->config(), 'repositories');
 		}
-		$this->repositoryLocator =
-			$this->
-			getFactory()->
-			repositoryLocator->
-			create($this->id, $components);
+		$this->repositoryLocator = new RepositoryLocator;
+		$this->repositoryLocator->domain = $this;
+		$this->repositoryLocator->components = RepositoryFactoryHelper::genConfigs($components, $this);
 	}
 	
 	public function getRepositories() {
@@ -98,11 +102,9 @@ class Domain extends BaseObject {
 			return;
 		}
 		$components = $this->services;
-		$this->serviceLocator =
-			$this->
-			getFactory()->
-			serviceLocator->
-			create($this->id, $components);
+		$this->serviceLocator = new ServiceLocator;
+		$this->serviceLocator->domain = $this;
+		$this->serviceLocator->components = ServiceFactoryHelper::genConfigs($components, $this);
 	}
 	
 	private function initContainer() {

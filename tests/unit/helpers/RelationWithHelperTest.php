@@ -9,6 +9,7 @@ class RelationWithHelperTest extends Unit
 	
 	public function testFetch()
 	{
+		$withTrimmedArray = [];
 		$withArray = [
 			'country.currency.country',
 			'region.cities.country.currency',

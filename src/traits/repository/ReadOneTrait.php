@@ -53,6 +53,13 @@ trait ReadOneTrait {
 		}
 	}
 	
+	public function oneByUnique(array $uniqueCond, Query $query = null) {
+		$query = Query::forge($query);
+		$query->where($uniqueCond);
+		$entity = $this->one($query);
+		return $entity;
+	}
+	
 	public function oneById($id, Query $query = null) {
 		/** @var Query $query */
 		$query = Query::forge($query);

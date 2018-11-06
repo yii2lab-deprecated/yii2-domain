@@ -2,6 +2,7 @@
 
 namespace yii2lab\domain\base;
 
+use yii2lab\domain\Domain;
 use yii\di\ServiceLocator;
 
 /**
@@ -24,6 +25,8 @@ use yii\di\ServiceLocator;
  * @property-read \yii2module\summary\domain\Domain $summary
  * @property-read \yii2module\tool\domain\Domain $tool
  * @property-read \yii2module\vendor\domain\Domain $vendor
+ *
+ * @method Domain get($id)
  *
  */
 class BaseDomainLocator extends ServiceLocator {

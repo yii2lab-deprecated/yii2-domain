@@ -6,9 +6,9 @@ use yii2lab\domain\data\Query;
 
 class RelationWithHelper {
 	
-	public static function cleanWith(array $relations, Query $query = null) {
+	public static function cleanWith(array $relations, Query $query) : array {
 		if(!$relations) {
-			return null;
+			return [];
 		}
 		$relationNames = array_keys($relations);
 		$query = Query::forge($query);
@@ -23,10 +23,10 @@ class RelationWithHelper {
 				}
 			}
 		}
-		return $with;
+		return $with ? $with : [];
 	}
 	
-	public static function fetch($query, &$withTrimmedArray = []) {
+	public static function fetch($query, array &$withTrimmedArray = []) : array {
 		if($query instanceof Query) {
 			$withArray = $query->getParam('with');
 		} elseif(is_array($query)) {
@@ -63,14 +63,14 @@ class RelationWithHelper {
 		return $fields;
 	}
 	
-	private static function sortWithParam($withArray) {
+	private static function sortWithParam(array $withArray) : array {
 		$withArray = array_unique($withArray);
 		usort($withArray, 'sortByLen');
 		$withArray = array_reverse($withArray);
 		return $withArray;
 	}
 	
-	private static function extractName($w) {
+	private static function extractName(string $w) : string {
 		$dotPos = strpos($w, DOT);
 		if($dotPos !== false) {
 			$w1 = substr($w, 0, $dotPos);
