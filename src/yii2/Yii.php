@@ -1,7 +1,5 @@
 <?php
 
-use common\locators\DomainLocator;
-
 require VENDOR_DIR . DS . 'yiisoft' . DS . 'yii2' . '/BaseYii.php';
 
 /**
@@ -14,7 +12,7 @@ class Yii extends \yii\BaseYii
 {
 
     /**
-     * @var DomainLocator the domain container
+     * @var yii2lab\domain\base\BaseDomainLocator the domain container
      * @deprecated use \App::$domain
      */
 	public static $domain;

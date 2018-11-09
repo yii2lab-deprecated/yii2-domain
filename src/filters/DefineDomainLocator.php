@@ -2,7 +2,6 @@
 
 namespace yii2lab\domain\filters;
 
-use common\locators\DomainLocator;
 use Dii;
 use Yii;
 use App;
@@ -50,11 +49,12 @@ class DefineDomainLocator extends BaseScenario
 	private function createDomainLocator($domains)
 	{
 		$this->loadDomainContainerClass();
-		if(class_exists(DomainLocator::class)) {
+		$domain = new BaseDomainLocator;
+		/*if(class_exists(DomainLocator::class)) {
 			$domain = new DomainLocator;
 		} else {
 			$domain = new BaseDomainLocator;
-		}
+		}*/
         $domain->setComponents($domains);
         App::$domain = $domain;
 		Dii::$domain = $domain;
