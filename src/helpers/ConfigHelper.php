@@ -2,6 +2,7 @@
 
 namespace yii2lab\domain\helpers;
 
+use ReflectionException;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii2lab\extension\common\helpers\ClassHelper;
@@ -20,7 +21,11 @@ class ConfigHelper {
 			$data['id'] = $domainId;
 		}
 		if(!empty($data['class'])) {
-			$domainInstance = Yii::createObject($data['class']);
+			try {
+				$domainInstance = Yii::createObject($data['class']);
+			} catch(ReflectionException $e) {
+				return null;
+			}
 			$domainConfig = $domainInstance->config();
 			if(!empty($domainConfig)) {
 				$domainConfig = self::normalizeSubItems($domainId, $domainConfig);
