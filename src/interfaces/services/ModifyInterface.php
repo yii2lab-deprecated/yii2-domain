@@ -2,6 +2,8 @@
 
 namespace yii2lab\domain\interfaces\services;
 
+use yii2lab\domain\BaseEntity;
+
 interface ModifyInterface {
 	
 	/**
@@ -22,6 +24,8 @@ interface ModifyInterface {
 	 */
 	
 	public function updateById($id, $data);
+	
+	public function update(BaseEntity $entity);
 	
 	/**
 	 * @param $id
