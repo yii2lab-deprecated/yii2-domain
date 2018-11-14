@@ -3,7 +3,7 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
-use yii2lab\helpers\Page;
+use yii2lab\extension\web\helpers\Page;
 
 $this->title = Yii::t('article/main', 'list');
 

@@ -7,7 +7,7 @@ use yii\base\Action as YiiAction;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\web\ActiveController;
 use yii2lab\extension\web\helpers\ControllerHelper;
-use yii2lab\helpers\ClientHelper;
+use yii2lab\extension\web\helpers\ClientHelper;
 
 /**
  * Class Action

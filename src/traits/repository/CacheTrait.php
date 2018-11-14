@@ -5,7 +5,7 @@ namespace yii2lab\domain\traits\repository;
 use Closure;
 use Yii;
 use yii\helpers\ArrayHelper;
-use yii2lab\helpers\PhpHelper;
+use yii2lab\extension\common\helpers\PhpHelper;
 
 trait CacheTrait {
 	
