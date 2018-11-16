@@ -112,6 +112,18 @@ class BaseEntity extends Component implements Arrayable {
         return $result;
     }
 	
+    // todo: make test
+	public function showAttributesOnly($attributes) {
+		$allAttributes = $this->attributes();
+		foreach ($allAttributes as $key => $val) {
+			if (in_array($val, $attributes)) {
+				unset($allAttributes[$key]);
+			}
+		}
+		$allAttributes = array_values($allAttributes);
+		$this->hideAttributes($allAttributes);
+	}
+ 
 	public function hideAttributes($attributes) {
 		$attributes = ArrayHelper::toArray($attributes);
 		$this->hidden_attributes = ArrayHelper::merge($attributes, $this->hidden_attributes);
