@@ -17,7 +17,6 @@ use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
 use yii2lab\domain\data\ActiveDataProvider;
-use yii2lab\domain\interfaces\services\ReadPaginationInterface;
 use yii2lab\extension\activeRecord\helpers\SearchHelper;
 use yii2lab\extension\common\exceptions\DeprecatedException;
 
