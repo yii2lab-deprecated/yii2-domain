@@ -2,6 +2,8 @@
 
 namespace yii2lab\domain\exceptions;
 
+
+use yii\base\InvalidArgumentException;
 use yii2lab\domain\helpers\ErrorCollection;
 use Exception;
 use yii\helpers\ArrayHelper;
@@ -12,7 +14,7 @@ class UnprocessableEntityHttpException extends HttpException {
 	
 	private $errors = [];
 	
-	public function __construct($errors = [], $code = 0, Exception $previous = null) {
+	public function __construct($errors, $code = 0, Exception $previous = null) {
 		$message = '';
 		if (!empty($errors)) {
 			$errors = UnProcessibleHelper::assoc2indexed($errors);
@@ -29,6 +31,9 @@ class UnprocessableEntityHttpException extends HttpException {
 	private function setErrors($errors) {
 		if ($errors instanceof ErrorCollection) {
 			$errors = $errors->all();
+		}
+		if(empty($errors)){
+			throw new InvalidArgumentException("error collection is empty");
 		}
 		$this->errors = $errors;
 	}
