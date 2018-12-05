@@ -19,11 +19,11 @@ class ErrorCollection {
 		throw new UnprocessableEntityHttpException($this->error);
 	}
 	
-	public function add($field, $file, $name = null, $values = []) {
+	public function add($field, $fileOrMessage, $name = null, $values = []) {
 		if(!empty($name)) {
-			$message = Yii::t($file, $name, $values);
+			$message = Yii::t($fileOrMessage, $name, $values);
 		} else {
-			$message = $file;
+			$message = $fileOrMessage;
 		}
 		$this->error[] = [
 			'field' => $field,
