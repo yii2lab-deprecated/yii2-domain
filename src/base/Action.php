@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Action as YiiAction;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\web\ActiveController;
+use yii2lab\extension\common\helpers\ClassHelper;
 use yii2lab\extension\web\helpers\ControllerHelper;
 use yii2lab\extension\web\helpers\ClientHelper;
 
@@ -48,7 +49,7 @@ class Action extends YiiAction {
 		/** @var Model $model */
 		$class = $this->formClass;
 		$model = new $class;
-		$formId = basename($class);
+		$formId = ClassHelper::getClassOfClassName($class);
 		if(Yii::$app->request->isPost) {
 			$body = Yii::$app->request->post($formId);
 			$model->setAttributes($body, false);
