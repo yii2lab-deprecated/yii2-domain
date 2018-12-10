@@ -30,7 +30,7 @@ class TimeValueTest extends Unit
 		
 		$value = $this->buildInstance();
 		$value->set('now');
-		expect($value->getInFormat())->greaterOrEquals(TIMESTAMP);
+		$this->tester->assertGreaterOrEquals(TIMESTAMP, $value->getInFormat());
 		
 		$value = $this->buildInstance();
 		$value->set('24 Jun 2012');
