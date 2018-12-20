@@ -23,6 +23,7 @@ Domain Driven Design
 
 ## Классы
 
+* [Поведение](behavior.md)
 * [Фабрика](factory.md)
 * [Запрос](query.md)
 * [Схема](schema.md)
