@@ -199,10 +199,11 @@ class Query extends Component {
 	
 	public function perPage($value) {
 		if($value === null) {
-			unset($this->query['per-page']);
+			unset($this->query[self::PER_PAGE]);
 			return $this;
 		}
-		$this->query['per-page'] = intval($value);
+		$this->query[self::PER_PAGE] = intval($value);
+        $this->query[self::LIMIT] = intval($value);
 		return $this;
 	}
 	
@@ -212,6 +213,7 @@ class Query extends Component {
 			return $this;
 		}
 		$this->query[self::LIMIT] = intval($value);
+        $this->query[self::PER_PAGE] = intval($value);
 		return $this;
 	}
 	
