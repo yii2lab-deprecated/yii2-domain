@@ -62,7 +62,7 @@ class TimeValue extends BaseValue {
 			return $value;
 		} else {
 			$UTC = new DateTimeZone('UTC');
-			$dateTime = new DateTime($value, $UTC);
+			$dateTime = new DateTime('now', $UTC);
 		}
 		if(is_integer($value)) {
 			$dateTime->setTimestamp($value);
