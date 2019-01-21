@@ -2,7 +2,9 @@
 
 namespace yii2lab\domain\values;
 
+use Yii;
 use DateTime;
+use DateTimeZone;
 
 class TimeValue extends BaseValue {
 	
@@ -43,6 +45,9 @@ class TimeValue extends BaseValue {
 	
 	public function getInFormat($mask = self::TIMESTAMP) {
 		$dateTime = $this->get();
+		$dateTimeZone= new DateTimeZone(Yii::$app->timeZone);
+
+		$dateTime->setTimezone($dateTimeZone);
 		if($mask == self::TIMESTAMP) {
 			$value = $dateTime->getTimestamp();
 		} else {
@@ -54,9 +59,10 @@ class TimeValue extends BaseValue {
 	protected function _encode($value) {
 		/** @var DateTime $dateTime */
 		if($value instanceof DateTime) {
-			$dateTime = $value;
+			return $value;
 		} else {
-			$dateTime = new DateTime();
+			$UTC = new DateTimeZone('UTC');
+			$dateTime = new DateTime($value, $UTC);
 		}
 		if(is_integer($value)) {
 			$dateTime->setTimestamp($value);
@@ -66,8 +72,10 @@ class TimeValue extends BaseValue {
 			$dateTime->setTime($value[3], $value[4], $value[5]);
 		}
 		if(is_string($value)) {
-			$dateTime = new DateTime($value);
+			$dateTime = new DateTime($value, $UTC);
 		}
+		$currentTimeZone = new DateTimeZone(Yii::$app->timeZone);
+		$dateTime->setTimezone($currentTimeZone);
 		return $dateTime;
 	}
 	
