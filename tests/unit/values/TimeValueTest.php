@@ -8,7 +8,7 @@ use yii2lab\domain\values\TimeValue;
 class TimeValueTest extends Unit
 {
 	
-	const DATE_TIME_API = '2012-06-24T05:34:56Z';
+	const DATE_TIME_API = '2012-06-24T09:34:56Z';
 	const DATE_API = '2012-06-24T00:00:00Z';
 	const TIME_API = '1970-01-01T05:34:56Z';
 	
