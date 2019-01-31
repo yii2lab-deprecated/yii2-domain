@@ -26,7 +26,8 @@ class Query extends Component {
 	const LIMIT = 'limit';
 	const OFFSET = 'offset';
 	const ORDER = 'order';
-	
+	const BETWEEN = 'between';
+
 	private $query = [
 		self::WHERE => null,
 		'nestedQuery' => [],
@@ -122,7 +123,12 @@ class Query extends Component {
 		
 		return $this;
 	}
-	
+
+	public function betweenWhere($min, $max, $fieldName) {
+		$this->query[self::BETWEEN] = ['BETWEEN', $fieldName, $min, $max];
+		return $this;
+	}
+
 	private function oldWhere($key, $value) {
 		if($value === null) {
 			unset($this->query[self::WHERE][ $key ]);
