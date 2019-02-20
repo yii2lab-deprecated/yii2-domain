@@ -27,6 +27,7 @@ class Driver extends BaseEnum {
 	const COOKIE = 'cookie';
 	const FILEDB = 'filedb';
 	const BRIDGE = 'bridge';
+	const WSA = 'wsa';
     const ENV = 'env';
 	
 	public static function primary($withTest = false) {
