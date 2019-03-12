@@ -38,7 +38,7 @@ class RelationHelper {
 	
 	private static function forgeNewWithDto(string $relationName, array $relations) : WithDto {
 		if(!array_key_exists($relationName, $relations)) {
-			throw new BadQueryHttpException(Yii::t('domain/db', 'relation_not_defined {field}', ['field' => $relationName]));
+			throw new BadQueryHttpException(Yii::t('db', 'relation_not_defined {field}', ['field' => $relationName]));
 		}
 		$w = new WithDto();
 		$w->relationConfig = $relations[$relationName];

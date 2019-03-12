@@ -36,7 +36,7 @@ class QueryValidator extends BaseObject {
 		$diff = array_diff($fields, $entityAttributes);
 		if(!empty($diff)) {
 			$fieldName = $diff[ key($diff) ];
-			$message = Yii::t('domain/db', 'field_not_exists {field}', ['field' => $fieldName]);
+			$message = Yii::t('db', 'field_not_exists {field}', ['field' => $fieldName]);
 			throw new BadQueryHttpException($message);
 		}
 	}
