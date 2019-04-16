@@ -167,7 +167,9 @@ class Query extends Component {
 		}
 		if(!empty($condition)) {
 			foreach($condition as $name => $value) {
-				$this->where($name, $value);
+				if (!empty($value)){
+					$this->where($name, $value);
+				}
 			}
 		}
 	}
