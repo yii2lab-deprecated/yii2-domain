@@ -2,6 +2,7 @@
 
 namespace yii2lab\domain\strategies\join\handlers;
 
+use function PHPSTORM_META\elementType;
 use yii\helpers\ArrayHelper;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\Query;
@@ -36,7 +37,13 @@ class ManyToMany extends Base implements HandlerInterface {
 		$viaQuery->where($viaRelationToThis->field, $itemValue);
 		$viaData = ArrayIterator::allFromArray($viaQuery, $relCollection);
 		$foreignIds = ArrayHelper::getColumn($viaData, $viaRelationToForeign->field);
-		$query = Query::forge();
+		
+		if(isset($viaRelationToForeign->foreign->query) && $viaRelationToForeign->foreign->query instanceof Query){
+			$query = Query::forge($viaRelationToForeign->foreign->query);
+		}else{
+			$query = Query::forge();
+		}
+		
 		$query->where($viaRelationToForeign->foreign->field, $foreignIds);
 		$data = RelationRepositoryHelper::getAll($viaRelationToForeign->foreign, $query);
 		$data = self::prepareValue($data, $w);
