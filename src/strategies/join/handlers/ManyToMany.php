@@ -4,6 +4,7 @@ namespace yii2lab\domain\strategies\join\handlers;
 
 use function PHPSTORM_META\elementType;
 use yii\helpers\ArrayHelper;
+use yii2lab\app\parent\App;
 use yii2lab\domain\BaseEntity;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\dto\WithDto;
@@ -11,6 +12,8 @@ use yii2lab\domain\entities\relation\RelationEntity;
 use yii2lab\domain\helpers\repository\RelationConfigHelper;
 use yii2lab\domain\helpers\repository\RelationRepositoryHelper;
 use yii2lab\extension\arrayTools\helpers\ArrayIterator;
+use yii2woop\service\domain\v3\entities\CategoryEntity;
+use yii2woop\service\domain\v3\services\CategoryService;
 
 class ManyToMany extends Base implements HandlerInterface {
 	
@@ -43,10 +46,42 @@ class ManyToMany extends Base implements HandlerInterface {
 		}else{
 			$query = Query::forge();
 		}
-		
 		$query->where($viaRelationToForeign->foreign->field, $foreignIds);
+		
+		// Этот небывалый костыль нужен был
+		// для реализации этой фичи https://youtrack.wooppay.com/issue/PL-480 срочно!
+		if($viaRelationToForeign->foreign->name == 'category'){
+			$headers = \Yii::$app->request->getHeaders();
+			$lang = isset($headers['language']) ? $headers['language'] : 'ru';
+			// это нужно было бизнесу...
+			if($lang != 'ru' ){
+				$additinalQuery = Query::forgeClone($query);
+				$additinalQuery->removeWhere('language');
+				$additinalQuery->andWhere(['language' => 'rus']);
+				$additinaldata = RelationRepositoryHelper::getAll($viaRelationToForeign->foreign, $additinalQuery);
+			}
+			
+		}
+		//конец костыля
+		
 		$data = RelationRepositoryHelper::getAll($viaRelationToForeign->foreign, $query);
 		$data = self::prepareValue($data, $w);
+		
+		// продолжение того костыля
+		if(isset($additinaldata)){
+			$ruModelsArray = $additinaldata;
+			$resultModelsArray = $data;
+			foreach($ruModelsArray as $k1 => $ruCat){
+				foreach($resultModelsArray as $k2 => $nativeCat){
+					if($nativeCat->id == $ruCat->id){
+						unset($ruModelsArray[$k1]);
+					}
+				}
+			}
+			$data = $resultModelsArray + $ruModelsArray;
+		}
+		//конец костыля
+		
 		$entity->{$w->relationName} = $data;
 		return $viaRelationToForeign;
 	}
