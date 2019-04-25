@@ -418,7 +418,7 @@ http://api.qr.yii/v4/city/2000?expand=country.currency,region
 
 сервер ответит таким телом:
 
-```json
+```
 {
     "id": 2000,
     "country_id": 1894,
