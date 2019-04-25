@@ -2,6 +2,10 @@
 
 namespace yii2lab\domain\repositories;
 
+use Yii;
+use yii\base\Component;
+use yii\base\InvalidConfigException;
+use yii\helpers\ArrayHelper;
 use yii2lab\domain\Alias;
 use yii2lab\domain\data\ActiveDataProvider;
 use yii2lab\domain\data\Query;
@@ -9,10 +13,6 @@ use yii2lab\domain\Domain;
 use yii2lab\domain\helpers\QueryValidator;
 use yii2lab\domain\helpers\repository\QueryFilter;
 use yii2lab\domain\interfaces\repositories\ReadInterface;
-use Yii;
-use yii\base\Component;
-use yii\base\InvalidConfigException;
-use yii\helpers\ArrayHelper;
 use yii2lab\domain\repositories\relations\BaseSchema;
 use yii2lab\domain\traits\ReadEventTrait;
 use yii2lab\extension\common\helpers\ClassHelper;
@@ -22,9 +22,9 @@ use yii2lab\extension\common\helpers\ClassHelper;
  *
  * @package yii2lab\domain
  *
- * @property Alias $alias
+ * @property Alias          $alias
  * @property QueryValidator $queryValidator
- * @property Domain $domain
+ * @property Domain         $domain
  *
  */
 abstract class BaseRepository extends Component {
@@ -145,6 +145,7 @@ abstract class BaseRepository extends Component {
 			$this->alias = new Alias();
 			$this->alias->setAliases($this->fieldAlias());
 		}
+
 		return $this->alias;
 	}
 	
@@ -177,39 +178,39 @@ abstract class BaseRepository extends Component {
 		$array = $this->getAlias()->decode($array);
 		return $this->domain->factory->entity->create($class, $array);
 	}
-
-    /**
-     *
-     * @throws InvalidConfigException
-     * @throws \yii\web\ServerErrorHttpException
-     */
-    private function getSchemaInstance() {
-        if(!isset($this->schemaInstance)) {
-            $schemaClass = $this->getSchemaClassName();
-            if(empty($schemaClass)) {
-                return false;
-            }
-            $this->schemaInstance = ClassHelper::createObject($schemaClass, [], BaseSchema::class);
-        }
-        return $this->schemaInstance;
-    }
-
-    private function getSchemaClassName() {
-        $schemaClass = false;
-	    if(is_string($this->schemaClass)) {
-            $schemaClass = $this->schemaClass;
-        } elseif($this->schemaClass === true) {
-            $namespace = $this->domain->path . '\\repositories\\schema\\';
-            $schemaClass = $namespace . ucfirst($this->id) . 'Schema';
-        }
-        return $schemaClass;
-    }
-
+	
+	/**
+	 *
+	 * @throws InvalidConfigException
+	 * @throws \yii\web\ServerErrorHttpException
+	 */
+	private function getSchemaInstance() {
+		if(!isset($this->schemaInstance)) {
+			$schemaClass = $this->getSchemaClassName();
+			if(empty($schemaClass)) {
+				return false;
+			}
+			$this->schemaInstance = ClassHelper::createObject($schemaClass, [], BaseSchema::class);
+		}
+		return $this->schemaInstance;
+	}
+	
+	private function getSchemaClassName() {
+		$schemaClass = false;
+		if(is_string($this->schemaClass)) {
+			$schemaClass = $this->schemaClass;
+		} elseif($this->schemaClass === true) {
+			$namespace = $this->domain->path . '\\repositories\\schema\\';
+			$schemaClass = $namespace . ucfirst($this->id) . 'Schema';
+		}
+		return $schemaClass;
+	}
+	
 	private function runSchemaMethod($methodName) {
-        $schemaInstance = $this->getSchemaInstance();
-        if(empty($schemaInstance)) {
-            return [];
-        }
+		$schemaInstance = $this->getSchemaInstance();
+		if(empty($schemaInstance)) {
+			return [];
+		}
 		return $schemaInstance->$methodName();
 	}
 	

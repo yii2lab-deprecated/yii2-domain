@@ -11,7 +11,9 @@ class Alias {
 	public function setAliases($aliases) {
 		$this->aliases = $aliases;
 	}
-	
+	public function getAliases() {
+		return $this->aliases;
+	}
 	/**
 	 * @param $name
 	 *
