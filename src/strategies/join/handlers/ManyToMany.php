@@ -48,39 +48,8 @@ class ManyToMany extends Base implements HandlerInterface {
 		}
 		$query->where($viaRelationToForeign->foreign->field, $foreignIds);
 		
-		// Этот небывалый костыль нужен был
-		// для реализации этой фичи https://youtrack.wooppay.com/issue/PL-480 срочно!
-		if($viaRelationToForeign->foreign->name == 'category'){
-			$headers = \Yii::$app->request->getHeaders();
-			$lang = isset($headers['language']) ? $headers['language'] : 'ru';
-			// это нужно было бизнесу...
-			if($lang != 'ru' ){
-				$additinalQuery = Query::forgeClone($query);
-				$additinalQuery->removeWhere('language');
-				$additinalQuery->andWhere(['language' => 'rus']);
-				$additinaldata = RelationRepositoryHelper::getAll($viaRelationToForeign->foreign, $additinalQuery);
-			}
-			
-		}
-		//конец костыля
-		
 		$data = RelationRepositoryHelper::getAll($viaRelationToForeign->foreign, $query);
 		$data = self::prepareValue($data, $w);
-		
-		// продолжение того костыля
-		if(isset($additinaldata)){
-			$ruModelsArray = $additinaldata;
-			$resultModelsArray = $data;
-			foreach($ruModelsArray as $k1 => $ruCat){
-				foreach($resultModelsArray as $k2 => $nativeCat){
-					if($nativeCat->id == $ruCat->id){
-						unset($ruModelsArray[$k1]);
-					}
-				}
-			}
-			$data = $resultModelsArray + $ruModelsArray;
-		}
-		//конец костыля
 		
 		$entity->{$w->relationName} = $data;
 		return $viaRelationToForeign;
