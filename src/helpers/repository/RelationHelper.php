@@ -83,7 +83,9 @@ class RelationHelper {
 			foreach($collection as &$entity) {
 				$relationEntity = $joinStrategy->load($entity, $withDto, $relCollection);
 				if(!empty($withDto->remain[$withDto->relationName])) {
-					self::load($relationEntity->foreign->domain, $relationEntity->foreign->name, $withDto->query, $entity->{$withDto->relationName}, $withDto);
+					if(!empty($entity->{$withDto->relationName})){
+						self::load($relationEntity->foreign->domain, $relationEntity->foreign->name, $withDto->query, $entity->{$withDto->relationName}, $withDto);
+					}
 				}
 			}
 		}
