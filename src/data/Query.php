@@ -233,7 +233,21 @@ class Query extends Component {
 		$this->query[self::OFFSET] = intval($value);
 		return $this;
 	}
-	
+
+	public function getPage()	{
+		if (!empty($this->query[self::PAGE])) {
+			return $this->query[self::PAGE];
+		}
+		return null;
+	}
+
+	public function getLimit()	{
+		if (!empty($this->query[self::LIMIT])) {
+			return $this->query[self::LIMIT];
+		}
+		return null;
+	}
+
 	/**
 	 * Sets the ORDER BY part of the query.
 	 * @param string|array|Expression $columns the columns (and the directions) to be ordered by.
@@ -284,7 +298,7 @@ class Query extends Component {
 		}
 		return $this;
 	}
-	
+
 	/**
 	 * @param     $field
 	 * @param int $direction
@@ -336,7 +350,7 @@ class Query extends Component {
 		$instance = Yii::createObject(Rest::class, ['query' => $this]);
 		return $instance;
 	}
-	
+
 	protected function normalizeOrderBy($columns)
 	{
 		if ($columns instanceof Expression) {
