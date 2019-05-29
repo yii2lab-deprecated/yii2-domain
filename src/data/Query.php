@@ -271,28 +271,42 @@ class Query extends Component
         return $this;
     }
 
-    /**
-     * Sets the ORDER BY part of the query.
-     * @param string|array|Expression $columns the columns (and the directions) to be ordered by.
-     * Columns can be specified in either a string (e.g. `"id ASC, name DESC"`) or an array
-     * (e.g. `['id' => SORT_ASC, 'name' => SORT_DESC]`).
-     *
-     * The method will automatically quote the column names unless a column contains some parenthesis
-     * (which means the column contains a DB expression).
-     *
-     * Note that if your order-by is an expression containing commas, you should always use an array
-     * to represent the order-by information. Otherwise, the method will not be able to correctly determine
-     * the order-by columns.
-     *
-     * Since version 2.0.7, an [[Expression]] object can be passed to specify the ORDER BY part explicitly in plain SQL.
-     * @return $this the query object itself
-     * @see addOrderBy()
-     */
-    public function orderBy($columns)
-    {
-        $this->query[self::ORDER] = $this->normalizeOrderBy($columns);
-        return $this;
-    }
+	public function getPage()	{
+		if (!empty($this->query[self::PAGE])) {
+			return $this->query[self::PAGE];
+		}
+		return null;
+	}
+
+	public function getLimit()	{
+		if (!empty($this->query[self::LIMIT])) {
+			return $this->query[self::LIMIT];
+		}
+		return null;
+	}
+
+	/**
+	 * Sets the ORDER BY part of the query.
+	 * @param string|array|Expression $columns the columns (and the directions) to be ordered by.
+	 * Columns can be specified in either a string (e.g. `"id ASC, name DESC"`) or an array
+	 * (e.g. `['id' => SORT_ASC, 'name' => SORT_DESC]`).
+	 *
+	 * The method will automatically quote the column names unless a column contains some parenthesis
+	 * (which means the column contains a DB expression).
+	 *
+	 * Note that if your order-by is an expression containing commas, you should always use an array
+	 * to represent the order-by information. Otherwise, the method will not be able to correctly determine
+	 * the order-by columns.
+	 *
+	 * Since version 2.0.7, an [[Expression]] object can be passed to specify the ORDER BY part explicitly in plain SQL.
+	 * @return $this the query object itself
+	 * @see addOrderBy()
+	 */
+	public function orderBy($columns)
+	{
+		$this->query[self::ORDER] = $this->normalizeOrderBy($columns);
+		return $this;
+	}
 
     /**
      * Adds additional ORDER BY columns to the query.
