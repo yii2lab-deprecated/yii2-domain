@@ -2,8 +2,10 @@
 
 namespace yii2lab\domain;
 
+use yii\base\BaseObject;
 use yii\base\InvalidCallException;
 use yii\base\Component;
+use yii\db\Exception;
 use yii\helpers\ArrayHelper;
 use yii2lab\domain\helpers\EntityType;
 use yii2lab\domain\helpers\Helper;
@@ -62,6 +64,7 @@ class BaseEntity extends Component implements Arrayable {
 	}
 	
 	public function __construct($config = []) {
+		$this->clearClassFields($config);
 		if(!empty($config)) {
 			if($config instanceof BaseEntity) {
 				$config = $config->toArray();
@@ -337,6 +340,29 @@ class BaseEntity extends Component implements Arrayable {
             return $value;
         }
         return EntityType::encode($value, $fieldType[$name]);
+	}
+
+	private function clearClassFields(&$config = [])
+	{
+		$fieldTypes = $this->fieldType();
+
+		if(!empty($config)) {
+			if($config instanceof BaseEntity) {
+				$config = $config->toArray();
+			}
+			foreach ($config as $fieldName => $fieldValue) {
+				if (!empty($fieldTypes[$fieldName])) {
+					try{
+						$object = new $fieldTypes[$fieldName]();
+					} catch (\Exception $e){
+						continue;
+					}
+					if ($object instanceof BaseObject && !($fieldValue instanceof $object)) {
+						unset($config[$fieldName]);
+					}
+				}
+			}
+		}
 	}
 
 }
