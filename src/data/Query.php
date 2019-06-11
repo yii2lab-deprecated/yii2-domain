@@ -116,7 +116,7 @@ class Query extends Component {
 	public function binaryWhere($value, $field, $operator)
 	{
 		if ($this->query[self::WHERE] === null) {
-			$this->query[self::WHERE] = [$operator, $value, $field];
+			$this->query[self::WHERE] = [$operator, $field, $value];
 		} else {
 			$this->query[self::WHERE] = ['and', $this->query[self::WHERE], [$operator, $field, $value]];
 		}
