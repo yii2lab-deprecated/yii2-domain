@@ -19,11 +19,11 @@ class RelationWithHelper {
 			foreach($with as $w) {
 				$w1 = self::extractName($w);
 				if(!in_array($w1, $relationNames)) {
-					$query->with($w1);
+					$query->removeWith($w1);
 				}
 			}
 		}
-		return $with ? $with : [];
+		return $query->getParam('with') ? $query->getParam('with') : [];
 	}
 	
 	public static function fetch($query, array &$withTrimmedArray = []) : array {
