@@ -31,20 +31,10 @@ class RelationHelper {
 		if(!$relations) {
 			return null;
 		}
-		$relationNames = array_keys($relations);
 		$query = Query::forge($query);
 		$with = $query->getParam('with');
-		// todo: @deprecated удалить этот костыль при полном переходе на связи в репозитории
 		$query->removeParam('with');
-		if($relations && !empty($with)) {
-			foreach($with as $w) {
-				$w1 = self::extractName($w);
-				if(!in_array($w1, $relationNames)) {
-					$query->with($w1);
-				}
-			}
-		}
-		return $with;
+		return $with ? $with : [];
 	}
 	
 	public static function load($relations, $with, $data, $method = null) {

@@ -10,20 +10,12 @@ class RelationWithHelper {
 		if(!$relations) {
 			return [];
 		}
-		$relationNames = array_keys($relations);
+//		$relationNames = array_keys($relations);
 		$query = Query::forge($query);
 		$with = $query->getParam('with');
 		// todo: @deprecated удалить этот костыль при полном переходе на связи в репозитории
 		$query->removeParam('with');
-		if($relations && !empty($with)) {
-			foreach($with as $w) {
-				$w1 = self::extractName($w);
-				if(!in_array($w1, $relationNames)) {
-					$query->removeWith($w1);
-				}
-			}
-		}
-		return $query->getParam('with') ? $query->getParam('with') : [];
+		return $with ? $with : [];
 	}
 	
 	public static function fetch($query, array &$withTrimmedArray = []) : array {
