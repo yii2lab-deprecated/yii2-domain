@@ -5,6 +5,8 @@ namespace yii2lab\domain\helpers\types;
 use yii\base\InvalidArgumentException;
 use yii\helpers\ArrayHelper;
 use yii2lab\domain\BaseEntity;
+use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
+use yii2lab\domain\helpers\ErrorCollection;
 use yii2lab\extension\arrayTools\helpers\Collection;
 use yii2lab\domain\data\EntityCollection;
 use yii2lab\domain\helpers\Helper;
@@ -24,7 +26,9 @@ class ObjectType extends BaseType {
 			
 			if($isEntityClassName) {
 				if(!is_array($value)) {
-					throw new InvalidArgumentException('Entity data not array or object!');
+					$errors = new ErrorCollection();
+					$errors->add('object','Entity data not array or object!');
+					throw new UnprocessableEntityHttpException($errors);
 				}
 				self::validateCollection($config, $value);
 			}
