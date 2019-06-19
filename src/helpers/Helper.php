@@ -48,7 +48,7 @@ class Helper {
 		}
 		/** @var Model $form */
 		if(!empty($data)) {
-			$form->setAttributes($data);
+			$form->setAttributes($data, false);
 		}
 		if(!empty($scenario)) {
 			$form->scenario = $scenario;
