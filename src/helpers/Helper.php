@@ -48,7 +48,7 @@ class Helper {
 		}
 		/** @var Model $form */
 		if(!empty($data)) {
-			Yii::configure($form, $data);
+			$form->setAttributes($data, false);
 		}
 		if(!empty($scenario)) {
 			$form->scenario = $scenario;
