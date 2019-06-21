@@ -31,7 +31,7 @@ class BaseEntity extends Component implements Arrayable
 	const EVENT_BEFORE_GET_ATTRIBUTE = 'beforeGetAttribute';
 	const EVENT_BEFORE_VALIDATE = 'beforeValidate';
 	const EVENT_AFTER_VALIDATE = 'afterValidate';
-
+	const PAGINATION_QUERY_VALUES =  ['page', 'per-page', 'limit', 'offset'];
 	private $old_attributes = [];
 	private $hidden_attributes = [];
 
@@ -386,4 +386,18 @@ class BaseEntity extends Component implements Arrayable
 		}
 	}
 
+	public function whiteValues()
+	{
+		$fieldTypes = self::fieldType();
+		$fields = self::fields();
+		foreach ($fieldTypes as $fieldName => $fieldValue) {
+			if (!empty($fieldTypes[$fieldName]) && !is_array($fieldTypes[$fieldName]) && class_exists($fieldTypes[$fieldName])) {
+				$object = new $fieldTypes[$fieldName]();
+				if ($object instanceof BaseObject && !($fieldValue instanceof $object)) {
+					unset($fields[$fieldName]);
+				}
+			}
+		}
+		return $fields;
+	}
 }

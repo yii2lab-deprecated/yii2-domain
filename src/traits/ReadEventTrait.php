@@ -9,11 +9,10 @@ use yii2lab\domain\enums\EventEnum;
 use yii2lab\domain\events\QueryEvent;
 use yii2lab\domain\events\ReadEvent;
 
-trait ReadEventTrait {
-	
-	
+trait ReadEventTrait
+{
+
 	// todo: move method in helper
-	
 	/**
 	 * @param null $query
 	 *
@@ -21,21 +20,51 @@ trait ReadEventTrait {
 	 *
 	 * @deprecated move to Query::forge()
 	 */
-	public function forgeQuery($query = null) {
+	public function forgeQuery($query = null)
+	{
 		return Query::forge($query);
 	}
-	
-	protected function prepareQuery(Query $query = null) {
+
+	protected function prepareQuery(Query $query = null)
+	{
 		$action = ActiveMethodEnum::READ_ALL;
 		$query = Query::forge($query);
+		$this->validateQuery($query);
 		$event = new QueryEvent();
 		$event->query = $query;
 		$event->activeMethod = $action;
 		$this->trigger(EventEnum::EVENT_PREPARE_QUERY, $event);
 		return $query;
 	}
-	
-	protected function afterReadTrigger($content, Query $query = null) {
+
+
+	private function validateQuery(Query &$query)
+	{
+		/** @var BaseEntity $entity */
+		try{
+			$entity = $this->domain->factory->entity->create($this->id);
+		} catch (\Exception $e){
+			return;
+		}
+		$fields = $entity->whiteValues();
+		$validatedQuery = Query::forge();
+		foreach ($fields as $field) {
+			if (!empty($query->getWhere($field)))
+				$validatedQuery->where($field, $query->getWhere($field));
+		}
+		if (!empty($query->getWith()))
+			$validatedQuery->with($query->getWith());
+
+		foreach ($entity::PAGINATION_QUERY_VALUES as $value) {
+			if (!empty($query->{$value}))
+				$validatedQuery->{$value}($query->{$value}) ;
+		}
+		$query = $validatedQuery;
+	}
+
+
+	protected function afterReadTrigger($content, Query $query = null)
+	{
 		$query = Query::forge($query);
 		$event = new ReadEvent();
 		$event->content = $content;
@@ -44,6 +73,6 @@ trait ReadEventTrait {
 		$this->trigger(EventEnum::EVENT_AFTER_READ, $event);
 		return $event->content;
 	}
-	
-	
+
+
 }

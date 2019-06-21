@@ -75,7 +75,7 @@ class Query extends Component {
 		$where = $this->query[self::WHERE];
 		return $this->findWhereInArray($key, $where);
 	}
-	
+
 	private function findWhereInArray($fieldName, $array) {
 		if(!is_array($array) || empty($array)) {
 			return null;
@@ -198,7 +198,9 @@ class Query extends Component {
 		$this->setParam($names, self::WITH);
 		return $this;
 	}
-	
+	public function getWith() {
+		return isset($this->query[self::WITH]) ? $this->query[self::WITH] : [];
+	}
 	public function removeWith($key) {
 		if(!empty($key)) {
 			unset($this->query[self::WITH][ $key ]);
