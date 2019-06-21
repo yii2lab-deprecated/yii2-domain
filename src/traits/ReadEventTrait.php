@@ -29,7 +29,7 @@ trait ReadEventTrait
 	{
 		$action = ActiveMethodEnum::READ_ALL;
 		$query = Query::forge($query);
-		$this->validateQuery($query);
+//		$this->validateQuery($query);
 		$event = new QueryEvent();
 		$event->query = $query;
 		$event->activeMethod = $action;
