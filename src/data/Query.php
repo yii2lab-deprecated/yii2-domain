@@ -94,6 +94,9 @@ class Query extends Component {
 	}
 	
 	public function where($key, $value = null) {
+		if($value == "null"){
+			$value = null;
+		}
 		if(func_num_args() == 1) {
 			$this->query[self::WHERE] = $key;
 		} else {
@@ -115,6 +118,9 @@ class Query extends Component {
 
 	public function binaryWhere($value, $field, $operator)
 	{
+		if($value == "null"){
+			$value = null;
+		}
 		if ($this->query[self::WHERE] === null) {
 			$this->query[self::WHERE] = [$operator, $field, $value];
 		} else {
