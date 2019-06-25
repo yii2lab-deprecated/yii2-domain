@@ -25,6 +25,7 @@ use yii2lab\extension\common\helpers\ClassHelper;
  * @property Alias          $alias
  * @property QueryValidator $queryValidator
  * @property Domain         $domain
+ * @property boolean         $hardPrimary
  *
  */
 abstract class BaseRepository extends Component {
@@ -44,6 +45,7 @@ abstract class BaseRepository extends Component {
 	private $queryValidator;
 	public $driver;
 	protected $primaryKey = 'id';
+	protected $hardPrimary = false;
 	protected $schemaClass = false;
 	private $schemaInstance;
 	
