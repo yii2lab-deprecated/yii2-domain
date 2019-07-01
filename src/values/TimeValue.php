@@ -76,6 +76,9 @@ class TimeValue extends BaseValue {
 		}
 		$currentTimeZone = new DateTimeZone(Yii::$app->timeZone);
 		$dateTime->setTimezone($currentTimeZone);
+		if($dateTime->getTimestamp() == 0){
+			$dateTime->setTimestamp(1);
+		}
 		return $dateTime;
 	}
 	
