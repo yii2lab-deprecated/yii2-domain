@@ -2,7 +2,7 @@
 
 namespace yii2lab\domain\data;
 
-use yii\base\InvalidArgumentException;
+use yii2lab\domain\exceptions\InvalidArgumentException;
 
 class EntityCollection extends Collection {
 	
