@@ -35,6 +35,7 @@ class ErrorCollection
 		}
 		$this->error[] = [
 			'field' => $target,
+//			'target' => $target, //todo: new major version
 			'message' => $message,
 		];
 		return $this;
