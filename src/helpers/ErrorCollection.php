@@ -34,7 +34,7 @@ class ErrorCollection
 			$target = $target . ': ' . $line;
 		}
 		$this->error[] = [
-			'target' => $target,
+			'field' => $target,
 			'message' => $message,
 		];
 		return $this;
