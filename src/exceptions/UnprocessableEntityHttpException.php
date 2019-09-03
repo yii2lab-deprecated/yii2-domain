@@ -21,6 +21,10 @@ class UnprocessableEntityHttpException extends HttpException {
 			if (is_string($errors)) {
 				$message = $errors;
 				$errors = ErrorCollection::forge(ClassHelper::getClassOfClassName(parent::getFile()), parent::getLine(),  $message);
+				if($code == 1){
+					$errors = ErrorCollection::forge('system error',  $message);
+				}
+
 			} elseif ($errors instanceof ErrorCollection) {
 				$errors = UnProcessibleHelper::assoc2indexed($errors);
 				$message = json_encode(ArrayHelper::toArray($errors));
