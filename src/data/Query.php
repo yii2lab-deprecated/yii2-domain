@@ -28,6 +28,7 @@ class Query extends Component {
 	const ORDER = 'order';
 	const BETWEEN = 'between';
 
+	private $hardPage = true;
 	private $query = [
 		self::WHERE => null,
 		'nestedQuery' => [],
@@ -403,5 +404,21 @@ class Query extends Component {
 		}
 		
 	}
-	
+
+	/**
+	 * @param bool $hardPage
+	 */
+	public function setHardPage(bool $hardPage): void
+	{
+		$this->hardPage = $hardPage;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isHardPage(): bool
+	{
+		return $this->hardPage;
+	}
+
 }

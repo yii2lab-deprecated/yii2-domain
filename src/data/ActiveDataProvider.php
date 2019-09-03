@@ -107,7 +107,8 @@ class ActiveDataProvider extends BaseDataProvider {
 		$page = $query->getParam('page');
 		$perPage = $query->getParam('per-page', 'integer');
 		if($perPage) {
-			$pagination->setPageSize($perPage, true);
+
+			$pagination->setPageSize($perPage, $query->isHardPage());
 		}
 		/*if($page !== null) {
 			$offset = $pagination->getLimit() * ($page + 1);
