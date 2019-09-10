@@ -24,12 +24,12 @@ class ArrayIteratorTest extends Unit
 		$query->where('id', 2000);
 		
 		$item = ArrayIterator::oneFromArray($query, $array);
-		$this->tester->assertArraySubset($expect, $item);
+		TestHelper::assertArraySubset($expect, $item);
 		
 		$iterator = new ArrayIterator();
 		$iterator->setCollection($array);
 		$item =  $iterator->one($query);
-		$this->tester->assertArraySubset($expect, $item);
+		TestHelper::assertArraySubset($expect, $item);
 	}
 	
 	public function testAll()
@@ -57,12 +57,12 @@ class ArrayIteratorTest extends Unit
 		$query->where('region_id', 1994);
 		
 		$all = ArrayIterator::allFromArray($query, $array);
-		$this->tester->assertArraySubset($expect, $all);
+		TestHelper::assertArraySubset($expect, $all);
 		
 		$iterator = new ArrayIterator();
 		$iterator->setCollection($array);
 		$all =  $iterator->all($query);
-		$this->tester->assertArraySubset($expect, $all);
+		TestHelper::assertArraySubset($expect, $all);
 	}
 	
 	public function testCount()
@@ -97,7 +97,7 @@ class ArrayIteratorTest extends Unit
 		$iterator = new ArrayIterator();
 		$iterator->setCollection($array);
 		$all =  $iterator->all($query);
-		$this->tester->assertArraySubset($expect, $all);
+		TestHelper::assertArraySubset($expect, $all);
 	}
 	
 }
