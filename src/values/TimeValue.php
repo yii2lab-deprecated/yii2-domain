@@ -55,7 +55,7 @@ class TimeValue extends BaseValue {
 		}
 		return $value;
 	}
-	
+
 	protected function _encode($value) {
 		/** @var DateTime $dateTime */
 		if($value instanceof DateTime) {
@@ -85,7 +85,16 @@ class TimeValue extends BaseValue {
 	public function getDefault() {
 		return $this->_encode(TIMESTAMP);
 	}
-	
+	public function changeTimeZone($timeZone) {
+		if(!($this->get() instanceof DateTime)){
+			return false;
+		}
+		$timeZone = new DateTimeZone("UTC");
+		$dataTime = $this->get();
+		/** @var DateTime $dataTime */
+		$dataTime->setTimezone($timeZone);
+		$this->set($dataTime);
+	}
 	public function isValid($value) {
 		try {
 			$dateTime = $this->_encode($value);
