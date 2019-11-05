@@ -1,6 +1,7 @@
 <?php
 namespace tests\unit\data;
 
+use yii2lab\test\helpers\TestHelper;
 use yii2lab\test\Test\Unit;
 use yii2lab\extension\arrayTools\helpers\ArrayIterator;
 use yii2lab\domain\data\Query;
