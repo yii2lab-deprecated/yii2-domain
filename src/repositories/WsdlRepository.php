@@ -4,9 +4,10 @@ namespace yii2lab\domain\repositories;
 
 // todo: перенести в domain/v4/transaction
 
-use api\v4\modules\payment\components\CoreLoginRequest;
-use api\v4\modules\payment\components\UnsuccessfulResponseException;
-use api\v4\modules\payment\components\WooppaySoapClient;
+use yii2qrpay\soap\CoreLoginRequest;
+use yii2qrpay\soap\UnsuccessfulResponseException;
+use yii2qrpay\soap\WooppaySoapClient;
+use Yii;
 use yii\web\ServerErrorHttpException;
 use yii2lab\console\helpers\Output;
 use yii2lab\domain\data\ArrayIterator;
@@ -22,7 +23,7 @@ class WsdlRepository extends BaseRepository {
 	protected $currentLogin = false;
 	
 	public function init() {
-		$this->client = new WooppaySoapClient();
+		$this->client = new WooppaySoapClient(null, new Yii(), 'info');
 		if(!empty($this->authLogin)) {
 			$this->login($this->authLogin);
 		}
