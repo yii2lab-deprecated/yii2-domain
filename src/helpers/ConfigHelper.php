@@ -4,7 +4,11 @@ namespace yii2lab\domain\helpers;
 
 use ReflectionException;
 use Yii;
+use yii\base\Exception;
+use yii\base\InvalidArgumentException;
 use yii\helpers\ArrayHelper;
+use yii\web\HttpException;
+use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use yii2lab\extension\common\helpers\ClassHelper;
 use yii2lab\extension\common\helpers\Helper;
 
@@ -25,6 +29,13 @@ class ConfigHelper {
 				$domainInstance = Yii::createObject($data['class']);
 			} catch(ReflectionException $e) {
 				return null;
+			} catch (\Exception $exception){
+				if(YII_DEBUG){
+					print ("Not found {$data['class']}");
+					die();
+				} else {
+					Yii::$app->response->setStatusCode(500);
+				}
 			}
 			$domainConfig = $domainInstance->config();
 			if(!empty($domainConfig)) {
