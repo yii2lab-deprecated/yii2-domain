@@ -105,7 +105,17 @@ class Query extends Component {
 		}
 		return $this;
 	}
-	
+
+	public function iLikeWhere($field, $value) {
+		$operator = 'ILIKE';
+		if ($this->query[self::WHERE] === null) {
+			$this->query[self::WHERE] = [$operator, $field, $value];
+		} else {
+			$this->query[self::WHERE] = ['and', $this->query[self::WHERE], [$operator, $field, $value]];
+		}
+		return $this;
+	}
+
 	public function andWhere($condition)
 	{
 		if ($this->query[self::WHERE] === null) {
