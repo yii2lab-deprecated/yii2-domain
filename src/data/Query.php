@@ -111,7 +111,7 @@ class Query extends Component {
 		if ($this->query[self::WHERE] === null) {
 			$this->query[self::WHERE] = [$operator, $field, $value];
 		} else {
-			$this->query[self::WHERE] = ['and', $this->query[self::WHERE], [$operator, $field, $value]];
+			$this->query[self::WHERE] = ['or', $this->query[self::WHERE], [$operator, $field, $value]];
 		}
 		return $this;
 	}
