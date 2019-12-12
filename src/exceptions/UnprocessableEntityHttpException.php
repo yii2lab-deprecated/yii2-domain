@@ -4,6 +4,7 @@ namespace yii2lab\domain\exceptions;
 
 
 use yii\base\InvalidArgumentException;
+use yii2lab\domain\enums\TypeErrorEnum;
 use yii2lab\domain\helpers\ErrorCollection;
 use Exception;
 use yii\helpers\ArrayHelper;
@@ -15,12 +16,12 @@ class UnprocessableEntityHttpException extends HttpException {
 	
 	private $errors = [];
 	
-	public function __construct($errors, $code = 0, Exception $previous = null) {
+	public function __construct($errors, $code = 0, Exception $previous = null, $errorCode = TypeErrorEnum::ERROR_UNKNOWN_ERROR) {
 		$message = '';
 		if (!empty($errors)) {
 			if (is_string($errors)) {
 				$message = $errors;
-				$errors = ErrorCollection::forge(ClassHelper::getClassOfClassName(parent::getFile()), parent::getLine(),  $message);
+				$errors = ErrorCollection::forge(ClassHelper::getClassOfClassName(parent::getFile()), parent::getLine(),  $message, null,null,null, $errorCode);
 				if($code == 1){
 					$errors = ErrorCollection::forge('system error',  $message);
 				}
